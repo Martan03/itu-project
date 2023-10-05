@@ -1,16 +1,21 @@
-import './css/DarkTheme.css';
-import './css/Form.css';
-import './css/Navbar.css';
-import './css/App.css';
-import Sidebar from "./navbar/Menu";
-import Navbar from "./navbar/Navbar"
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Calendar from "./pages/Calendar";
+import PastTrips from "./pages/PastTrips";
+import Settings from "./pages/Settings";
+import UpcomingTrips from "./pages/UpcomingTrips";
 
 function App() {
     return (
-        <div className="App">
-            <Navbar />
-            <Sidebar />
-        </div>
+        <Router>
+            <Routes>
+                <Route exact path='/' element={<UpcomingTrips />}/>
+                <Route path='/calendar' element={<Calendar />}/>
+                <Route path='/past' element={<PastTrips />}/>
+                <Route path='/settings' element={<Settings />}/>
+            </Routes>
+        </Router>
     );
 }
 

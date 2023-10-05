@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
+import '../css/Navbar.css';
 
 function MenuButton(props) {
     let className = 'menu-button';
@@ -7,10 +10,10 @@ function MenuButton(props) {
     }
 
     return (
-        <a href={props.url} className={className}>
+        <Link to={props.url} className={className}>
             <div></div>
             {props.title}
-        </a>
+        </Link>
     )
 }
 
