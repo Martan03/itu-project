@@ -1,0 +1,17 @@
+:root {
+    --dark-100:         #161616;
+    --dark-150:         #202020;
+    --dark-200:         #282828;
+    --dark-250:         #333333;
+    --dark-300:         #3f3f3f;
+    --dark-400:         #575757;
+    --dark-500:         #717171;
+    --dark-600:         #8b8b8b;
+
+    --prim: #ff5050;
+
+    --fg: #eee;
+    --fg-light: #fff;
+    --fg-dark: #ccc;
+    --fg-darker: #aaa;
+}
