@@ -2,13 +2,13 @@ import React from 'react';
 
 function MenuButton(props) {
     let className = 'menu-button';
-    if (props.active) {
+    if (props.url === window.location.pathname) {
         className += ' active';
     }
 
     return (
         <a href={props.url} className={className}>
-            <div className={ props.active && 'active' }></div>
+            <div></div>
             {props.title}
         </a>
     )
@@ -21,7 +21,6 @@ function Menu() {
                 <MenuButton
                     title="Upcoming trips"
                     url="/"
-                    active={true}
                 />
                 <MenuButton
                     title="Past trips"
