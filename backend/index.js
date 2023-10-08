@@ -7,13 +7,33 @@ const PORT = 3002;
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/trip", (req, res) => {
-    db.query("SELECT * FROM trip", (err, result) => {
+function query(res, query, args = []) {
+    db.query(query, args, (err, result) => {
         if (err)
-            console.log(err);
-        res.send(result);
+            res.status(500).json(`Error occurred while executing query`);
+        else
+            res.send(result);
     })
+}
+
+/// Gets all trips
+app.get("/api/trip", (req, res) => {
+    query(res, "SELECT * FROM trip");
 });
+
+/// Gets past trips
+app.get("/api/past", (req, res) => {
+    const date = new Date();
+    const sql = 'SELECT * FROM trip WHERE start_date < ?'
+    query(res, sql, [date]);
+})
+
+/// Gets upcoming trips
+app.get("/api/upcoming", (req, res) => {
+    const date = new Date();
+    const sql = 'SELECT * FROM trip WHERE start_date >= ?'
+    query(res, sql, [date]);
+})
 
 app.post("/api/trip/manage", (req, res) => {
     let data = {
