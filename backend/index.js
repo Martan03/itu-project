@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./config/db');
 const cors = require('cors');
+const fixtures = require('./fixtures');
 
 const app = express();
 const PORT = 3002;
@@ -9,21 +10,11 @@ app.use(express.json());
 
 /// This is TEMPORARY so we can easily create and fill database
 app.get("/api/create-tables", (req, res) => {
-    const sql = `
-        CREATE TABLE Vacation (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title TEXT,
-        description TEXT,
-        start_date DATE,
-        end_date DATE,
-        image TEXT
-      );`;
-    db.query(sql, (err, result) => {
-        if (err)
-            res.status(500).json('Error creating table');
-        else
-            res.json('Table created successfully');
-    });
+    fixtures.create_vacation_table();
+    fixtures.create_trip_table();
+    fixtures.create_stop_table();
+
+    res.json('Check out server console.');
 });
 
 function query(res, query, args = []) {
