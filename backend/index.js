@@ -17,6 +17,8 @@ app.get("/api/create-tables", (req, res) => {
     res.json('Check out server console.');
 });
 
+/// Helper query function, executes given `query` with given `args`
+/// Sends result to `res`
 function query(res, query, args = []) {
     db.query(query, args, (err, result) => {
         if (err)
@@ -26,24 +28,52 @@ function query(res, query, args = []) {
     })
 }
 
-/// Gets all trips
-app.get("/api/trip", (req, res) => {
-    query(res, "SELECT * FROM trip");
+/// Gets all vacations
+app.get("/api/vacation", (req, res) => {
+    query(res, "SELECT * FROM vacation");
 });
 
-/// Gets past trips
-app.get("/api/past", (req, res) => {
+/// Gets past vacations
+app.get("/api/vacation/past", (req, res) => {
     const date = new Date();
-    const sql = 'SELECT * FROM trip WHERE start_date < ?'
+    const sql = 'SELECT * FROM vacation WHERE end_date < ?'
     query(res, sql, [date]);
-})
+});
 
-/// Gets upcoming trips
-app.get("/api/upcoming", (req, res) => {
+/// Gets upcoming vacations
+app.get("/api/vacation/upcoming", (req, res) => {
     const date = new Date();
-    const sql = 'SELECT * FROM trip WHERE start_date >= ?'
+    const sql = 'SELECT * FROM vacation WHERE end_date >= ?'
     query(res, sql, [date]);
-})
+});
+
+/// Gets all trips
+/// If vacation_id is set in URL, it gets all trips in given vacation
+app.get("/api/trip", (req, res) => {
+    var where = "";
+    var args = [];
+    if (req.query.vacation_id) {
+        where = "WHERE vacation_id = ?"
+        args = [req.query.vacation_id];
+    }
+
+    const sql = `SELECT * FROM trip ${where}`;
+    query(res, sql, args);
+});
+
+/// Gets all stops
+/// If trip_id is set in URL, it gets all stop in given trip
+app.get("/api/stop", (req, res) => {
+    var where = "";
+    var args = [];
+    if (req.query.trip_id) {
+        where = "WHERE trip_id = ?"
+        args = [req.query.trip_id];
+    }
+
+    const sql = `SELECT * FROM stop ${where}`;
+    query(res, sql, args);
+});
 
 app.post("/api/trip/manage", (req, res) => {
     let data = {
@@ -61,8 +91,8 @@ app.post("/api/trip/manage", (req, res) => {
             res.status(200).json('Trip added successfully');
         }
     })
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);
-})
+});
