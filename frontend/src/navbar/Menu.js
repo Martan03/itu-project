@@ -22,11 +22,11 @@ function Menu() {
         <div className='menu'>
             <div>
                 <MenuButton
-                    title="Upcoming trips"
+                    title="Upcoming vacations"
                     url="/"
                 />
                 <MenuButton
-                    title="Past trips"
+                    title="Past vacations"
                     url="/past"
                 />
                 <MenuButton

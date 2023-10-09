@@ -28,7 +28,22 @@ function UpcomingTrips() {
 
     return (
         <Layout>
-            <h1>Not implemented yet</h1>
+            <div className="vacation">
+                <div className="marker">
+                    <div className="marker-circle"></div>
+                    <div className="marker-line"></div>
+                </div>
+                <div className="data">
+                    <p className="date">5.10. - 10.10. 2023</p>
+                    <div className="card">
+                        <img src="/pics/paris.jpg" />
+                        <div className="card-content">
+                            <h2>Paris vacation</h2>
+                            <p>There could be a short description of the trip</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Layout>
     );
 }
