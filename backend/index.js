@@ -7,6 +7,25 @@ const PORT = 3002;
 app.use(cors());
 app.use(express.json());
 
+/// This is TEMPORARY so we can easily create and fill database
+app.get("/api/create-tables", (req, res) => {
+    const sql = `
+        CREATE TABLE Vacation (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title TEXT,
+        description TEXT,
+        start_date DATE,
+        end_date DATE,
+        image TEXT
+      );`;
+    db.query(sql, (err, result) => {
+        if (err)
+            res.status(500).json('Error creating table');
+        else
+            res.json('Table created successfully');
+    });
+});
+
 function query(res, query, args = []) {
     db.query(query, args, (err, result) => {
         if (err)
