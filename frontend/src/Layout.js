@@ -1,7 +1,7 @@
 import React from "react";
 
-import Sidebar from "./navbar/Menu";
-import Navbar from "./navbar/Navbar";
+import Sidebar from "./components/Menu";
+import Navbar from "./components/Navbar";
 
 function Layout({children}) {
     return (
