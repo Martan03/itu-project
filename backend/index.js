@@ -17,6 +17,12 @@ app.get("/api/create-tables", (req, res) => {
     res.json('Check out server console.');
 });
 
+app.get("/api/fill-tables", (req, res) => {
+    fixtures.add_vacations();
+
+    res.json('Check out server console.')
+});
+
 /// Helper query function, executes given `query` with given `args`
 /// Sends result to `res`
 function query(res, query, args = []) {
@@ -90,7 +96,7 @@ app.post("/api/trip/manage", (req, res) => {
         } else {
             res.status(200).json('Trip added successfully');
         }
-    })
+    });
 });
 
 app.listen(PORT, () => {
