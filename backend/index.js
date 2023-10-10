@@ -40,7 +40,7 @@ app.get("/api/vacation", (req, res) => {
     var where = "";
     var args = [];
     if (req.query.query) {
-        where = "WHERE title LIKE ?"
+        where = "WHERE title LIKE ?";
         args = [`%${req.query.query}%`];
     }
 

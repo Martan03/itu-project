@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as SearchIcon } from '../icons/search.svg';
 import '../css/Navbar.css';
 
 function SearchBar() {
@@ -12,7 +13,7 @@ function SearchBar() {
     }
 
     return (
-        <>
+        <div className='search-bar'>
             <input
                 className='form-input'
                 type='search'
@@ -21,9 +22,9 @@ function SearchBar() {
                 onChange={(e) => setQuery(e.target.value)}
             />
             <button onClick={handleSearch}>
-                <img src="/icons/search.svg" alt='search button' />
+                <SearchIcon className="search-icon" />
             </button>
-        </>
+        </div>
     )
 }
 
