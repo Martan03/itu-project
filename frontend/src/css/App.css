@@ -74,6 +74,11 @@ p {
     border-radius: 10px;
     display: flex;
     overflow: hidden;
+    transition: .3s ease-in-out;
+}
+
+.card:hover {
+    background-color: var(--dark-300);
 }
 
 .card img {

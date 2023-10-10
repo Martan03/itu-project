@@ -10,7 +10,7 @@ function Vacations() {
 
     return (
         <Layout>
-            <VacationList api={`/vacation?query=${search}`} />
+            <VacationList api={`/vacation?query=${search ?? ''}`} />
         </Layout>
     );
 }
