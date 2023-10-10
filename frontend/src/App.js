@@ -5,6 +5,7 @@ import Calendar from "./pages/Calendar";
 import PastVacations from "./pages/PastVacations";
 import Settings from "./pages/Settings";
 import UpcomingVacations from "./pages/UpcomingVacations";
+import Vacations from "./pages/Vacations";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path='/calendar' element={<Calendar />}/>
                 <Route path='/past' element={<PastVacations />}/>
                 <Route path='/settings' element={<Settings />}/>
+                <Route path='/vacations' element={<Vacations />}/>
             </Routes>
         </Router>
     );

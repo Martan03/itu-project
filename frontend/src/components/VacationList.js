@@ -58,7 +58,7 @@ function VacationList(props) {
                     <h1>Error loading vacations</h1>
                 ) : (
                     data.map(item => (
-                        <Vacation item={item} />
+                        <Vacation key={item.id} item={item} />
                     ))
                 )
             )}
