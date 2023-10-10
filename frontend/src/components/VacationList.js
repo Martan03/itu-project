@@ -27,6 +27,7 @@ function Vacation(props) {
 }
 
 function VacationList(props) {
+    console.log(props.api);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ function VacationList(props) {
                 setError(err.message);
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [props.api]);
 
     return (
         <>
