@@ -35,8 +35,17 @@ function query(res, query, args = []) {
 }
 
 /// Gets all vacations
+/// If `query` is set in URL, it gets vacation containing `query` in title
 app.get("/api/vacation", (req, res) => {
-    query(res, "SELECT * FROM vacation");
+    var where = "";
+    var args = [];
+    if (req.query.query) {
+        where = "WHERE title LIKE ?"
+        args = [`%${req.query.query}%`];
+    }
+
+    const sql = `SELECT * FROM vacation ${where}`;
+    query(res, sql, args);
 });
 
 /// Gets past vacations
