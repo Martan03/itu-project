@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from 'moment';
 
-function Vacation(props) {
+function Trip(props) {
     const from = moment(props.item.start_date).format('DD.MM.');
     const to = moment(props.item.end_date).format('DD.MM. YYYY');
 
@@ -14,20 +14,18 @@ function Vacation(props) {
             </div>
             <div className="data">
                 <p className="date">{from} - {to}</p>
-                <Link to={`/vacation?id=${props.item.id}`} className="card">
-                    <img src={props.item.image}
-                         alt={props.item.title + " picture"} />
+                <div className="card trip">
                     <div className="card-content">
                         <h2>{props.item.title}</h2>
                         <p>{props.item.description}</p>
                     </div>
-                </Link>
+                </div>
             </div>
         </div>
     );
 }
 
-function VacationList(props) {
+function TripList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -52,19 +50,17 @@ function VacationList(props) {
 
     return (
         <>
-            {loading ? (
-                <h1>Loading...</h1>
-            ) : (
-                error ? (
-                    <h1>Error loading vacations</h1>
-                ) : (
-                    data.map(item => (
-                        <Vacation key={item.id} item={item} />
-                    ))
+            { loading && <h1>Loading...</h1> }
+            { error && <h1>Failed to load vacation trips</h1> }
+            { data && data.length !== 0 ? (
+                data.map(item => (
+                    <Trip item={item} />
+                ))) : (
+                    <h1>No vacation trips found...</h1>
                 )
-            )}
+            }
         </>
     );
 }
 
-export default VacationList;
+export default TripList;

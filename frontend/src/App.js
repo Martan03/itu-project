@@ -6,6 +6,7 @@ import PastVacations from "./pages/PastVacations";
 import Settings from "./pages/Settings";
 import UpcomingVacations from "./pages/UpcomingVacations";
 import Vacations from "./pages/Vacations";
+import Vacation from "./pages/Vacation";
 
 function App() {
     const [query, setQuery] = useState('');
@@ -27,6 +28,9 @@ function App() {
                 }/>
                 <Route path='/vacations' element={
                     <Vacations search={{query, setQuery}} />
+                }/>
+                <Route path='/vacation' element={
+                    <Vacation search={{query, setQuery}} />
                 }/>
             </Routes>
         </Router>

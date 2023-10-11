@@ -75,6 +75,11 @@ p {
     display: flex;
     overflow: hidden;
     transition: .3s ease-in-out;
+    text-decoration: none;
+}
+
+.card.trip {
+    height: auto;
 }
 
 .card:hover {
@@ -95,6 +100,10 @@ p {
     color: var(--fg-light);
     font-weight: normal;
     font-size: 25px;
+}
+
+.card.trip .card-content p {
+    margin-top: 10px;
 }
 
 .card-content p {
