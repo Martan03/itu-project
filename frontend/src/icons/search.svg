@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <svg viewBox="0 0 10 10">
     <circle cx="4" cy="4" r="3" fill="transparent"
-            stroke-width="1" stroke="white" />
+            stroke-width="1" stroke="#eee" />
     <line x1="9" y1="9" x2="6.5" y2="6.5"
-          stroke-width="1" stroke="white" stroke-linecap="round" />
+          stroke-width="1" stroke="#eee" stroke-linecap="round" />
 </svg>

@@ -1,13 +1,27 @@
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { ReactComponent as Expand } from '../icons/expand.svg';
 import moment from 'moment';
+
+function Stop(props) {
+    return (
+        <div className="card stop">
+            <img src={props.item.image}
+                    alt={props.item.title + " picture"} />
+            <div className="card-content">
+                <h2>{props.item.title}</h2>
+                <p>{props.item.description}</p>
+            </div>
+        </div>
+    )
+}
 
 function Trip(props) {
     const [stops, setStops] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [visible, setVisible] = useState(false);
 
-    async function fetchStops() {
+    useEffect(() => {
         fetch(`http://localhost:3002/api/stop?trip_id=${props.item.id}`)
             .then((response) => {
                 if (!response.ok)
@@ -23,15 +37,11 @@ function Trip(props) {
                 setError(err.message);
             })
             .finally(() => setLoading(false));
-    }
+    }, [props.item.id]);
 
     async function onClick(event) {
         event.preventDefault();
-
-        if (stops)
-            setStops(null);
-        else
-            fetchStops();
+        setVisible(!visible);
     }
 
     const from = moment(props.item.start_date).format('DD.MM.');
@@ -43,22 +53,34 @@ function Trip(props) {
                 <div className="marker-circle"></div>
                 <div className="marker-line"></div>
             </div>
-            <div className="data">
+            <div className="data trip">
                 <p className="date">{from} - {to}</p>
                 <div className="card trip" onClick={onClick}>
                     <div className="card-content">
-                        <h2>{props.item.title}</h2>
+                        <div className="card-expand">
+                            <h2>{props.item.title}</h2>
+                            <Expand className={
+                                `card-expand-icon ${
+                                    visible ? 'visible' : ''
+                                }`}
+                            />
+                        </div>
                         <p>{props.item.description}</p>
                     </div>
                 </div>
-                { stops && (
-                    stops.length !== 0 ? (
-                    stops.map(item => (
-                        <p>item.title</p>
-                    ))) : (
-                        <h2>No trip stops found...</h2>
+                { visible ? (
+                    loading && <h2>Loading...</h2>,
+                    error && <h2>Failed to load trip stops</h2>,
+                    stops && (
+                        stops.length ? (
+                            stops.map((item, index) => (
+                                <Stop item={item} nth={index + 1} />
+                            ))
+                        ) : (
+                            <h2>No trip stops found...</h2>
+                        )
                     )
-                )}
+                ) : ''}
             </div>
         </div>
     );
@@ -91,13 +113,15 @@ function TripList(props) {
         <>
             { loading && <h1>Loading...</h1> }
             { error && <h1>Failed to load vacation trips</h1> }
-            { data && data.length !== 0 ? (
-                data.map(item => (
-                    <Trip item={item} key={item.id} />
-                ))) : (
+            { data && (
+                data.length ? (
+                    data.map(item => (
+                        <Trip item={item} key={item.id} />
+                    ))
+                ) : (
                     <h1>No vacation trips found...</h1>
                 )
-            }
+            )}
         </>
     );
 }
