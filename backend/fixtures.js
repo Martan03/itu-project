@@ -41,13 +41,13 @@ const stops = [
         trip_id: 1,
         title: "First stop of the trip",
         description: "We'll go to this place and pay this amount to enter",
-        image: "",
+        image: "/pics/paris.jpg",
     },
     {
         trip_id: 1,
         title: "Second stop",
         description: "We'll have to be there in this time so it's not closed",
-        image: "",
+        image: "/pics/berlin.jpg",
     }
 ]
 
