@@ -18,7 +18,17 @@ app.get("/api/create-tables", (req, res) => {
 });
 
 app.get("/api/fill-tables", (req, res) => {
+    db.query("DROP TABLE IF EXISTS stop");
+    db.query("DROP TABLE IF EXISTS trip");
+    db.query("DROP TABLE IF EXISTS vacation");
+
+    fixtures.create_vacation_table();
+    fixtures.create_trip_table();
+    fixtures.create_stop_table();
+
     fixtures.add_vacations();
+    fixtures.add_trips();
+    fixtures.add_stops();
 
     res.json('Check out server console.')
 });
