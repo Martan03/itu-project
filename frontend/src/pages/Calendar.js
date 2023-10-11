@@ -3,9 +3,9 @@ import Layout from "../Layout";
 
 // TODO: calendar page
 
-function Calendar() {
+function Calendar(props) {
     return (
-        <Layout>
+        <Layout search={props.search}>
             <h1>Not implemented yet</h1>
         </Layout>
     );

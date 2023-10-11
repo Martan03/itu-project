@@ -2,9 +2,9 @@ import React from "react";
 import Layout from "../Layout";
 import VacationList from "../components/VacationList";
 
-function UpcomingVacations() {
+function UpcomingVacations(props) {
     return (
-        <Layout>
+        <Layout search={props.search}>
             <VacationList api="/vacation/upcoming" />
         </Layout>
     );

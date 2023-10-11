@@ -3,13 +3,13 @@ import React from "react";
 import Sidebar from "./components/Menu";
 import Navbar from "./components/Navbar";
 
-function Layout({children}) {
+function Layout(props) {
     return (
         <div>
-            <Navbar />
+            <Navbar search={props.search} />
             <Sidebar />
             <div className="content">
-                {children}
+                {props.children}
             </div>
         </div>
     )

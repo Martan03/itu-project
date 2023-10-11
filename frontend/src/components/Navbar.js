@@ -1,19 +1,18 @@
-import { React, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../icons/search.svg';
 import '../css/Navbar.css';
 
-function SearchBar() {
-    const [query, setQuery] = useState('');
+function SearchBar(props) {
     const nav = useNavigate();
 
     async function handleSearch(event) {
         event.preventDefault();
 
         const formData = new FormData(event.target);
-        setQuery(formData.get('query'));
+        props.search.setQuery(formData.get('query'));
 
-        nav(`/vacations?query=${query}`)
+        nav(`/vacations?query=${props.search.query}`)
     }
 
     return (
@@ -23,8 +22,8 @@ function SearchBar() {
                 type='search'
                 name='query'
                 placeholder='Search...'
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={props.search.query}
+                onChange={(e) => props.search.setQuery(e.target.value)}
             />
             <button type='submit'>
                 <SearchIcon className="search-icon" />
@@ -33,10 +32,10 @@ function SearchBar() {
     )
 }
 
-function Navbar() {
+function Navbar(props) {
     return (
         <div className='navbar'>
-            <SearchBar />
+            <SearchBar search={props.search} />
         </div>
     )
 }
