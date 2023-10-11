@@ -2,6 +2,27 @@ import { React, useState, useEffect } from "react";
 import { ReactComponent as Expand } from '../icons/expand.svg';
 import moment from 'moment';
 
+/// Fetches data from API from given url
+/// requires setData, setError, setLoading to set corresponding values
+async function FetchApi(url, setData, setLoading, setError) {
+    fetch(`http://localhost:3002/api${url}`)
+        .then((response) => {
+            if (!response.ok)
+                throw new Error(`Error occurred: ${response.status}`);
+            return response.json();
+        })
+        .then((data) => {
+            setData(data);
+            setError(null);
+        })
+        .catch((err) => {
+            setData(null);
+            setError(err.message);
+        })
+        .finally(() => setLoading(false));
+}
+
+/// Component to display trip stop
 function Stop(props) {
     return (
         <div className="card stop">
@@ -15,6 +36,23 @@ function Stop(props) {
     )
 }
 
+/// Renders given stops
+/// If loading is not null, renders loading message
+/// If error is not null, render error message
+function RenderStops(stops, loading, error) {
+    if (loading)
+        return <h2>Loading...</h2>;
+    if (error)
+        return <h2>Failed to load trip stops</h2>;
+    if (!stops || !stops.length)
+        return <h2>No trip stops found...</h2>
+
+    return stops.map(item => (
+        <Stop key="item.id" item={item} />
+    ));
+}
+
+/// Renders given trip and its stops
 function Trip(props) {
     const [stops, setStops] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -22,27 +60,15 @@ function Trip(props) {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:3002/api/stop?trip_id=${props.item.id}`)
-            .then((response) => {
-                if (!response.ok)
-                    throw new Error(`Error occurred: ${response.status}`);
-                return response.json();
-            })
-            .then((data) => {
-                setStops(data);
-                setError(null);
-            })
-            .catch((err) => {
-                setStops(null);
-                setError(err.message);
-            })
-            .finally(() => setLoading(false));
+        FetchApi(
+            `/stop?trip_id=${props.item.id}`,
+            setStops,
+            setLoading,
+            setError
+        );
     }, [props.item.id]);
 
-    async function onClick(event) {
-        event.preventDefault();
-        setVisible(!visible);
-    }
+    const toggleVisible = () => setVisible(!visible);
 
     const from = moment(props.item.start_date).format('DD.MM.');
     const to = moment(props.item.end_date).format('DD.MM. YYYY');
@@ -55,7 +81,7 @@ function Trip(props) {
             </div>
             <div className="data trip">
                 <p className="date">{from} - {to}</p>
-                <div className="card trip" onClick={onClick}>
+                <div className="card trip" onClick={toggleVisible}>
                     <div className="card-content">
                         <div className="card-expand">
                             <h2>{props.item.title}</h2>
@@ -68,45 +94,20 @@ function Trip(props) {
                         <p>{props.item.description}</p>
                     </div>
                 </div>
-                { visible ? (
-                    loading && <h2>Loading...</h2>,
-                    error && <h2>Failed to load trip stops</h2>,
-                    stops && (
-                        stops.length ? (
-                            stops.map((item, index) => (
-                                <Stop item={item} nth={index + 1} />
-                            ))
-                        ) : (
-                            <h2>No trip stops found...</h2>
-                        )
-                    )
-                ) : ''}
+                { visible && RenderStops(stops, loading, error) }
             </div>
         </div>
     );
 }
 
+/// Renders vacation trips list
 function TripList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:3002/api' + props.api)
-            .then((response) => {
-                if (!response.ok)
-                    throw new Error(`Error occurred: ${response.status}`);
-                return response.json();
-            })
-            .then((data) => {
-                setData(data);
-                setError(null);
-            })
-            .catch((err) => {
-                setData(null);
-                setError(err.message);
-            })
-            .finally(() => setLoading(false));
+        FetchApi(props.api, setData, setLoading, setError);
     }, [props.api]);
 
     return (
