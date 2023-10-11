@@ -34,6 +34,21 @@ const trips = [
         start_date: "2023-12-16",
         end_date: "2023-12-17",
     }
+];
+
+const stops = [
+    {
+        trip_id: 1,
+        title: "First stop of the trip",
+        description: "We'll go to this place and pay this amount to enter",
+        image: "",
+    },
+    {
+        trip_id: 1,
+        title: "Second stop",
+        description: "We'll have to be there in this time so it's not closed",
+        image: "",
+    }
 ]
 
 /// Creates new vacation table in the database
@@ -132,7 +147,18 @@ function create_stop_table() {
 
 /// Adds stops to the database
 function add_stops() {
-    // TODO
+    for (let stop of stops) {
+        db.query("INSERT INTO stop set ?", stop, (err, result) => {
+            if (err) {
+                console.error(
+                    `Failed to add stop '${stop.title}': `
+                    + err.message
+                );
+            } else {
+                console.log(`Stops '${stop.title}' added`);
+            }
+        })
+    }
 }
 
 module.exports = {
