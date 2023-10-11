@@ -80,6 +80,7 @@ p {
 
 .card.trip {
     height: auto;
+    cursor: pointer;
 }
 
 .card:hover {
