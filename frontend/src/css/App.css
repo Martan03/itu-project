@@ -145,3 +145,33 @@ p {
 .card-content p {
     margin-top: 20px;
 }
+
+.vacation-header {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.vacation-header img {
+    height: 300px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.vacation-header h1 {
+    font-weight: normal;
+    color: var(--fg-light);
+    font-size: 40px;
+}
+
+.vacation-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.vacation-header .date {
+    color: var(--fg-darker);
+    line-height: normal;
+}

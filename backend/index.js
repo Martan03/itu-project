@@ -45,11 +45,16 @@ function query(res, query, args = []) {
 }
 
 /// Gets all vacations
+/// If `id` is set, it gets vacation with given id
 /// If `query` is set in URL, it gets vacation containing `query` in title
+/// `id` and `query` won't work together (`id` has priority)
 app.get("/api/vacation", (req, res) => {
     var where = "ORDER BY title";
     var args = [];
-    if (req.query.query) {
+    if (req.query.id) {
+        where = 'WHERE id = ?';
+        args = [req.query.id];
+    } else if (req.query.query) {
         where = `
             WHERE title LIKE ? OR description LIKE ?
             ORDER BY
