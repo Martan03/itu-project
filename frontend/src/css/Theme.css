@@ -15,4 +15,9 @@
     --fg-light: #fff;
     --fg-dark: #ccc;
     --fg-darker: #aaa;
+
+    --font-size-18: 18px;
+    --font-size-25: 25px;
+    --font-size-16: 16px;
+    --font-size-20: 20px;
 }

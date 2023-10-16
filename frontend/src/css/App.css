@@ -12,7 +12,7 @@ html {
 
 p {
     color: var(--fg-dark);
-    font-size: 18px;
+    font-size: var(--font-size-18);
 }
 
 .App {
@@ -99,7 +99,7 @@ p {
 .card-content h2 {
     color: var(--fg-light);
     font-weight: normal;
-    font-size: 25px;
+    font-size: var(--font-size-25);
 }
 
 .card.trip .card-content p {
