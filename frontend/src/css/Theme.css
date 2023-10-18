@@ -8,12 +8,18 @@
     --dark-500: #717171;
     --dark-600: #8b8b8b;
 
-    --prim: #ff5050;
+    --slider-grey:         #888888;
+    --slider-track:        #D7D7D7;
+    --slider-track-active: #FF5050;
+
+    --hover-colour: #FFFFFF;
+
+    --prim:       #ff5050;
     --prim-light: #ff7070;
 
-    --fg: #eee;
-    --fg-light: #fff;
-    --fg-dark: #ccc;
+    --fg:        #eee;
+    --fg-light:  #fff;
+    --fg-dark:   #ccc;
     --fg-darker: #aaa;
 
     --font-size-18: 18px;

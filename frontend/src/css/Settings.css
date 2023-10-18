@@ -24,8 +24,7 @@
 }
 
 .settings-button:hover {
-    color: WHITE;
-    background-color: var(--dark-200);
+    color: var(--hover-colour);
 }
 
 .horizontal-slider {
@@ -34,37 +33,33 @@
     height: 50px;
   }
 
-  .example-thumb {
+  .slider-thumb {
     font-size: 0.5em;
     text-align: center;
-    background-color: black;
+    background-color: var(--dark-100);
     color: white;
     cursor: pointer;
-    border: 5px solid #888888;
+    border: 5px solid var(--slider-grey);
     box-sizing: border-box;
     border-radius: 50%;
   }
 
-  .example-thumb.active {
-    background-color: var(--prim);
-  }
-
-  .example-track {
+  .slider-track {
     position: relative;
     border-radius: 10px;
-    background: var(--fg-darker);
+    background: var(--slider-track);
   }
 
-  .example-track.example-track-1 {
-    background: var(--prim);
+  .slider-track.slider-track-1 {
+    background: var(--slider-track-active);
   }
 
-  .horizontal-slider .example-track {
+  .horizontal-slider .slider-track {
     top: 20px;
     height: 10px;
   }
 
-  .horizontal-slider .example-thumb {
+  .horizontal-slider .slider-thumb {
     top: 10px;
     width: 26px;
     height: 26px;
