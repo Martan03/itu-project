@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Helper } from './PageStyleHelper.js';
 
 import Calendar from "./pages/Calendar";
 import PastVacations from "./pages/PastVacations";
@@ -10,6 +11,9 @@ import Vacation from "./pages/Vacation";
 
 function App() {
     const [query, setQuery] = useState('');
+
+    Helper.updateFontSize(Helper.convertSliderValueToDiff(Helper.getCookieValue('sliderValue', 3)));
+    Helper.updatePageTheme(Helper.convertThemeToBool(Helper.getCookieValue('selectedTheme', "Dark")));
 
     return (
         <Router>
