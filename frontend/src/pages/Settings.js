@@ -1,13 +1,10 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 
-import { useState, useEffect, useRef } from "react";
-
 import Switch from "react-switch";
 import ReactSlider from "react-slider";
 import Cookies from "js-cookie";
 
-import Layout from "../Layout";
 import Layout from "../Layout";
 import '../css/Settings.css';
 
@@ -45,7 +42,9 @@ function Settings(props) {
     };
     // Set new values for state variables from above array
     setDiffValue(Helper.convertSliderValueToDiff(sliderValue));
-    setDisplayText(keyValueArray[sliderValue]);
+
+    const newSliderText = keyValueArray[sliderValue];
+    setDisplayText((newSliderText !== undefined) ? newSliderText : "Normal");
   }, [sliderValue]);
 
   useEffect(() => {

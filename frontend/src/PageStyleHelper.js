@@ -58,10 +58,11 @@ export const Helper = {
             4:  3,
             5:  6
         };
-        return keyValueArray[sliderValue];
+        const newDiffValue = keyValueArray[sliderValue];
+        return ((newDiffValue !== undefined) ? newDiffValue : 0);
     },
 
     convertThemeToBool(themeValue) {
-        return ((themeValue === "Dark") ? true : false);
+        return ((themeValue === "Light") ? false : true);
     }
 }
