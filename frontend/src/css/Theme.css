@@ -1,0 +1,29 @@
+:root {
+    --dark-100: #161616;
+    --dark-150: #202020;
+    --dark-200: #282828;
+    --dark-250: #333333;
+    --dark-300: #3d3d3d;
+    --dark-400: #575757;
+    --dark-500: #717171;
+    --dark-600: #8b8b8b;
+
+    --slider-grey:         #888888;
+    --slider-track:        #D7D7D7;
+    --slider-track-active: #FF5050;
+
+    --hover-colour: #FFFFFF;
+
+    --prim:       #ff5050;
+    --prim-light: #ff7070;
+
+    --fg:        #eee;
+    --fg-light:  #fff;
+    --fg-dark:   #ccc;
+    --fg-darker: #aaa;
+
+    --font-size-18: 18px;
+    --font-size-25: 25px;
+    --font-size-16: 16px;
+    --font-size-20: 20px;
+}
