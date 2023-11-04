@@ -7,10 +7,11 @@ To run the server, go to the `backend` directory and run:
 node index.js
 ```
 The server runs on `localhost:3002`
-If error with missing package is encountered, install this package in `backend` directory (f.e.
+
+If error with missing package is encountered, install missing package in `backend` directory:
 ```
 npm install PACKAGE_NAME
-```).
+```
 
 ### Database
 
@@ -25,15 +26,14 @@ To find out more about API, check out `README.md` in `backend` folder
 ## Frontend
 
 Make sure following packages are installed:
--> `react-switch`
--> `react-slider`
--> `js-cookie`
--> `react`
+```
+react-switch
+react-slider
+js-cookie
+react
+```
 
-Again use ```
-npm install PACKAGE_NAME
-``` to install them project's home directory (above `frontend` and `backend` directories).
-
+Again use `npm install` to install them into project's home directory (above `frontend` and `backend` directories).
 
 To run the frontend, go to the `frontend` directory and run:
 ```
