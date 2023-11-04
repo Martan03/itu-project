@@ -47,7 +47,7 @@ export const Helper = {
     // Returns value stored in Cookie for given key, otherwise returns default value
     getCookieValue(cookieName, defaultValue) {
         const cookieValue = Cookies.get(cookieName);
-        return ((cookieValue !== undefined && !isNaN(cookieName)) ? cookieValue : defaultValue);
+        return ((cookieValue !== undefined && cookieName !== NaN) ? cookieValue : defaultValue);
     },
 
     convertSliderValueToDiff(sliderValue) {
