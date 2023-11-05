@@ -15,11 +15,26 @@ npm install PACKAGE_NAME
 
 ### Database
 
-Server connects to the database (you can edit connection details in
-`/backend/config/db.js`), so you need run database server (you may need to install `xampp` for example or any other tool).
+In order to run the app, you need to host database server.
 
-I created a temporary API endpoint to create database tables
-(`/api/create-tables`), so you don't have to create them by your own.
+We ran the database using [xampp](https://www.apachefriends.org/download.html).
+After installing, you can start the server on linux using
+`sudo /opt/lampp/lampp start` (replace the address with address, where you
+saved xampp).
+
+Next step is to create the database. You can go to
+[phpmyadmin](localhost/phpmyadmin) page, where you can create it. The database
+must be called `trip_planner`. If you want to change database connection
+details, you can edit it in `/backend/config/db.js`. This is all you need to do
+for setting up the database for now.
+
+Before doing following step, you need to run the server (described in
+[backend section](#backend)).
+
+I created a temporary API endpoint to create database tables and fill them with
+basic data (`/api/fill-tables`), so you don't have to create them by your own
+and fill them with the data. This is for testing only and should be removed
+after the development.
 
 To find out more about API, check out `README.md` in `backend` folder
 
