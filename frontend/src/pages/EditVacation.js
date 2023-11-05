@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import moment from 'moment';
 import Layout from "../Layout";
 import TripList from "../components/TripList";
@@ -12,7 +12,7 @@ function VacationDate(props) {
     return <p className="date">{from} - {to}</p>
 }
 
-function Vacation(props) {
+function EditVacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -53,18 +53,38 @@ function Vacation(props) {
                                 start_date={data.start_date}
                                 end_date={data.end_date}
                             />
-                            <h1>{data.title}</h1>
-                            <p>{data.description}</p>
+                            <input value={data.title}/>
+                            <textarea contentEditable="true">{data.description}</textarea>
                         </div>
                     </div>
-                    <Link to={`/edit-vacation?id=${id}`}>
-                        <button className="bottom-right-float">Edit</button>
+                    <Link to={`/vacation?id=${id}`}>
+                        <button className="bottom-right-float">Save</button>
                     </Link>
                 </>
             )}
             <TripList api={`/trip?vacation_id=${id}`} />
+
+            <div className="vacation">
+                <div className="marker">
+                    <div className="marker-circle"></div>
+                    <div className="marker-line"></div>
+                </div>
+                <div className="data trip">
+                    <p className="date">Select Date</p>
+                    <div className="card trip">
+                        <div className="card-content">
+                            <div className="card-expand">
+                                <input placeholder="Title"/>
+                            </div>
+                            <div className="card-desc-edit">
+                                <textarea placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Layout>
     );
 }
 
-export default Vacation;
+export default EditVacation;

@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from 'moment';
 
+/// Renders vacation
 function Vacation(props) {
     const from = moment(props.item.start_date).format('DD.MM.');
     const to = moment(props.item.end_date).format('DD.MM. YYYY');
@@ -27,6 +28,7 @@ function Vacation(props) {
     );
 }
 
+/// Renders vacation list
 function VacationList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -49,20 +51,17 @@ function VacationList(props) {
             })
             .finally(() => setLoading(false));
     }, [props.api]);
+    console.log(data);
 
     return (
         <>
-            {loading ? (
-                <h1>Loading...</h1>
-            ) : (
-                error ? (
-                    <h1>Error loading vacations</h1>
-                ) : (
-                    data.map(item => (
-                        <Vacation key={item.id} item={item} />
-                    ))
-                )
-            )}
+            { loading && <h2>Loading...</h2> }
+            { error && <h2>Error loading vacations</h2> }
+            { data && (
+                data.map(item => (
+                    <Vacation key={item.id} item={item} />
+                ))
+            ) }
         </>
     );
 }

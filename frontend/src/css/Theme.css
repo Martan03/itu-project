@@ -17,10 +17,11 @@
     --prim:       #ff5050;
     --prim-light: #ff7070;
 
-    --fg:        #eee;
-    --fg-light:  #fff;
-    --fg-dark:   #ccc;
-    --fg-darker: #aaa;
+    --fg:         #eee;
+    --fg-light:   #fff;
+    --fg-dark:    #ccc;
+    --fg-darker:  #aaa;
+    --fg-inverse: #000;
 
     --font-size-18: 18px;
     --font-size-25: 25px;
