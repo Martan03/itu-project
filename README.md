@@ -42,10 +42,11 @@ To find out more about API, check out `README.md` in `backend` folder
 
 Make sure following packages are installed:
 ```
+react
 react-switch
 react-slider
+react-scripts
 js-cookie
-react
 ```
 
 Again use `npm install` to install them into project's home directory (above `frontend` and `backend` directories).
