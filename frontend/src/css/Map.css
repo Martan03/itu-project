@@ -1,0 +1,22 @@
+.search-map {
+    font-size: var(--font-size-16);
+    width: 358px;
+    line-height: 1.5rem;
+    padding: 0.25rem 0.4rem;
+    color: var(--fg);
+    background-color: var(--dark-200) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border-color: var(--fg);
+}
+
+.smap-suggest {
+    color: red !important;
+    background-color: var(--dark-200) !important;
+}
+
+.smap-suggest:hover {
+    color: red !important;
+}

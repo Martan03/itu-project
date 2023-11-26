@@ -10,6 +10,8 @@ import '../css/Settings.css';
 
 import { Helper } from '../PageStyleHelper.js';
 
+import Map from "../components/Map.js";
+
 function Settings(props) {
   // Initialize states for theme, slider and slider's label
   const [isEnabled  , setIsEnabled  ] = useState(false);
@@ -61,8 +63,10 @@ function Settings(props) {
 
   return (
     <Layout search={props.search}>
-      <h1>Settings</h1>
-
+      <Map
+        height='440px'
+        width ='1000px'
+      />
       <div className='settings'>
           <div className='settings-button'>
             <label style={{ display: 'flex', alignItems: 'center' }}>
