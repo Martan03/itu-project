@@ -61,12 +61,16 @@ function Settings(props) {
     Helper.updatePageTheme(isEnabled);
   }, [isEnabled]);
 
+  const size = {height: '440px', width: '1000px'};
+
   return (
     <Layout search={props.search}>
       <Map
-        height='440px'
-        width ='1000px'
+        size={size}
+        showRoute={false}
+        coord={[{ lng: 14.434, lat: 50.084 }, { lng: 16.6, lat: 49.195 }]}
       />
+
       <div className='settings'>
           <div className='settings-button'>
             <label style={{ display: 'flex', alignItems: 'center' }}>
