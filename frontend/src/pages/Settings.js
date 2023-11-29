@@ -110,6 +110,15 @@ function Settings(props) {
                 <p>{displayText}</p>
               </div>
           </div>
+
+          <Map
+            size={{height: '500px', width: '500px'}}
+            showRoute={true}
+            coordsStart={[14.4009399, 50.0711206]}
+            coordsEnd={[16.5661545, 49.1747438]}
+            travelType={'car_fast'}
+            lang={'cs'}
+          />
       </div>
     </Layout>
   );
