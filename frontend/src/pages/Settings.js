@@ -10,6 +10,8 @@ import '../css/Settings.css';
 
 import { Helper } from '../PageStyleHelper.js';
 
+import Map from "../components/Map.js";
+
 function Settings(props) {
   // Initialize states for theme, slider and slider's label
   const [isEnabled  , setIsEnabled  ] = useState(false);
@@ -58,6 +60,13 @@ function Settings(props) {
 
     Helper.updatePageTheme(isEnabled);
   }, [isEnabled]);
+
+  /*
+  Example call:
+  <Map
+    size={{height: '500px', width: '500px'}}
+  />
+  */
 
   return (
     <Layout search={props.search}>
