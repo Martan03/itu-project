@@ -96,8 +96,8 @@ function bbox(coords) {
 		[maxLongitude, maxLatitude],
 	];
 }
-
-export default function Map( { size, showRoute, coordsStart, coordsEnd, travelType, lang } ) {
+// TODO divide stuff into useEffect()
+export default function Map( { size, showRoute, coordsStart, coordsEnd, travelType, lang, addMarkers, markersArr } ) {
 
   const mapContainer = useRef(null);
   const map          = useRef(null);
@@ -223,6 +223,18 @@ export default function Map( { size, showRoute, coordsStart, coordsEnd, travelTy
       }
     }
 
+    const addMarkerToMap = (lngLat) => {
+      new maplibregl.Marker()
+        .setLngLat(lngLat)
+        .addTo(map.current);
+    };
+
+    if (addMarkers && markersArr && markersArr.length > 0) {
+      markersArr.forEach((marker) => {
+        addMarkerToMap(marker.lngLat);
+      });
+    }
+
     // on click we read the coordinates (longitude, latitude) from the event and send a request to the rgeocode API function
     map.current.on('click', async function mapClick(event) {
       alert("Longitude: " + event.lngLat.lng + " Latitude: " + event.lngLat.lat);
@@ -234,7 +246,7 @@ export default function Map( { size, showRoute, coordsStart, coordsEnd, travelTy
       }
     });
 
-  }, [API_KEY, lng, lat, zoom, showRoute, coordsStart, coordsEnd, travelType, lang]);
+  }, [API_KEY, lng, lat, zoom, showRoute, coordsStart, coordsEnd, travelType, lang, addMarkers, markersArr]);
 
   const mapStyle = {
     width: `${size.width}`,  // Use width from the size array
