@@ -99,7 +99,7 @@ function bbox(coords) {
 
 // This is an asynchronous function for querying a route between the two points defined above
 // See https://api.mapy.cz/v1/docs/routing/#/routing/basic_route_v1_routing_route_get
-async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY) {
+async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, waypointsArr) {
   try {
     const url = new URL(`https://api.mapy.cz/v1/routing/route`);
 
@@ -107,6 +107,12 @@ async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY) {
     url.searchParams.set('lang', lang);
     url.searchParams.set('start', coordsStart.join(','));
     url.searchParams.set('end', coordsEnd.join(','));
+
+    if (waypointsArr && waypointsArr.length > 0) {
+      const waypoints = waypointsArr.map(coord => coord.join(','));
+      url.searchParams.set('waypoints', waypoints.join(';'));
+    }
+
     /* other possible routeType values include:
         car_fast,
         car_fast_traffic,
@@ -148,7 +154,7 @@ const addMarkerToMap = (lngLat, map) => {
     .addTo(map);
 };
 
-export default function Map( { size, showRoute, coordsStart, coordsEnd, travelType, lang, addMarkers, markersArr } ) {
+export default function Map( { size, showRoute, coordsStart, coordsEnd, waypointsArr, travelType, lang, addMarkers, markersArr } ) {
 
   const mapContainer = useRef(null);
   const map          = useRef(null);
@@ -240,10 +246,10 @@ export default function Map( { size, showRoute, coordsStart, coordsEnd, travelTy
 
     map.current.on('load', () => {
       if (showRoute === true) {
-        route(map.current, coordsStart, coordsEnd, lang, travelType, API_KEY);
+        route(map.current, coordsStart, coordsEnd, lang, travelType, API_KEY, waypointsArr);
       }
     });
-  }, [lng, lat, API_KEY, coordsStart, coordsEnd, lang, showRoute, travelType]);
+  }, [lng, lat, API_KEY, coordsStart, coordsEnd, lang, showRoute, travelType, waypointsArr]);
 
   useEffect(() => {
     if (addMarkers && markersArr && markersArr.length > 0) {
