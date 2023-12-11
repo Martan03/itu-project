@@ -89,6 +89,10 @@ p {
     margin-top: 3px;
 }
 
+.card.stop:not(:first-child) {
+    margin-top: 10px;
+}
+
 .card:hover {
     background-color: var(--dark-300);
 }

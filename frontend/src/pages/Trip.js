@@ -5,6 +5,7 @@ import Layout from "../Layout";
 import DateRange from "../components/DateRange";
 import Map from "../components/Map.js";
 
+/// Renders map with route given by stops
 function RenderMap(props) {
     const coords = props.stops.map(stop => (
         [stop.lng, stop.lat]
