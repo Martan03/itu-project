@@ -63,17 +63,18 @@ function Settings(props) {
 
   /*
   Example call:
-  <Map
-    size={{height: '500px', width: '500px'}}
-    showRoute={true}
-    coordsStart={[14.4009399, 50.0711206]}
-    coordsEnd={[16.5661545, 49.1747438]}
-    travelType={'car_fast'}
-    lang={'cs'}
-    addMarkers={true}
-    markersArr={[{ lngLat: [12.550343, 55.665957] },
-                  { lngLat: [12.540123, 55.670987] }]}
-  />
+    <Map
+      size={{height: '800px', width: '800px'}}
+      showRoute={true}
+      coordsStart={[14.4009399, 50.0711206]}
+      coordsEnd={[16.5661545, 49.1747438]}
+      travelType={'car_fast'}
+      lang={'cs'}
+      addMarkers={true}
+      markersArr={[{ lngLat: [12.550343, 55.665957] },
+                    { lngLat: [12.540123, 55.670987] }]}
+      waypointsArr={[[12.550343, 55.665957], [12.540123, 55.670987]]}
+    />
   */
 
   return (
