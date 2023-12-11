@@ -42,12 +42,16 @@ const stops = [
         title: "First stop of the trip",
         description: "We'll go to this place and pay this amount to enter",
         image: "/pics/paris.jpg",
+        lat: 48.8583,
+        lng: 2.2945,
     },
     {
         trip_id: 1,
         title: "Second stop",
         description: "We'll have to be there in this time so it's not closed",
         image: "/pics/berlin.jpg",
+        lat: 52.52437,
+        lng: 13.41053,
     }
 ]
 
@@ -63,7 +67,7 @@ function create_vacation_table() {
             image TEXT
         );
     `;
-    db.query(sql, (err, result) => {
+    db.query(sql, (err, _) => {
         if (err)
             console.error('Failed to create table `vacation`: ' + err.message);
         else
@@ -74,7 +78,7 @@ function create_vacation_table() {
 /// Adds vacations to the database
 function add_vacations() {
     for (let vacation of vacations) {
-        db.query("INSERT INTO vacation set ?", vacation, (err, result) => {
+        db.query("INSERT INTO vacation set ?", vacation, (err, _) => {
             if (err) {
                 console.error(
                     `Failed to add vacation '${vacation.title}: `
@@ -83,7 +87,7 @@ function add_vacations() {
             } else {
                 console.log(`Vacation '${vacation.title}' added`);
             }
-        })
+        });
     }
 }
 
@@ -101,7 +105,7 @@ function create_trip_table() {
             FOREIGN KEY (vacation_id) REFERENCES vacation(id)
         );
     `;
-    db.query(sql, (err, result) => {
+    db.query(sql, (err, _) => {
         if (err)
             console.error('Failed to create table `trip`: ' + err.message);
         else
@@ -112,7 +116,7 @@ function create_trip_table() {
 /// Adds trips to the database
 function add_trips() {
     for (let trip of trips) {
-        db.query("INSERT INTO trip set ?", trip, (err, result) => {
+        db.query("INSERT INTO trip set ?", trip, (err, _) => {
             if (err) {
                 console.error(
                     `Failed to add trip '${trip.title}': `
@@ -121,7 +125,7 @@ function add_trips() {
             } else {
                 console.log(`Trip '${trip.title}' added`);
             }
-        })
+        });
     }
 }
 
@@ -134,10 +138,12 @@ function create_stop_table() {
             title TEXT,
             description TEXT,
             image TEXT,
+            lat FLOAT,
+            lng FLOAT,
             FOREIGN KEY (trip_id) REFERENCES trip(id)
         );
     `;
-    db.query(sql, (err, result) => {
+    db.query(sql, (err, _) => {
         if (err)
             console.error('Failed to create table `stop`: ' + err.message);
         else
@@ -148,7 +154,7 @@ function create_stop_table() {
 /// Adds stops to the database
 function add_stops() {
     for (let stop of stops) {
-        db.query("INSERT INTO stop set ?", stop, (err, result) => {
+        db.query("INSERT INTO stop set ?", stop, (err, _) => {
             if (err) {
                 console.error(
                     `Failed to add stop '${stop.title}': `
@@ -157,7 +163,7 @@ function add_stops() {
             } else {
                 console.log(`Stops '${stop.title}' added`);
             }
-        })
+        });
     }
 }
 
