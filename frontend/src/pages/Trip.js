@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
+
 import Layout from "../Layout";
 import DateRange from "../components/DateRange";
+import Map from "../components/Map.js";
 
-/// Fetches data from API from given url
-/// requires setData, setError, setLoading to set corresponding values
-async function FetchApi(url, setData, setLoading, setError) {
-    fetch(`http://localhost:3002/api${url}`)
-        .then((response) => {
-            if (!response.ok)
-                throw new Error(`Error occurred: ${response.status}`);
-            return response.json();
-        })
-        .then((data) => {
-            setData(data);
-            setError(null);
-        })
-        .catch((err) => {
-            setData(null);
-            setError(err.message);
-        })
-        .finally(() => setLoading(false));
+function RenderMap(props) {
+    const coords = props.stops.map(stop => (
+        [stop.lng, stop.lat]
+    ));
+
+    if (coords.length < 2)
+        return;
+
+    return (
+        <Map
+            size={{height: '450px', width: '100%'}}
+            showRoute={true}
+            coordsStart={coords[0]}
+            coordsEnd={coords[coords.length - 1]}
+            travelType={'car_fast'}
+            lang={'cs'}
+            waypointsArr={coords.slice(1, -1)}
+        />
+    )
 }
 
 /// Renders details of the trip
 function TripDetails(props) {
     return (
-        <div className="vacation-header">
+        <div className="vacation-header trip">
             <div className="vacation-header-content">
                 <DateRange
                     start_date={props.trip.start_date}
@@ -90,7 +93,7 @@ function Trip(props) {
         }
 
         fetchData();
-    }, []);
+    });
 
     return (
         <Layout search={props.search}>
@@ -98,6 +101,7 @@ function Trip(props) {
             { error && <h2>Failed to load vacation</h2> }
             { trip && stops && (
                 <>
+                    <RenderMap stops={stops} />
                     <TripDetails trip={trip} />
                     <StopsList stops={stops} />
                 </>

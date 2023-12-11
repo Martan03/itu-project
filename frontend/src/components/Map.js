@@ -139,7 +139,7 @@ async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, way
     if (source && json.geometry) {
       source.setData(json.geometry);
       // finally we set the map to show the whole geometry in the viewport
-      map.jumpTo(map.current.cameraForBounds(bbox(json.geometry.geometry.coordinates), {
+      map.jumpTo(map.cameraForBounds(bbox(json.geometry.geometry.coordinates), {
         padding: 40,
       }));
     }

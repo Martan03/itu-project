@@ -153,6 +153,10 @@ p {
     margin-bottom: 20px;
 }
 
+.vacation-header.trip {
+    margin-top: 10px;
+}
+
 .vacation-header img {
     height: 300px;
     object-fit: contain;
