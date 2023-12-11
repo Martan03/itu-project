@@ -118,11 +118,15 @@ app.get("/api/vacation/upcoming", (_, res) => {
 });
 
 /// Gets all trips
+/// If `id` is set, it gets trip with given `id`
 /// If `vacation_id` is set in URL, it gets all trips in given vacation
 app.get("/api/trip", (req, res) => {
     var where = "";
     var args = [];
-    if (req.query.vacation_id) {
+    if (req.query.id) {
+        where = "WHERE id = ?";
+        args = [req.query.id];
+    } else if (req.query.vacation_id) {
         where = "WHERE vacation_id = ?";
         args = [req.query.vacation_id];
     }

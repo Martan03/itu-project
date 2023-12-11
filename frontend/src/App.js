@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import UpcomingVacations from "./pages/UpcomingVacations";
 import Vacations from "./pages/Vacations";
 import Vacation from "./pages/Vacation";
+import Trip from "./pages/Trip";
 import EditVacation from "./pages/EditVacation";
 
 function App() {
@@ -36,6 +37,9 @@ function App() {
                 }/>
                 <Route path='/vacation' element={
                     <Vacation search={{query, setQuery}} />
+                }/>
+                <Route path='/trip' element={
+                    <Trip search={{query, setQuery}} />
                 }/>
                 <Route path='/edit-vacation' element={
                     <EditVacation search={{query, setQuery}} />
