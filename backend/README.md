@@ -32,14 +32,17 @@
 ### Vacation
 
 - `/api/vacation`
-    - saves given vacation to the database
+    - saves or updates given vacation in the database
+    - if vacation contains `id`, it's edited, else added
 
 ### Trip
 
 - `/api/trip`
-    - saves given trip to the database
+    - saves or updates given trip in the database
+    - if trip contains `id`, it's edited, else added
 
 ### Stop
 
 - `/api/stop`
-    - saves given stop to the database
+    - saves or updates given stop in the database
+    - if stop contains `id`, it's edited, else added
