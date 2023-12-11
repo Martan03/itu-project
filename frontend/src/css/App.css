@@ -162,7 +162,13 @@ p {
 .vacation-header h1 {
     font-weight: normal;
     color: var(--fg-light);
+    padding: 6px;
     font-size: 40px;
+}
+
+.vacation-description {
+    flex-grow: 1;
+    padding: 6px;
 }
 
 .vacation-header-content {
@@ -195,7 +201,7 @@ p {
     background-color: var(--dark-250);
     border: solid 1px var(--dark-500);
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     font-size: 40px;
 }
 
@@ -211,8 +217,10 @@ p {
     background-color: var(--dark-250);
     border: solid 1px var(--dark-500);
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     flex-grow: 1;
+    font-family: sans-serif;
+    resize: none;
 }
 
 .vacation-header textarea:focus {
