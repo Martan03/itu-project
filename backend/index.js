@@ -30,19 +30,17 @@ app.get("/api/fill-tables", (_, res) => {
 function query(res, query, args = []) {
     db.query(query, args, (err, result) => {
         if (err)
-            res.status(500).json("Error occurred while executing query");
+            res.status(500).json(err.message);
         else
             res.send(result);
     })
 }
 
+/// Helper save function, executes given `query` with given `args`
+/// Same as query function, but sets different status numbers
 function save(res, query, args) {
     db.query(query, args, (err, result) => {
         if (err) {
-            console.error(
-                `Failed to add vacation '${vacation.title}': `
-                + err.message
-            );
             res.status(400).send(err.message);
         } else {
             res.status(201).send(result)
@@ -103,7 +101,7 @@ app.get("/api/vacation/upcoming", (_, res) => {
 });
 
 /// Gets all trips
-/// If vacation_id is set in URL, it gets all trips in given vacation
+/// If `vacation_id` is set in URL, it gets all trips in given vacation
 app.get("/api/trip", (req, res) => {
     var where = "";
     var args = [];
@@ -124,7 +122,7 @@ app.post("/api/trip", (req, res) => {
 });
 
 /// Gets all stops
-/// If trip_id is set in URL, it gets all stop in given trip
+/// If `trip_id` is set in URL, it gets all stop in given trip
 app.get("/api/stop", (req, res) => {
     var where = "";
     var args = [];
