@@ -6,18 +6,38 @@ import TripList from "../components/TripList";
 
 /// Renders vacation date
 function VacationDate(props) {
+    const [editDate, setEditDate] = useState(false);
+
     const from = moment(props.start_date).format('DD.MM.');
     const to = moment(props.end_date).format('DD.MM. YYYY');
 
-    return <p className="date">{from} - {to}</p>
+    const startEditDate = () => setEditDate(true);
+
+    return editDate ? (
+            <p className="date">
+                <input className="vacation-date"
+                    type="date"
+                    autoFocus>
+                </input>
+                 -
+                <input className="vacation-date"
+                    type="date"
+                    autoFocus>
+                </input>
+            </p>
+        ) : (
+            <p className="date"
+                onClick={startEditDate}>
+                {from} - {to}
+            </p>
+        );
+
 }
 
 function Vacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [editTitle, setEditTitle] = useState(false);
-    const [editDesc, setEditDesc] = useState(false);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -41,20 +61,23 @@ function Vacation(props) {
             .finally(() => setLoading(false));
     }, [id]);
 
-    const startEditTitle = () => setEditTitle(true);
-    const stopEditTitle = () => setEditTitle(false);
+    const stopEditTitle = () => {
+        // TODO: save
+    };
     const confirmTitle = (e) => {
         if (e.key == "Enter") {
-            stopEditTitle()
+            e.target.blur()
         }
     }
+
     const inputChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
     }
 
-    const startEditDesc = () => setEditDesc(true);
-    const stopEditDesc = () => setEditDesc(false);
+    const stopEditDesc = () => {
+        // TODO: save
+    };
 
     return (
         <Layout search={props.search}>
@@ -70,41 +93,22 @@ function Vacation(props) {
                                 start_date={data.start_date}
                                 end_date={data.end_date}
                             />
-                            { editTitle && (
-                                <input value={data.title}
-                                    type="text"
-                                    onKeyDown={confirmTitle}
-                                    onChange={inputChange}
-                                    name="title"
-                                    autoFocus
-                                    placeholder="Title"
-                                    onBlur={stopEditTitle}/>
-                            ) || (
-                                <h1 onClick={startEditTitle}>
-                                    { data.title === ""
-                                        && "Title"
-                                        || data.title
-                                    }
-                                </h1>
-                            ) }
-                            { editDesc && (
-                                <textarea contentEditable="true"
-                                    autoFocus
-                                    name="description"
-                                    onChange={inputChange}
-                                    placeholder="Description"
-                                    onBlur={stopEditDesc}>
-                                    {data.description}
-                                </textarea>
-                            ) || (
-                                <p onClick={startEditDesc}
-                                    className="vacation-description">
-                                    { data.description === ""
-                                        && "Description"
-                                        || data.description
-                                    }
-                                </p>
-                            ) }
+                            <input
+                                className="vacation-title-input"
+                                value={data.title}
+                                type="text"
+                                onChange={inputChange}
+                                onKeyDown={confirmTitle}
+                                name="title"
+                                placeholder="Title"
+                                onBlur={stopEditTitle}/>
+                            <textarea contentEditable="true"
+                                name="description"
+                                onChange={inputChange}
+                                placeholder="Description"
+                                onBlur={stopEditDesc}>
+                                {data.description}
+                            </textarea>
                         </div>
                     </div>
                     <Link to={`/edit-vacation?id=${id}`}>

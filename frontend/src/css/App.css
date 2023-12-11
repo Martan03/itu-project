@@ -195,29 +195,37 @@ p {
     font-size: 1em;
 }
 
-.vacation-header input {
+.vacation-title-input {
+    font-weight: normal;
+    color: var(--fg-light);
+    padding: 6px;
+    font-size: 40px;
+    font-weight: normal;
+    color: var(--fg-light);
+    background-color: transparent;
+    border: none;
+}
+
+.vacation-title-input:focus {
+    border: solid 1px var(--prim-light);
+    outline: 0px;
     font-weight: normal;
     color: var(--fg-light);
     background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
     border-radius: 10px;
     padding: 5px;
     font-size: 40px;
 }
 
-.vacation-header input:focus {
-    border: solid 1px var(--prim-light);
-    outline: 0px;
-}
-
 .vacation-header textarea {
+    font-weight: normal;
     color: var(--fg-light);
     font-size: var(--font-size-18);
+    padding: 6px;
     font-weight: normal;
-    background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 5px;
+    color: var(--fg-light);
+    background-color: transparent;
+    border: none;
     flex-grow: 1;
     font-family: sans-serif;
     resize: none;
@@ -226,6 +234,15 @@ p {
 .vacation-header textarea:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+    color: var(--fg-light);
+    font-size: var(--font-size-18);
+    font-weight: normal;
+    background-color: var(--dark-250);
+    border-radius: 10px;
+    padding: 5px;
+    flex-grow: 1;
+    font-family: sans-serif;
+    resize: none;
 }
 
 .card-content input {
