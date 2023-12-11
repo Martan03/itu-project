@@ -4,8 +4,12 @@
 
 ### Vacation
 
-- `/api/vacation`
+- `/api/vacation?id=<id>&query=<query>`
     - gets all vacations
+    - if `id` is given, it gets vacation with given `id`
+    - if `query` is given, it searches vacations containing `query` in name or
+    description
+    - `id` and `query` won't work together, `id` has priority
 - `/api/vacation/upcoming`
     - gets all upcoming vacations (but also ongoing - might need change name)
 - `/api/vacation/past`
@@ -22,3 +26,23 @@
 - `/api/stop?trip_id=<id>`:
     - gets all stops
     - if `trip_id` is given, gets all trip stops
+
+## POST
+
+### Vacation
+
+- `/api/vacation`
+    - saves or updates given vacation in the database
+    - if vacation contains `id`, it's edited, else added
+
+### Trip
+
+- `/api/trip`
+    - saves or updates given trip in the database
+    - if trip contains `id`, it's edited, else added
+
+### Stop
+
+- `/api/stop`
+    - saves or updates given stop in the database
+    - if stop contains `id`, it's edited, else added
