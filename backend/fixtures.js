@@ -22,7 +22,6 @@ const trips = [
         vacation_id: 1,
         title: "First trip",
         description: "We'll visit these places",
-        map: "",
         start_date: "2023-12-15",
         end_date: "2023-12-16",
     },
@@ -30,7 +29,6 @@ const trips = [
         vacation_id: 1,
         title: "Second trip",
         description: "This trip we'll do something else",
-        map: "",
         start_date: "2023-12-16",
         end_date: "2023-12-17",
     }
@@ -99,7 +97,6 @@ function create_trip_table() {
             vacation_id INT,
             title TEXT,
             description TEXT,
-            map TEXT,
             start_date DATE,
             end_date DATE,
             FOREIGN KEY (vacation_id) REFERENCES vacation(id)

@@ -39,8 +39,11 @@ function query(res, query, args = []) {
 /// Helper save function, executes given `query` with given `args`
 /// Same as query function, but sets different status numbers
 function save(res, query, args) {
+    console.log(query);
+    console.log(args);
     db.query(query, args, (err, result) => {
         if (err) {
+            console.error(err);
             res.status(400).send(err.message);
         } else {
             res.status(201).send(result)
@@ -79,11 +82,25 @@ app.get("/api/vacation", (req, res) => {
     query(res, sql, args);
 });
 
-/// Saves given vacation to the database
+/// Saves or edits given vacation in database
+/// If given vacation contains id, it edits it, else adds
 app.post("/api/vacation", (req, res) => {
-    const sql = "INSERT INTO vacation set ?";
-    const args = [req.body];
-    save(res, sql, args);
+    var vacation = {
+        'title': req.body.title,
+        'description': req.body.description,
+        'start_date': req.body.start_date,
+        'end_date': req.body.end_date,
+        'image': req.body.image,
+    };
+
+    var sql = "INSERT INTO vacation SET ?";
+    var args = [vacation];
+    if (req.body.id) {
+        sql = "UPDATE vacation SET ?";
+        args = [vacation, req.body.id];
+    }
+
+    save(res, sql, vacation);
 });
 
 /// Gets past vacations
@@ -114,10 +131,24 @@ app.get("/api/trip", (req, res) => {
     query(res, sql, args);
 });
 
-/// Saves given trip to the database
+/// Saves or edits given trip in database
+/// If given trip contains id, it edits it, else adds
 app.post("/api/trip", (req, res) => {
-    const sql = "INSERT INTO trip set ?";
-    const args = [req.body];
+    var trip = {
+        'vacation_id': req.body.vacation_id,
+        'title': req.body.title,
+        'description': req.body.description,
+        'start_date': req.body.start_date,
+        'end_date': req.body.end_date,
+    };
+
+    var sql = "INSERT INTO trip SET ?";
+    var args = [trip];
+    if (req.body.id) {
+        sql = "UPDATE trip SET ? WHERE id = ?";
+        args = [trip, req.body.id];
+    }
+
     save(res, sql, args);
 });
 
@@ -135,9 +166,25 @@ app.get("/api/stop", (req, res) => {
     query(res, sql, args);
 });
 
+/// Saves or edits given stop in database
+/// If given stop contains id, it edits it, else adds
 app.post("/api/stop", (req, res) => {
-    var sql = "INSERT INTO trip set ?";
-    var args = [req.body];
+    var stop = {
+        'trip_id': req.body.trip_id,
+        'title': req.body.title,
+        'description': req.body.description,
+        'image': req.body.image,
+        'lat': req.body.lat,
+        'lng': req.body.lng,
+    };
+
+    var sql = "INSERT INTO stop SET ?";
+    var args = [stop];
+    if (req.body.id) {
+        sql = "UPDATE stop SET ? WHERE id = ?";
+        args = [stop, req.body.id];
+    }
+
     save(res, sql, args);
 });
 
