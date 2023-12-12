@@ -158,13 +158,11 @@ function Vacation(props) {
                                 placeholder="Title"
                                 onBlur={stopEditTitle}/>
                             <textarea
-                                contentEditable="true"
+                                value={data.description}
                                 name="description"
                                 onChange={inputChange}
                                 placeholder="Description"
-                                onBlur={stopEditDesc}>
-                                {data.description}
-                            </textarea>
+                                onBlur={stopEditDesc}/>
                         </div>
                     </div>
                     <Link to={`/edit-vacation?id=${id}`}>
