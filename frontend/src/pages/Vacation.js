@@ -32,8 +32,6 @@ function VacationDate(props) {
     const [startDate, setStartDate] = useState(props.start_date);
     const [endDate, setEndDate] = useState(props.end_date);
 
-    console.log(startDate);
-
     const changeStartDate = (e) => {
         setStartDate(e);
     }
@@ -96,8 +94,9 @@ function Vacation(props) {
                 setData({
                     ...data[0],
                     ["start_date"]:
-                        moment(data.start_date).format("YYYY-MM-DD"),
-                    ["end_date"]: moment(data.end_date).format("YYYY-MM-DD"),
+                        moment(data[0].start_date).format("YYYY-MM-DD"),
+                    ["end_date"]:
+                        moment(data[0].end_date).format("YYYY-MM-DD"),
                 });
                 setError(null);
             })
