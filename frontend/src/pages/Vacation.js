@@ -119,20 +119,16 @@ function Vacation(props) {
     }
 
     const stopEditDesc = () => {
-        console.log("save desc");
         saveVacation(data);
     };
     const stopEditTitle = () => {
-        console.log("save title");
         saveVacation(data);
     };
     const saveStartDate = (d) => {
-        console.log("save start");
         setData({ ...data, ["start_date"]: moment(d).format("YYYY-MM-DD") });
         saveVacation(data);
     };
     const saveEndDate = (d) => {
-        console.log("save end");
         setData({ ...data, ["end_date"]: moment(d).format("YYYY-MM-DD") });
         saveVacation(data);
     };
