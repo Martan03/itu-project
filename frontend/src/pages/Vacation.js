@@ -3,34 +3,39 @@ import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import Layout from "../Layout";
 import TripList from "../components/TripList";
+import DatePicker from "react-date-picker";
+import 'react-date-picker/dist/DatePicker.css';
 
 /// Renders vacation date
 function VacationDate(props) {
-    const [editDate, setEditDate] = useState(false);
+    const [startDate, setStartDate] = useState(props.start_date);
+    const [endDate, setEndDate] = useState(props.end_date);
 
-    const from = moment(props.start_date).format('DD.MM.');
-    const to = moment(props.end_date).format('DD.MM. YYYY');
+    const changeStartDate = (e) => {
+        setStartDate(e);
+    }
 
-    const startEditDate = () => setEditDate(true);
+    const changeEndDate = (e) => {
+        setStartDate(e);
+    }
 
-    return editDate ? (
-            <p className="date">
-                <input className="vacation-date"
-                    type="date"
-                    autoFocus>
-                </input>
-                 -
-                <input className="vacation-date"
-                    type="date"
-                    autoFocus>
-                </input>
-            </p>
-        ) : (
-            <p className="date"
-                onClick={startEditDate}>
-                {from} - {to}
-            </p>
-        );
+    return <div className="date-range">
+        <DatePicker calendarIcon={null}
+            clearIcon={null}
+            disableCalendar
+            className="date-picker"
+            format="dd.MM yyyy"
+            onChange={changeStartDate}
+            value={startDate}/>
+        -
+        <DatePicker calendarIcon={null}
+            clearIcon={null}
+            disableCalendar
+            className="date-picker"
+            format="dd.MM yyyy"
+            onChange={changeEndDate}
+            value={endDate}/>
+    </div>
 
 }
 

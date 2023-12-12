@@ -223,7 +223,7 @@ p {
     font-size: var(--font-size-18);
     padding: 6px;
     font-weight: normal;
-    color: var(--fg-light);
+    color: var(--fg-dark);
     background-color: transparent;
     border: none;
     flex-grow: 1;
@@ -258,7 +258,8 @@ p {
 
 .card-content textarea {
     margin-top: 10px;
-    flex-grow: 1;color: var(--fg-light);
+    flex-grow: 1;
+    color: var(--fg-light);
     font-size: var(--font-size-18);
     font-weight: normal;
     background-color: var(--dark-300);
@@ -279,4 +280,34 @@ p {
 .card-content input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+}
+
+.date-picker > div {
+    border: 0px;
+    padding: 1px 1px 3px 1px;
+    color: var(--fg-darker);
+}
+
+.date-picker:focus-within > div {
+    border: solid 1px var(--prim-light);
+    outline: 0px;
+    color: var(--fg-light);
+    font-weight: normal;
+    background-color: var(--dark-250);
+    border-radius: 5px;
+    padding: 0px 0px 2px 0px;
+    color: var(--fg-light);
+}
+
+.date-picker input {
+    padding: 1px;
+}
+
+.date-picker input:focus {
+    border: none;
+    outline: none;
+}
+
+.date-range {
+    color: var(--fg-darker);
 }
