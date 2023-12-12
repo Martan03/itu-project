@@ -32,7 +32,7 @@ function VacationDate(props) {
             clearIcon={null}
             disableCalendar
             className="date-picker"
-            format="dd.MM yyyy"
+            format="dd.MM.yyyy"
             onChange={changeStartDate}
             onBlur={saveStartDate}
             value={startDate}/>
@@ -41,7 +41,7 @@ function VacationDate(props) {
             clearIcon={null}
             disableCalendar
             className="date-picker"
-            format="dd.MM yyyy"
+            format="dd.MM.yyyy"
             onChange={changeEndDate}
             onBlur={saveEndDate}
             value={endDate}/>

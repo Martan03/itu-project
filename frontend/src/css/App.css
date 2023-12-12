@@ -284,7 +284,7 @@ p {
 
 .date-picker > div {
     border: 0px;
-    padding: 1px 1px 3px 1px;
+    padding: 1px;
     color: var(--fg-darker);
 }
 
@@ -295,12 +295,8 @@ p {
     font-weight: normal;
     background-color: var(--dark-250);
     border-radius: 5px;
-    padding: 0px 0px 2px 0px;
+    padding: 0px;
     color: var(--fg-light);
-}
-
-.date-picker input {
-    padding: 1px;
 }
 
 .date-picker input:focus {
