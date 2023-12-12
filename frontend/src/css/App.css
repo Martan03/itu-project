@@ -263,3 +263,9 @@ p {
     border: solid 1px var(--prim-light);
     outline: 0px;
 }
+
+@media screen and (max-width: 1000px) {
+    .content {
+        margin-left: 0;
+    }
+}

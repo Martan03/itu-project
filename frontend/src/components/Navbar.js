@@ -3,6 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../icons/search.svg';
 import '../css/Navbar.css';
 
+function Burger(props) {
+    return (
+        <div className='navbar-burger'>
+            <div className='line1'></div>
+            <div className='line2'></div>
+            <div className='line3'></div>
+        </div>
+    )
+}
+
 function SearchBar(props) {
     const nav = useNavigate();
 
@@ -35,7 +45,9 @@ function SearchBar(props) {
 function Navbar(props) {
     return (
         <div className='navbar'>
+            <Burger />
             <SearchBar search={props.search} />
+            <div></div>
         </div>
     )
 }
