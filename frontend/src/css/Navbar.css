@@ -12,6 +12,7 @@
 .navbar-burger {
     cursor: pointer;
     margin-left: 10px;
+    margin-right: 5px;
 }
 
 .navbar-burger > div {
@@ -51,9 +52,14 @@
     height: 20px;
 }
 
+.navbar-spacer {
+    width: 50px;
+}
+
 .menu {
     height: 100%;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     padding: 20px;
     padding-top: 70px;
     display: flex;

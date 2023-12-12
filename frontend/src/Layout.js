@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import Sidebar from "./components/Menu";
 import Navbar from "./components/Navbar";
@@ -8,6 +8,7 @@ function Layout(props) {
         if (props.menu.small) {
             props.menu.setMenuVis(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     window.addEventListener('resize', () => {

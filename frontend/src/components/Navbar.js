@@ -51,7 +51,7 @@ function Navbar(props) {
         <div className='navbar'>
             <Burger menu={props.menu} />
             <SearchBar search={props.search} />
-            <div></div>
+            <div className='navbar-spacer'></div>
         </div>
     )
 }
