@@ -6,6 +6,27 @@ import TripList from "../components/TripList";
 import DatePicker from "react-date-picker";
 import 'react-date-picker/dist/DatePicker.css';
 
+function saveVacation(vacation) {
+    const save = async () => {
+        try {
+            const res = await fetch('http://localhost:3002/api/vacation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(vacation),
+            });
+
+            if (!res.ok) {
+                throw new Error(res.status);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    save();
+}
+
 /// Renders vacation date
 function VacationDate(props) {
     const [startDate, setStartDate] = useState(props.start_date);
@@ -20,31 +41,35 @@ function VacationDate(props) {
     }
 
     const saveStartDate = () => {
-        // TODO
+        props.saveStartDate(startDate);
     }
 
     const saveEndDate = () => {
-        // TODO
+        props.saveEndDate(startDate);
     }
 
     return <div className="date-range">
-        <DatePicker calendarIcon={null}
+        <DatePicker
+            calendarIcon={null}
             clearIcon={null}
             disableCalendar
             className="date-picker"
             format="dd.MM.yyyy"
             onChange={changeStartDate}
             onBlur={saveStartDate}
-            value={startDate}/>
+            value={startDate}
+        />
         -
-        <DatePicker calendarIcon={null}
+        <DatePicker
+            calendarIcon={null}
             clearIcon={null}
             disableCalendar
             className="date-picker"
             format="dd.MM.yyyy"
             onChange={changeEndDate}
             onBlur={saveEndDate}
-            value={endDate}/>
+            value={endDate}
+        />
     </div>
 
 }
@@ -76,9 +101,6 @@ function Vacation(props) {
             .finally(() => setLoading(false));
     }, [id]);
 
-    const stopEditTitle = () => {
-        // TODO: save
-    };
     const confirmTitle = (e) => {
         if (e.key === "Enter") {
             e.target.blur()
@@ -91,7 +113,22 @@ function Vacation(props) {
     }
 
     const stopEditDesc = () => {
-        // TODO: save
+        console.log("save desc");
+        saveVacation(data);
+    };
+    const stopEditTitle = () => {
+        console.log("save title");
+        saveVacation(data);
+    };
+    const saveStartDate = (d) => {
+        console.log("save start");
+        setData({ ...data, ["start_date"]: d });
+        saveVacation(data);
+    };
+    const saveEndDate = (d) => {
+        console.log("save end");
+        setData({ ...data, ["end_date"]: d });
+        saveVacation(data);
     };
 
     return (
@@ -107,7 +144,8 @@ function Vacation(props) {
                             <VacationDate
                                 start_date={data.start_date}
                                 end_date={data.end_date}
-                            />
+                                saveStartDate={saveStartDate}
+                                saveEndDate={saveEndDate}/>
                             <input
                                 className="vacation-title-input"
                                 value={data.title}
@@ -117,7 +155,8 @@ function Vacation(props) {
                                 name="title"
                                 placeholder="Title"
                                 onBlur={stopEditTitle}/>
-                            <textarea contentEditable="true"
+                            <textarea
+                                contentEditable="true"
                                 name="description"
                                 onChange={inputChange}
                                 placeholder="Description"
