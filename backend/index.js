@@ -96,11 +96,11 @@ app.post("/api/vacation", (req, res) => {
     var sql = "INSERT INTO vacation SET ?";
     var args = [vacation];
     if (req.body.id) {
-        sql = "UPDATE vacation SET ?";
+        sql = "UPDATE vacation SET ? WHERE id = ?";
         args = [vacation, req.body.id];
     }
 
-    save(res, sql, vacation);
+    save(res, sql, args);
 });
 
 /// Gets past vacations
