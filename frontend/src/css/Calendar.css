@@ -1,22 +1,39 @@
-.rbc-btn-group > button {
+.rbc-btn-group > button,
+.rbc-btn-group > button:focus {
     background-color: var(--dark-250);
     border-color: var(--dark-400);
     color: var(--fg-light);
 }
 
 .rbc-btn-group > button:hover {
+    background-color: var(--dark-250);
+    border-color: var(--dark-400);
+    color: var(--fg-light);
+    cursor: pointer;
+}
+
+.rbc-toolbar button:active,
+.rbc-btn-group button:active {
     background-color: var(--dark-300);
     border-color: var(--dark-400);
     color: var(--fg-light);
 }
 
-.rbc-toolbar button.rbc-active {
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button.rbc-active:focus {
     background-color: var(--prim);
     border-color: var(--prim);
     color: var(--dark-150);
 }
 
 .rbc-toolbar button.rbc-active:hover {
+    background-color: var(--prim);
+    border-color: var(--prim);
+    color: var(--dark-150);
+    cursor: pointer;
+}
+
+.rbc-toolbar button.rbc-active:active {
     background-color: var(--prim-light);
     border-color: var(--prim);
     color: var(--dark-150);
@@ -28,6 +45,10 @@
 .rbc-month-row + .rbc-month-row,
 .rbc-day-bg + .rbc-day-bg {
     border-color: var(--dark-400);
+}
+
+.rbc-month-view {
+    background-color: var(--dark-300);
 }
 
 .rbc-off-range-bg {
