@@ -203,7 +203,9 @@ p {
     font-weight: normal;
     color: var(--fg-light);
     background-color: transparent;
+    border-radius: 10px;
     border: none;
+    transition: background-color ease .15s;
 }
 
 .vacation-title-input:focus {
@@ -212,9 +214,12 @@ p {
     font-weight: normal;
     color: var(--fg-light);
     background-color: var(--dark-250);
-    border-radius: 10px;
     padding: 5px;
     font-size: 40px;
+}
+
+.vacation-title-input:hover {
+    background-color: var(--dark-200);
 }
 
 .vacation-header textarea {
@@ -229,6 +234,8 @@ p {
     flex-grow: 1;
     font-family: sans-serif;
     resize: none;
+    border-radius: 10px;
+    transition: background-color ease .15s;
 }
 
 .vacation-header textarea:focus {
@@ -238,11 +245,14 @@ p {
     font-size: var(--font-size-18);
     font-weight: normal;
     background-color: var(--dark-250);
-    border-radius: 10px;
     padding: 5px;
     flex-grow: 1;
     font-family: sans-serif;
     resize: none;
+}
+
+.vacation-header textarea:hover {
+    background-color: var(--dark-200);
 }
 
 .card-content input {
@@ -286,6 +296,8 @@ p {
     border: 0px;
     padding: 1px;
     color: var(--fg-darker);
+    border-radius: 5px;
+    transition: background-color ease .15s;
 }
 
 .date-picker:focus-within > div {
@@ -294,9 +306,12 @@ p {
     color: var(--fg-light);
     font-weight: normal;
     background-color: var(--dark-250);
-    border-radius: 5px;
     padding: 0px;
     color: var(--fg-light);
+}
+
+.date-picker:hover > div {
+    background-color: var(--dark-200);
 }
 
 .date-picker input:focus {
