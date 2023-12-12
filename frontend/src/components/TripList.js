@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 
 /// Fetches data from API from given url
 /// requires setData, setError, setLoading to set corresponding values
-async function FetchApi(url, setData, setLoading, setError) {
+async function FetchApi(url, setData, setLoading, nav) {
     fetch(`http://localhost:3002/api${url}`)
         .then((response) => {
             if (!response.ok)
@@ -13,11 +13,9 @@ async function FetchApi(url, setData, setLoading, setError) {
         })
         .then((data) => {
             setData(data);
-            setError(null);
         })
-        .catch((err) => {
-            setData(null);
-            setError(err.message);
+        .catch((_) => {
+            nav('/500');
         })
         .finally(() => setLoading(false));
 }
@@ -52,16 +50,16 @@ function Trip(props) {
 function TripList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+
+    const nav = useNavigate();
 
     useEffect(() => {
-        FetchApi(props.api, setData, setLoading, setError);
-    }, [props.api]);
+        FetchApi(props.api, setData, setLoading, nav);
+    }, [props.api, nav]);
 
     return (
         <>
             { loading && <h1>Loading...</h1> }
-            { error && <h1>Failed to load vacation trips</h1> }
             { data && (
                 data.length ? (
                     data.map(item => (

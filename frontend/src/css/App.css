@@ -177,7 +177,7 @@ p {
     border-radius: 10px;
 }
 
-.vacation-header h1 {
+.vacation-header h1, .err-header {
     font-weight: normal;
     color: var(--fg-light);
     font-size: 40px;
@@ -272,6 +272,10 @@ p {
 .card-content input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+}
+
+.err-content {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 1000px) {

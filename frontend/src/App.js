@@ -11,6 +11,9 @@ import Vacation from "./pages/Vacation";
 import Trip from "./pages/Trip";
 import EditVacation from "./pages/EditVacation";
 
+import NotFound from "./pages/error/NotFound.js";
+import ServerError from "./pages/error/ServerError.js";
+
 function App() {
     const [query, setQuery] = useState('');
     const [small, setSmall] = useState(window.innerWidth < 1000);
@@ -66,6 +69,18 @@ function App() {
                 }/>
                 <Route path='/edit-vacation' element={
                     <EditVacation
+                        search={{query, setQuery}}
+                        menu={{small, setSmall, menuVis, setMenuVis}}
+                    />
+                }/>
+                <Route path='/500' element={
+                    <ServerError
+                        search={{query, setQuery}}
+                        menu={{small, setSmall, menuVis, setMenuVis}}
+                    />
+                }/>
+                <Route path='*' element={
+                    <NotFound
                         search={{query, setQuery}}
                         menu={{small, setSmall, menuVis, setMenuVis}}
                     />

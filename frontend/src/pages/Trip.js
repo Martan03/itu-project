@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
 import DateRange from "../components/DateRange";
@@ -69,11 +69,12 @@ function Trip(props) {
     const [stops, setStops] = useState(null);
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
+
+    const nav = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,19 +88,17 @@ function Trip(props) {
                 setTrip(trip_res[0]);
                 setStops(stop_res);
                 setLoading(false);
-            } catch (err) {
-                setError(err);
-                setLoading(false);
+            } catch (_) {
+                nav(`/500`);
             }
         }
 
         fetchData();
-    });
+    }, [id, nav]);
 
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
-            { error && <h2>Failed to load vacation</h2> }
             { trip && stops && (
                 <>
                     <RenderMap stops={stops} />

@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import Layout from "../Layout";
 import TripList from "../components/TripList";
 import DateRange from "../components/DateRange";
@@ -25,11 +26,12 @@ function VacationDetails(props) {
 function Vacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
+
+    const nav = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:3002/api/vacation?id=${id}`)
@@ -40,19 +42,16 @@ function Vacation(props) {
             })
             .then((data) => {
                 setData(data[0]);
-                setError(null);
             })
-            .catch((err) => {
-                setData(null);
-                setError(err.message);
+            .catch((_) => {
+                nav(`/500`);
             })
             .finally(() => setLoading(false));
-    }, [id]);
+    }, [id, nav]);
 
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
-            { error && <h2>Failed to load vacation</h2> }
             { data && (
                 <>
                     <VacationDetails vacation={data} />
