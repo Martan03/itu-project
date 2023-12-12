@@ -51,7 +51,6 @@ function VacationList(props) {
             })
             .finally(() => setLoading(false));
     }, [props.api]);
-    console.log(data);
 
     return (
         <>

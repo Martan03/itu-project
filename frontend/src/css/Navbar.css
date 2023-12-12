@@ -66,6 +66,10 @@
     z-index: 9;
 }
 
+.menu.hidden {
+    transform: translateX(-100%);
+}
+
 .menu > div {
     display: flex;
     flex-direction: column;
@@ -96,10 +100,4 @@
     height: 30px;
     border-radius: 2px;
     background-color: var(--prim);
-}
-
-@media screen and (max-width: 1000px) {
-    .menu {
-        transform: translateX(-100%);
-    }
 }

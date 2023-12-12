@@ -20,10 +20,19 @@ p {
     height: 100vh;
 }
 
+.layout {
+    overflow: hidden;
+}
+
 .content {
     margin-left: 250px;
     padding: 10px;
     padding-top: 60px;
+    transition: 0.3s ease;
+}
+
+.content.expanded {
+    margin-left: 0;
 }
 
 .vacation {
@@ -266,6 +275,12 @@ p {
 
 @media screen and (max-width: 1000px) {
     .content {
+        transform: translateX(250px);
+        margin-left: 0;
+    }
+
+    .content.expanded {
+        transform: translateX(0);
         margin-left: 0;
     }
 }

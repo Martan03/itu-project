@@ -17,9 +17,9 @@ function MenuButton(props) {
     )
 }
 
-function Menu() {
+function Menu(props) {
     return (
-        <div className='menu'>
+        <div className={`menu ${props.menu ? '' : 'hidden'}`}>
             <div>
                 <MenuButton
                     title="Upcoming vacations"
