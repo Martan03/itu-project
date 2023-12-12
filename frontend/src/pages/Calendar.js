@@ -8,6 +8,7 @@ import {
 import moment from 'moment'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '../css/Calendar.css';
 
 function Calendar(props) {
     const [events, setEvents] = useState([]);
