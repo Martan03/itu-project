@@ -16,7 +16,15 @@ function VacationDate(props) {
     }
 
     const changeEndDate = (e) => {
-        setStartDate(e);
+        setEndDate(e);
+    }
+
+    const saveStartDate = () => {
+        // TODO
+    }
+
+    const saveEndDate = () => {
+        // TODO
     }
 
     return <div className="date-range">
@@ -26,6 +34,7 @@ function VacationDate(props) {
             className="date-picker"
             format="dd.MM yyyy"
             onChange={changeStartDate}
+            onBlur={saveStartDate}
             value={startDate}/>
         -
         <DatePicker calendarIcon={null}
@@ -34,6 +43,7 @@ function VacationDate(props) {
             className="date-picker"
             format="dd.MM yyyy"
             onChange={changeEndDate}
+            onBlur={saveEndDate}
             value={endDate}/>
     </div>
 
@@ -70,7 +80,7 @@ function Vacation(props) {
         // TODO: save
     };
     const confirmTitle = (e) => {
-        if (e.key == "Enter") {
+        if (e.key === "Enter") {
             e.target.blur()
         }
     }
