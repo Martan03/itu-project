@@ -78,7 +78,7 @@ function Settings(props) {
   */
 
   return (
-    <Layout search={props.search}>
+    <Layout search={props.search} menu={props.menu}>
       <h1>Settings</h1>
 
       <div className='settings'>

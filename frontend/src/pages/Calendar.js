@@ -5,7 +5,7 @@ import Layout from "../Layout";
 
 function Calendar(props) {
     return (
-        <Layout search={props.search}>
+        <Layout search={props.search} menu={props.menu}>
             <h1>Not implemented yet</h1>
         </Layout>
     );

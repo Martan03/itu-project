@@ -97,7 +97,7 @@ function Trip(props) {
     });
 
     return (
-        <Layout search={props.search}>
+        <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
             { error && <h2>Failed to load vacation</h2> }
             { trip && stops && (

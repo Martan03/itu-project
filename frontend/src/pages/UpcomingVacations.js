@@ -4,7 +4,7 @@ import VacationList from "../components/VacationList";
 
 function UpcomingVacations(props) {
     return (
-        <Layout search={props.search}>
+        <Layout search={props.search} menu={props.menu}>
             <VacationList api="/vacation/upcoming" />
         </Layout>
     );
