@@ -27,8 +27,9 @@ function Calendar(props) {
                 var events = [];
                 for (let vacation of data) {
                     events.push({
-                        start: vacation.start_date,
-                        end: vacation.end_date,
+                        id: vacation.id,
+                        start: new Date(vacation.start_date),
+                        end: new Date(vacation.end_date),
                         title: vacation.title,
                     });
                 }
@@ -42,13 +43,21 @@ function Calendar(props) {
 
     const localizer = momentLocalizer(moment);
 
+    const selectEvent = (e) => {
+       nav(`/vacation?id=${e.id}`);
+    }
+
     return (
         <Layout search={props.search} menu={props.menu}>
-            <CalendarComponent
-                localizer={localizer}
-                events={events}
-                style={{height: 500}}
-            />
+            { loading && <h2>Loading...</h2> }
+            { events &&
+                <CalendarComponent
+                    localizer={localizer}
+                    events={events}
+                    onSelectEvent={selectEvent}
+                    style={{height: 500}}
+                />
+            }
         </Layout>
     );
 }

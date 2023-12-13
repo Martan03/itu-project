@@ -13,7 +13,7 @@
 }
 
 .rbc-toolbar button:active,
-.rbc-btn-group button:active {
+.rbc-btn-group button:active:focus {
     background-color: var(--dark-300);
     border-color: var(--dark-400);
     color: var(--fg-light);
