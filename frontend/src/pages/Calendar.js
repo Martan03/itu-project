@@ -41,6 +41,11 @@ function Calendar(props) {
             .finally(() => setLoading(false));
     }, []);
 
+    moment.locale('ko', {
+        week: {
+            dow: 1
+        }
+    })
     const localizer = momentLocalizer(moment);
 
     const selectEvent = (e) => {
