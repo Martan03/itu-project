@@ -52,10 +52,10 @@ function Calendar(props) {
             { loading && <h2>Loading...</h2> }
             { events &&
                 <CalendarComponent
+                    className="calendar"
                     localizer={localizer}
                     events={events}
                     onSelectEvent={selectEvent}
-                    style={{height: 500}}
                 />
             }
         </Layout>
