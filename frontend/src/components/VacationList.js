@@ -7,7 +7,7 @@
 import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import DateRange from "./DateRange";
+import { DateRange } from "../components/DateRange";
 import Error from "./Error";
 import { getVacations } from "../Db";
 

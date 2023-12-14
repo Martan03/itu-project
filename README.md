@@ -47,6 +47,9 @@ react-switch
 react-slider
 react-scripts
 js-cookie
+maplibre-gl
+react-scripts
+react-big-calendar
 ```
 
 Again use `npm install` to install them into project's home directory (above `frontend` and `backend` directories).

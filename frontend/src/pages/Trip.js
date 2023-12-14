@@ -8,10 +8,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
-import DateRange from "../components/DateRange";
+import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
-import { getTripWithStops } from "../Db.js";
+import { getTripWithStops, saveTrip } from "../Db.js";
 import Error from "../components/Error.js";
+import { DescInput, TitleInput } from "../components/Input";
 
 /// Renders map with route given by stops
 function RenderMap(props) {
@@ -40,12 +41,15 @@ function TripDetails(props) {
     return (
         <div className="vacation-header">
             <div className="vacation-header-content">
-                <DateRange
-                    start_date={props.trip.start_date}
-                    end_date={props.trip.end_date}
+                <DateRangeInput data={props.trip} save={saveTrip} />
+                <TitleInput
+                    data={props.trip}
+                    save={saveTrip}
                 />
-                <h1>{props.trip.title}</h1>
-                <p>{props.trip.description}</p>
+                <DescInput
+                    data={props.trip}
+                    save={saveTrip}
+                />
             </div>
         </div>
     )
@@ -94,9 +98,9 @@ function Trip(props) {
 
     // Redirects to 404 when no trip was found
     useEffect(() => {
-        if (!trip && !loading)
+        if (!trip && !loading && !err)
             nav('/404');
-    }, [trip, loading, nav]);
+    }, [trip, loading, err, nav]);
 
     return (
         <Layout search={props.search} menu={props.menu}>
@@ -108,7 +112,7 @@ function Trip(props) {
                         <RenderMap stops={stops} />
                     </div>
                     <div className="trip-layout-details">
-                        <TripDetails trip={trip} />
+                        <TripDetails trip={{data: trip, setData: setTrip}} />
                         <StopsList stops={stops} />
                     </div>
                 </div>

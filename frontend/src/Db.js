@@ -1,3 +1,11 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
+import moment from 'moment';
+
 const API_URL = "http://localhost:3002";
 
 /**
@@ -76,7 +84,32 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
     fetchData();
 }
 
-module.exports = {
+/**
+ * Saves given trip to the database
+ * @param {Object} trip - trip to be saved
+ */
+function saveTrip(trip) {
+    trip.start_date = moment(trip.start_date).format('YYYY-MM-DD HH:mm:ss');
+    trip.end_date = moment(trip.end_date).format('YYYY-MM-DD HH:mm:ss');
+
+    fetch(`${API_URL}/api/trip`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(trip),
+    })
+        .then((res) => {
+            if (!res.ok)
+                throw new Error(res.status);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+}
+
+export {
     getVacations,
     getTripWithStops,
+    saveTrip,
 }

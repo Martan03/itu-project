@@ -189,11 +189,17 @@ p {
 .vacation-header h1, .err-header {
     font-weight: normal;
     color: var(--fg-light);
+    padding: 6px;
     font-size: 40px;
 }
 
+.vacation-description {
+    flex-grow: 1;
+    padding: 6px;
+}
+
 .vacation-header-content {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -216,35 +222,64 @@ p {
     font-size: 1em;
 }
 
-.vacation-header input {
+.vacation-title-input {
+    font-weight: normal;
+    color: var(--fg-light);
+    padding: 6px;
+    font-size: 40px;
+    font-weight: normal;
+    color: var(--fg-light);
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    transition: background-color ease .15s;
+}
+
+.vacation-title-input:focus {
+    border: solid 1px var(--prim-light);
+    outline: 0px;
     font-weight: normal;
     color: var(--fg-light);
     background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     font-size: 40px;
 }
 
-.vacation-header input:focus {
-    border: solid 1px var(--prim-light);
-    outline: 0px;
+.vacation-title-input:hover {
+    background-color: var(--dark-200);
 }
 
 .vacation-header textarea {
+    font-weight: normal;
     color: var(--fg-light);
     font-size: var(--font-size-18);
+    padding: 6px;
     font-weight: normal;
-    background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
+    color: var(--fg-dark);
+    background-color: transparent;
+    border: none;
     flex-grow: 1;
+    font-family: sans-serif;
+    resize: none;
+    border-radius: 10px;
+    transition: background-color ease .15s;
 }
 
 .vacation-header textarea:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+    color: var(--fg-light);
+    font-size: var(--font-size-18);
+    font-weight: normal;
+    background-color: var(--dark-250);
+    padding: 5px;
+    flex-grow: 1;
+    font-family: sans-serif;
+    resize: none;
+}
+
+.vacation-header textarea:hover {
+    background-color: var(--dark-200);
 }
 
 .card-content input {
@@ -260,7 +295,8 @@ p {
 
 .card-content textarea {
     margin-top: 10px;
-    flex-grow: 1;color: var(--fg-light);
+    flex-grow: 1;
+    color: var(--fg-light);
     font-size: var(--font-size-18);
     font-weight: normal;
     background-color: var(--dark-300);
@@ -357,4 +393,35 @@ p {
     .vacation-header-content {
         width: 100%;
     }
+}
+
+.date-picker > div {
+    border: 0px;
+    padding: 1px;
+    color: var(--fg-darker);
+    border-radius: 5px;
+    transition: background-color ease .15s;
+}
+
+.date-picker:focus-within > div {
+    border: solid 1px var(--prim-light);
+    outline: 0px;
+    color: var(--fg-light);
+    font-weight: normal;
+    background-color: var(--dark-250);
+    padding: 0px;
+    color: var(--fg-light);
+}
+
+.date-picker:hover > div {
+    background-color: var(--dark-200);
+}
+
+.date-picker input:focus {
+    border: none;
+    outline: none;
+}
+
+.date-range {
+    color: var(--fg-darker);
 }
