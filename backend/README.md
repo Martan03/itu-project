@@ -46,3 +46,22 @@
 - `/api/stop`
     - saves or updates given stop in the database
     - if stop contains `id`, it's edited, else added
+
+## DELETE
+
+### Vacation
+
+- `/api/vacation?id=<id>`
+    - deletes vacation with given `id`
+    - deletes its trips and stops as well
+
+### Trip
+
+- `/api/trip?id=<id>`
+    - deletes trip with given `id`
+    - deletes its stops as well
+
+### Stop
+
+- `/api/stop?id=<id>`
+    - deletes stop with given `id`

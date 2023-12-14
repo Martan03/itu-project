@@ -99,7 +99,7 @@ function create_trip_table() {
             description TEXT,
             start_date DATE,
             end_date DATE,
-            FOREIGN KEY (vacation_id) REFERENCES vacation(id)
+            FOREIGN KEY (vacation_id) REFERENCES vacation(id) ON DELETE CASCADE
         );
     `;
     db.query(sql, (err, _) => {
@@ -137,7 +137,7 @@ function create_stop_table() {
             image TEXT,
             lat FLOAT,
             lng FLOAT,
-            FOREIGN KEY (trip_id) REFERENCES trip(id)
+            FOREIGN KEY (trip_id) REFERENCES trip(id) ON DELETE CASCADE
         );
     `;
     db.query(sql, (err, _) => {

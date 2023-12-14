@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 
 /// Renders vacation
@@ -32,7 +32,8 @@ function Vacation(props) {
 function VacationList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+
+    const nav = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:3002/api' + props.api)
@@ -43,20 +44,16 @@ function VacationList(props) {
             })
             .then((data) => {
                 setData(data);
-                setError(null);
             })
-            .catch((err) => {
-                setData(null);
-                setError(err.message);
+            .catch((_) => {
+                nav('/500');
             })
             .finally(() => setLoading(false));
     }, [props.api]);
-    console.log(data);
 
     return (
         <>
             { loading && <h2>Loading...</h2> }
-            { error && <h2>Error loading vacations</h2> }
             { data && (
                 data.map(item => (
                     <Vacation key={item.id} item={item} />

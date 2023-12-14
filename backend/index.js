@@ -33,14 +33,12 @@ function query(res, query, args = []) {
             res.status(500).json(err.message);
         else
             res.send(result);
-    })
+    });
 }
 
 /// Helper save function, executes given `query` with given `args`
 /// Same as query function, but sets different status numbers
 function save(res, query, args) {
-    console.log(query);
-    console.log(args);
     db.query(query, args, (err, result) => {
         if (err) {
             console.error(err);
@@ -103,6 +101,18 @@ app.post("/api/vacation", (req, res) => {
     save(res, sql, args);
 });
 
+/// Deletes vacation by given ID
+/// Deletes related items (trips and stops)
+app.delete("/api/vacation", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM vacation WHERE id = ?";
+    query(res, sql, [req.query.id]);
+});
+
 /// Gets past vacations
 app.get("/api/vacation/past", (_, res) => {
     const date = new Date();
@@ -118,11 +128,15 @@ app.get("/api/vacation/upcoming", (_, res) => {
 });
 
 /// Gets all trips
+/// If `id` is set, it gets trip with given `id`
 /// If `vacation_id` is set in URL, it gets all trips in given vacation
 app.get("/api/trip", (req, res) => {
     var where = "";
     var args = [];
-    if (req.query.vacation_id) {
+    if (req.query.id) {
+        where = "WHERE id = ?";
+        args = [req.query.id];
+    } else if (req.query.vacation_id) {
         where = "WHERE vacation_id = ?";
         args = [req.query.vacation_id];
     }
@@ -150,6 +164,18 @@ app.post("/api/trip", (req, res) => {
     }
 
     save(res, sql, args);
+});
+
+/// Deletes trip by given ID
+/// Deletes related items (stops)
+app.delete("/api/trip", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM trip WHERE id = ?";
+    query(res, sql, [req.query.id]);
 });
 
 /// Gets all stops
@@ -186,6 +212,17 @@ app.post("/api/stop", (req, res) => {
     }
 
     save(res, sql, args);
+});
+
+/// Deletes stop by given ID
+app.delete("/api/trip", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM stop WHERE id = ?";
+    query(res, sql, [req.query.id]);
 });
 
 app.listen(PORT, () => {
