@@ -33,14 +33,12 @@ function query(res, query, args = []) {
             res.status(500).json(err.message);
         else
             res.send(result);
-    })
+    });
 }
 
 /// Helper save function, executes given `query` with given `args`
 /// Same as query function, but sets different status numbers
 function save(res, query, args) {
-    console.log(query);
-    console.log(args);
     db.query(query, args, (err, result) => {
         if (err) {
             console.error(err);
@@ -96,11 +94,23 @@ app.post("/api/vacation", (req, res) => {
     var sql = "INSERT INTO vacation SET ?";
     var args = [vacation];
     if (req.body.id) {
-        sql = "UPDATE vacation SET ?";
+        sql = "UPDATE vacation SET ? WHERE id = ?";
         args = [vacation, req.body.id];
     }
 
-    save(res, sql, vacation);
+    save(res, sql, args);
+});
+
+/// Deletes vacation by given ID
+/// Deletes related items (trips and stops)
+app.delete("/api/vacation", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM vacation WHERE id = ?";
+    query(res, sql, [req.query.id]);
 });
 
 /// Gets past vacations
@@ -156,6 +166,18 @@ app.post("/api/trip", (req, res) => {
     save(res, sql, args);
 });
 
+/// Deletes trip by given ID
+/// Deletes related items (stops)
+app.delete("/api/trip", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM trip WHERE id = ?";
+    query(res, sql, [req.query.id]);
+});
+
 /// Gets all stops
 /// If `trip_id` is set in URL, it gets all stop in given trip
 app.get("/api/stop", (req, res) => {
@@ -190,6 +212,17 @@ app.post("/api/stop", (req, res) => {
     }
 
     save(res, sql, args);
+});
+
+/// Deletes stop by given ID
+app.delete("/api/trip", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM stop WHERE id = ?";
+    query(res, sql, [req.query.id]);
 });
 
 app.listen(PORT, () => {
