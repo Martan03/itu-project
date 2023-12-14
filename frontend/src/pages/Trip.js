@@ -12,7 +12,12 @@ function RenderMap(props) {
     ));
 
     if (coords.length < 2)
-        return;
+        return (
+            <Map
+                size={{height: '100%', width: '100%'}}
+                lang={'cs'}
+            />
+        );
 
     return (
         <Map
@@ -51,7 +56,7 @@ function Stop(props) {
                  alt={props.stop.title + " picture"} />
             <div className="card-content">
                 <h2>{props.stop.title}</h2>
-                <p>{props.stop.description}adshflasdhflajsdflkh gfasahdsfl lfh asfhasdl faskldf asjdfas fljashfads ajsdhfa shfasldjf akldfhasf aslkdhfouasdfj ahoj</p>
+                <p>{props.stop.description}</p>
             </div>
         </div>
     )
