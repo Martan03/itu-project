@@ -3,15 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helper } from './PageStyleHelper.js';
 
 import Calendar from "./pages/Calendar";
-import PastVacations from "./pages/PastVacations";
 import Settings from "./pages/Settings";
-import UpcomingVacations from "./pages/UpcomingVacations";
 import Vacations from "./pages/Vacations";
 import Vacation from "./pages/Vacation";
 import Trip from "./pages/Trip";
 import EditVacation from "./pages/EditVacation";
 
-import NotFound from "./pages/error/NotFound.js";
+import NotFound from "./pages/NotFound.js";
 import ServerError from "./pages/error/ServerError.js";
 
 function App() {
@@ -26,9 +24,10 @@ function App() {
         <Router>
             <Routes>
                 <Route exact path='/' element={
-                    <UpcomingVacations
+                    <Vacations
                         search={{query, setQuery}}
                         menu={{small, setSmall, menuVis, setMenuVis}}
+                        time={1}
                     />
                 }/>
                 <Route path='/calendar' element={
@@ -38,9 +37,10 @@ function App() {
                     />
                 }/>
                 <Route path='/past' element={
-                    <PastVacations
+                    <Vacations
                         search={{query, setQuery}}
                         menu={{small, setSmall, menuVis, setMenuVis}}
+                        time={-1}
                     />
                 }/>
                 <Route path='/settings' element={

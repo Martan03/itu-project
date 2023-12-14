@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 import moment from 'moment';
 
 /// Renders date range of given dates

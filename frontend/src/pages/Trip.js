@@ -1,31 +1,34 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
 import DateRange from "../components/DateRange";
 import Map from "../components/Map.js";
+import { getTripWithStops } from "../Db.js";
+import Error from "../components/Error.js";
 
 /// Renders map with route given by stops
 function RenderMap(props) {
+    // Gets stops coordinates
     const coords = props.stops.map(stop => (
         [stop.lng, stop.lat]
     ));
-
-    if (coords.length < 2)
-        return (
-            <Map
-                size={{height: '100%', width: '100%'}}
-                lang={'cs'}
-            />
-        );
 
     return (
         <Map
             size={{height: '100%', width: '100%'}}
             showRoute={true}
-            coordsStart={coords[0]}
-            coordsEnd={coords[coords.length - 1]}
-            travelType={'car_fast'}
+            {...(coords.length >= 2 && {
+                coordsStart: coords[0],
+                coordsEnd: coords[coords.length - 1],
+                travelType: 'car_fast'
+            })}
             lang={'cs'}
             waypointsArr={coords.slice(1, -1)}
         />
@@ -69,41 +72,36 @@ function StopsList(props) {
     ));
 }
 
+/// Renders trip page with its stops
 function Trip(props) {
     const [trip, setTrip] = useState(null);
     const [stops, setStops] = useState(null);
-
     const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(null);
 
+    // Gets trip id from the url
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
 
+    // Redirects to error page when no ID set
     const nav = useNavigate();
 
+    // Loads trip with its stops
     useEffect(() => {
-        const fetchData = async () => {
-            const url = 'http://localhost:3002/api';
-            try {
-                const [trip_res, stop_res] = await Promise.all([
-                    fetch(`${url}/trip?id=${id}`).then(res => res.json()),
-                    fetch(`${url}/stop?trip_id=${id}`).then(res => res.json())
-                ]);
-
-                setTrip(trip_res[0]);
-                setStops(stop_res);
-                setLoading(false);
-            } catch (_) {
-                nav(`/500`);
-            }
-        }
-
-        fetchData();
+        getTripWithStops(setTrip, setStops, setLoading, setErr, id);
     }, [id, nav]);
+
+    // Redirects to 404 when no trip was found
+    useEffect(() => {
+        if (!trip && !loading)
+            nav('/404');
+    }, [trip, loading, nav]);
 
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
+            { err && <Error /> }
             { trip && stops && (
                 <div className="trip-layout">
                     <div className="trip-map">
