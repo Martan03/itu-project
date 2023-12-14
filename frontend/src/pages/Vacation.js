@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 import Layout from "../Layout";
 import TripList from "../components/TripList";
@@ -99,7 +100,6 @@ function Vacation(props) {
                     ["end_date"]:
                         moment(data[0].end_date).format("YYYY-MM-DD"),
                 });
-                setError(null);
             })
             .catch((_) => {
                 nav(`/500`);
