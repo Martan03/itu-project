@@ -31,6 +31,7 @@ function Menu(props) {
             <div>
                 <MenuButton title="Upcoming vacations" url="/" />
                 <MenuButton title="Past vacations" url="/past" />
+                <MenuButton title="All vacations" url="/vacations" />
                 <MenuButton title="Calendar" url="/calendar" />
             </div>
             <div>
