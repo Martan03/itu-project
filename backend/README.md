@@ -47,7 +47,7 @@
     - saves or updates given stop in the database
     - if stop contains `id`, it's edited, else added
 
-### DELETE
+## DELETE
 
 ### Vacation
 
