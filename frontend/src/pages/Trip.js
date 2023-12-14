@@ -48,10 +48,10 @@ function Stop(props) {
     return (
         <div className="card stop">
             <img src={props.stop.image}
-                    alt={props.stop.title + " picture"} />
+                 alt={props.stop.title + " picture"} />
             <div className="card-content">
                 <h2>{props.stop.title}</h2>
-                <p>{props.stop.description}</p>
+                <p>{props.stop.description}adshflasdhflajsdflkh gfasahdsfl lfh asfhasdl faskldf asjdfas fljashfads ajsdhfa shfasldjf akldfhasf aslkdhfouasdfj ahoj</p>
             </div>
         </div>
     )

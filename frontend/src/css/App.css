@@ -117,9 +117,10 @@ p {
 }
 
 .card.stop img {
-    height: 150px;
-    width: 225px;
+    max-height: 110px;
+    max-width: 200px;
     border-radius: 10px;
+    margin: auto;
 }
 
 .card-content {
@@ -157,6 +158,14 @@ p {
 
 .card-content p {
     margin-top: 20px;
+}
+
+.card.stop .card-content p {
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .vacation-header {
