@@ -278,6 +278,35 @@ p {
     margin-top: 10px;
 }
 
+.trip-layout {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    gap: 10px;
+}
+
+.trip-map {
+    width: calc(100% - 500px);
+}
+
+.trip-layout-details {
+    width: 500px;
+}
+
+@media screen and (max-width: 1250px) {
+    .trip-layout {
+        flex-direction: column;
+    }
+
+    .trip-map {
+        height: 450px;
+        width: 100%;
+    }
+
+    .trip-layout-details {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 1000px) {
     .content {
         transform: translateX(250px);

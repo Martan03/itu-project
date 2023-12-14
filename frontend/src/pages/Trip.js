@@ -16,7 +16,7 @@ function RenderMap(props) {
 
     return (
         <Map
-            size={{height: '450px', width: '100%'}}
+            size={{height: '100%', width: '100%'}}
             showRoute={true}
             coordsStart={coords[0]}
             coordsEnd={coords[coords.length - 1]}
@@ -30,7 +30,7 @@ function RenderMap(props) {
 /// Renders details of the trip
 function TripDetails(props) {
     return (
-        <div className="vacation-header trip">
+        <div className="vacation-header">
             <div className="vacation-header-content">
                 <DateRange
                     start_date={props.trip.start_date}
@@ -100,11 +100,15 @@ function Trip(props) {
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
             { trip && stops && (
-                <>
-                    <RenderMap stops={stops} />
-                    <TripDetails trip={trip} />
-                    <StopsList stops={stops} />
-                </>
+                <div className="trip-layout">
+                    <div className="trip-map">
+                        <RenderMap stops={stops} />
+                    </div>
+                    <div className="trip-layout-details">
+                        <TripDetails trip={trip} />
+                        <StopsList stops={stops} />
+                    </div>
+                </div>
             )}
         </Layout>
     );
