@@ -41,7 +41,7 @@ function Calendar(props) {
             .finally(() => setLoading(false));
     }, []);
 
-    moment.locale('ko', {
+    moment.updateLocale('en', {
         week: {
             dow: 1
         }
