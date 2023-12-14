@@ -1,25 +1,37 @@
 import { React, useState, useEffect } from "react";
-import { Link, useLocation } from 'react-router-dom';
-import moment from 'moment';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import Layout from "../Layout";
 import TripList from "../components/TripList";
+import DateRange from "../components/DateRange";
 
-/// Renders vacation date
-function VacationDate(props) {
-    const from = moment(props.start_date).format('DD.MM.');
-    const to = moment(props.end_date).format('DD.MM. YYYY');
-
-    return <p className="date">{from} - {to}</p>
+/// Renders vacation details
+function VacationDetails(props) {
+    return (
+        <div className="vacation-header">
+            <img src={props.vacation.image}
+                alt={props.vacation.title + " picture"} />
+            <div className="vacation-header-content">
+                <DateRange
+                    start_date={props.vacation.start_date}
+                    end_date={props.vacation.end_date}
+                />
+                <h1>{props.vacation.title}</h1>
+                <p>{props.vacation.description}</p>
+            </div>
+        </div>
+    )
 }
 
 function Vacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
+
+    const nav = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:3002/api/vacation?id=${id}`)
@@ -30,33 +42,19 @@ function Vacation(props) {
             })
             .then((data) => {
                 setData(data[0]);
-                setError(null);
             })
-            .catch((err) => {
-                setData(null);
-                setError(err.message);
+            .catch((_) => {
+                nav(`/500`);
             })
             .finally(() => setLoading(false));
-    }, [id]);
+    }, [id, nav]);
 
     return (
-        <Layout search={props.search}>
+        <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
-            { error && <h2>Failed to load vacation</h2> }
             { data && (
                 <>
-                    <div className="vacation-header">
-                        <img src={data.image}
-                            alt={data.title + " picture"} />
-                        <div className="vacation-header-content">
-                            <VacationDate
-                                start_date={data.start_date}
-                                end_date={data.end_date}
-                            />
-                            <h1>{data.title}</h1>
-                            <p>{data.description}</p>
-                        </div>
-                    </div>
+                    <VacationDetails vacation={data} />
                     <Link to={`/edit-vacation?id=${id}`}>
                         <button className="bottom-right-float">Edit</button>
                     </Link>

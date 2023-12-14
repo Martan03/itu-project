@@ -9,7 +9,7 @@ function Vacations(props) {
     const search = params.get('query');
 
     return (
-        <Layout search={props.search}>
+        <Layout search={props.search} menu={props.menu}>
             <VacationList api={`/vacation?query=${search ?? ''}`} />
         </Layout>
     );

@@ -10,7 +10,7 @@ import '../css/Settings.css';
 
 import { Helper } from '../PageStyleHelper.js';
 
-import Map from "../components/Map.js";
+// import Map from "../components/Map.js";
 
 function Settings(props) {
   // Initialize states for theme, slider and slider's label
@@ -78,7 +78,7 @@ function Settings(props) {
   */
 
   return (
-    <Layout search={props.search}>
+    <Layout search={props.search} menu={props.menu}>
       <h1>Settings</h1>
 
       <div className='settings'>

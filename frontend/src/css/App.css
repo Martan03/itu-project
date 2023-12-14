@@ -20,10 +20,19 @@ p {
     height: 100vh;
 }
 
+.layout {
+    overflow: hidden;
+}
+
 .content {
     margin-left: 250px;
     padding: 10px;
     padding-top: 60px;
+    transition: 0.3s ease;
+}
+
+.content.expanded {
+    margin-left: 0;
 }
 
 .vacation {
@@ -87,6 +96,10 @@ p {
     height: auto;
     background-color: transparent;
     margin-top: 3px;
+}
+
+.card.stop:not(:first-child) {
+    margin-top: 10px;
 }
 
 .card:hover {
@@ -153,13 +166,18 @@ p {
     margin-bottom: 20px;
 }
 
+.vacation-header.trip {
+    margin-top: 10px;
+}
+
 .vacation-header img {
-    height: 300px;
+    max-height: 300px;
+    max-width: 50%;
     object-fit: contain;
     border-radius: 10px;
 }
 
-.vacation-header h1 {
+.vacation-header h1, .err-header {
     font-weight: normal;
     color: var(--fg-light);
     font-size: 40px;
@@ -254,4 +272,51 @@ p {
 .card-content input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+}
+
+.err-content {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+    .content {
+        transform: translateX(250px);
+        margin-left: 0;
+    }
+
+    .content.expanded {
+        transform: translateX(0);
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .card {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .card > img {
+        margin: auto;
+        width: 100%;
+        height: 200px;
+    }
+
+    .card-content > p {
+        margin-top: 10px;
+    }
+
+    .vacation-header {
+        flex-direction: column;
+    }
+
+    .vacation-header > img {
+        margin: auto;
+        max-width: 100%;
+        max-height: 250px;
+    }
+
+    .vacation-header-content {
+        width: 100%;
+    }
 }
