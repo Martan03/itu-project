@@ -33,7 +33,7 @@ function SearchBar(props) {
         <form className='search-bar' onSubmit={handleSearch}>
             <input
                 className='form-input'
-                type='search'
+                type='text'
                 name='query'
                 placeholder='Search...'
                 value={props.search.query}
