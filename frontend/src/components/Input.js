@@ -22,7 +22,7 @@ function TitleInput(props) {
 
     return (
         <input
-            className="vacation-title-input"
+            className={`vacation-title-input ${props.small ? 'small' : ''}`}
             value={props.data.data[props.attr ?? 'title']}
             type="text"
             onChange={onChange}

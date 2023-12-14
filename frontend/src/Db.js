@@ -33,6 +33,28 @@ function fetchAPI(setData, setLoading, setErr, url) {
 }
 
 /**
+ * Sends data to the database to be saved
+ * @param {Object} data - data to be saved
+ * @param {String} url - URL to the API endpoint
+ */
+function saveAPI(data, url) {
+    fetch(`${API_URL}${url}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => {
+            if (!res.ok)
+                throw new Error(res.status);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+}
+
+/**
  * Gets all vacations from the database
  * @param {function} setData - sets variable value to contain vacations
  * @param {function} setLoading - sets loading value
@@ -92,24 +114,23 @@ function saveTrip(trip) {
     trip.start_date = moment(trip.start_date).format('YYYY-MM-DD HH:mm:ss');
     trip.end_date = moment(trip.end_date).format('YYYY-MM-DD HH:mm:ss');
 
-    fetch(`${API_URL}/api/trip`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(trip),
-    })
-        .then((res) => {
-            if (!res.ok)
-                throw new Error(res.status);
-        })
-        .catch((err) => {
-            console.error(err);
-        })
+    saveAPI(trip, "/api/trip");
+}
+
+/**
+ * Saves given stop to the database
+ * @param {Object} stop - stop to be saved
+ */
+function saveStop(stop) {
+    stop.start_date = moment(stop.start_date).format('YYYY-MM-DD');
+    stop.end_date = moment(stop.end_date).format('YYYY-MM-DD');
+
+    saveAPI(stop, "/api/stop");
 }
 
 export {
     getVacations,
     getTripWithStops,
     saveTrip,
+    saveStop,
 }

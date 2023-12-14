@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from "../Layout";
 import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
-import { getTripWithStops, saveTrip } from "../Db.js";
+import { getTripWithStops, saveTrip, saveStop } from "../Db.js";
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
 
@@ -57,13 +57,34 @@ function TripDetails(props) {
 
 /// Component to display trip stop
 function Stop(props) {
+    const [stop, setStop] = useState(props.stop);
+
+    useEffect(() => {
+        setStop(props.stop);
+    }, [props.stop])
+
+    const setData = (val) => {
+        setStop(val);
+
+        var arr = props.stops.stops;
+        arr[props.index] = val;
+        props.stops.setStops(arr);
+    }
+
     return (
         <div className="card stop">
             <img src={props.stop.image}
                  alt={props.stop.title + " picture"} />
             <div className="card-content">
-                <h2>{props.stop.title}</h2>
-                <p>{props.stop.description}</p>
+                <TitleInput
+                    data={{data: stop, setData}}
+                    save={saveStop}
+                    small={true}
+                />
+                <DescInput
+                    data={{data: stop, setData}}
+                    save={saveStop}
+                />
             </div>
         </div>
     )
@@ -71,8 +92,13 @@ function Stop(props) {
 
 /// Renders given stops
 function StopsList(props) {
-    return props.stops.map(stop => (
-        <Stop key={stop.id} stop={stop} />
+    return props.stops.stops.map((stop, index) => (
+        <Stop
+            key={stop.id}
+            stop={stop}
+            stops={props.stops}
+            index={index}
+        />
     ));
 }
 
@@ -113,7 +139,7 @@ function Trip(props) {
                     </div>
                     <div className="trip-layout-details">
                         <TripDetails trip={{data: trip, setData: setTrip}} />
-                        <StopsList stops={stops} />
+                        <StopsList stops={{stops, setStops}} />
                     </div>
                 </div>
             )}

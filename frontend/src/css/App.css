@@ -235,21 +235,25 @@ p {
     transition: background-color ease .15s;
 }
 
+
+.vacation-title-input.small {
+    font-size: 25px;
+    width: 100%;
+}
+
 .vacation-title-input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
-    font-weight: normal;
-    color: var(--fg-light);
     background-color: var(--dark-250);
     padding: 5px;
-    font-size: 40px;
 }
 
 .vacation-title-input:hover {
     background-color: var(--dark-200);
 }
 
-.vacation-header textarea {
+.vacation-header textarea,
+.card-content textarea {
     font-weight: normal;
     color: var(--fg-light);
     font-size: var(--font-size-18);
@@ -265,7 +269,8 @@ p {
     transition: background-color ease .15s;
 }
 
-.vacation-header textarea:focus {
+.vacation-header textarea:focus,
+.card-content textarea:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
     color: var(--fg-light);
@@ -278,31 +283,9 @@ p {
     resize: none;
 }
 
-.vacation-header textarea:hover {
+.vacation-header textarea:hover,
+.card-content textarea:hover {
     background-color: var(--dark-200);
-}
-
-.card-content input {
-    color: var(--fg-light);
-    font-weight: normal;
-    font-size: var(--font-size-25);
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
-    flex-grow: 1;
-}
-
-.card-content textarea {
-    margin-top: 10px;
-    flex-grow: 1;
-    color: var(--fg-light);
-    font-size: var(--font-size-18);
-    font-weight: normal;
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
 }
 
 .card-desc-edit {
