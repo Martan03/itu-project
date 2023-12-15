@@ -91,14 +91,36 @@ function Vacation(props) {
         // TODO
     };
 
+    const chooseImage = () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+
+        input.onchange = e => {
+            let file = e.target.files[0];
+
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = e => {
+                setData({...data, ["image"]: e.target.result});
+                // TODO: saveVacation(data2);
+            }
+        }
+
+        input.click();
+    };
+
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
             { data && (
                 <>
                     <div className="vacation-header">
-                        <img src={data.image}
-                            alt={data.title + " picture"} />
+                        <img
+                            className="img-hover"
+                            onClick={chooseImage}
+                            src={data.image}
+                            alt={data.title + " picture"}/>
                         <div className="vacation-header-content">
                             <DateRange input
                                 values={[data.start_date, data.end_date]}

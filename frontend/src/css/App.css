@@ -435,3 +435,11 @@ p {
 .remove-trip-button svg:hover {
     color: #E55;
 }
+
+.img-hover {
+    transition: ease .15s;
+}
+
+.img-hover:hover {
+    opacity: 0.85;
+}
