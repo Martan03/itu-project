@@ -66,7 +66,7 @@ function RenderMap(props) {
 function TripDetails(props) {
     return (
         <div className="vacation-header">
-            <div className="vacation-header-content">
+            <div className="vacation-header-content trip">
                 <DateRangeInput data={props.trip} save={saveTrip} />
                 <TitleInput
                     data={props.trip}

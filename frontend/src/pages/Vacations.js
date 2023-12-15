@@ -23,6 +23,7 @@ function Vacations(props) {
                 time={search ? 0 : props.time}
                 search={search}
             />
+            <button className="add-button">+</button>
         </Layout>
     );
 }
