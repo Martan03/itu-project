@@ -34,6 +34,7 @@ function fetchAPI(setData, setLoading, setErr, url) {
  * Sends data to the database to be saved
  * @param {Object} data - data to be saved
  * @param {String} url - URL to the API endpoint
+ * @return ID of the created item
  */
 function saveAPI(data, url) {
     return fetch(`${API_URL}${url}`, {
@@ -126,6 +127,7 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
 /**
  * Saves given vacation to the database
  * @param {Object} vacation - vacation to be saved
+ * @return ID of the created vacation
  */
 function saveVacation(vacation) {
     if (vacation.start_date)
@@ -140,6 +142,7 @@ function saveVacation(vacation) {
 /**
  * Saves given trip to the database
  * @param {Object} trip - trip to be saved
+ * @return ID of the created trip
  */
 function saveTrip(trip) {
     if (trip.start_date)
@@ -154,6 +157,7 @@ function saveTrip(trip) {
 /**
  * Saves given stop to the database
  * @param {Object} stop - stop to be saved
+ * @return ID of the created stop
  */
 function saveStop(stop) {
     return saveAPI(stop, "/api/stop");
