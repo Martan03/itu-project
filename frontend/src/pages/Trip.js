@@ -10,28 +10,52 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from "../Layout";
 import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
-import { getTripWithStops, saveTrip, saveStop } from "../Db.js";
+import { getTripWithStops, saveTrip, saveStop, saveVacation } from "../Db.js";
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
 
 /// Renders map with route given by stops
 function RenderMap(props) {
-    // Gets stops coordinates
-    const coords = props.stops.map(stop => (
-        [stop.lng, stop.lat]
-    ));
+    const [coords, setCoords] = useState([]);
+    useEffect(() => {
+        // Converts stops coordinates to coordinates array
+        setCoords(props.stops.stops.map(stop => (
+            [stop.lng, stop.lat]
+        )));
+    }, [props.stops.stops]);
+
+    // Adds new stop and saves it
+    const addStop = (lngLat) => {
+        var newStop = {
+            id: null,
+            title: '',
+            description: '',
+            lng: lngLat.lng,
+            lat: lngLat.lat,
+            trip_id: props.id,
+        }
+        saveStop(newStop).then((id) => {
+            newStop.id = id
+            props.stops.setStops(prevStops => [
+                ...prevStops,
+                newStop,
+            ]);
+        });
+    }
 
     return (
         <Map
+            key={coords.length}
             size={{height: '100%', width: '100%'}}
-            showRoute={true}
             {...(coords.length >= 2 && {
+                showRoute: true,
                 coordsStart: coords[0],
                 coordsEnd: coords[coords.length - 1],
-                travelType: 'car_fast'
+                travelType: 'car_fast',
+                waypointsArr: coords.slice(1, -1)
             })}
             lang={'cs'}
-            waypointsArr={coords.slice(1, -1)}
+            onClick={addStop}
         />
     )
 }
@@ -57,18 +81,21 @@ function TripDetails(props) {
 
 /// Component to display trip stop
 function Stop(props) {
-    const [stop, setStop] = useState(props.stop);
-
-    useEffect(() => {
-        setStop(props.stop);
-    }, [props.stop])
-
+    // Sets stops with update stop value
     const setData = (val) => {
-        setStop(val);
-
-        var arr = props.stops.stops;
+        var arr = [...props.stops.stops];
         arr[props.index] = val;
         props.stops.setStops(arr);
+    }
+
+    // Saves stop and sets id when created
+    const save = (stop) => {
+        saveStop(stop).then((id) => {
+            if (!id)
+                return;
+            stop.id = id;
+            setData(stop);
+        });
     }
 
     return (
@@ -77,13 +104,13 @@ function Stop(props) {
                  alt={props.stop.title + " picture"} />
             <div className="card-content">
                 <TitleInput
-                    data={{data: stop, setData}}
-                    save={saveStop}
+                    data={{data: props.stop, setData}}
+                    save={save}
                     small={true}
                 />
                 <DescInput
-                    data={{data: stop, setData}}
-                    save={saveStop}
+                    data={{data: props.stop, setData}}
+                    save={save}
                 />
             </div>
         </div>
@@ -94,7 +121,7 @@ function Stop(props) {
 function StopsList(props) {
     return props.stops.stops.map((stop, index) => (
         <Stop
-            key={stop.id}
+            key={index}
             stop={stop}
             stops={props.stops}
             index={index}
@@ -135,7 +162,7 @@ function Trip(props) {
             { trip && stops && (
                 <div className="trip-layout">
                     <div className="trip-map">
-                        <RenderMap stops={stops} />
+                        <RenderMap stops={{stops, setStops}} id={id} />
                     </div>
                     <div className="trip-layout-details">
                         <TripDetails trip={{data: trip, setData: setTrip}} />

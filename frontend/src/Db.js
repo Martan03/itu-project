@@ -37,8 +37,8 @@ function fetchAPI(setData, setLoading, setErr, url) {
  * @param {Object} data - data to be saved
  * @param {String} url - URL to the API endpoint
  */
-function saveAPI(data, url) {
-    fetch(`${API_URL}${url}`, {
+function saveAPI(data, url, setData) {
+    return fetch(`${API_URL}${url}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -48,6 +48,10 @@ function saveAPI(data, url) {
         .then((res) => {
             if (!res.ok)
                 throw new Error(res.status);
+            return res.json();
+        })
+        .then((data) => {
+            return data.id;
         })
         .catch((err) => {
             console.error(err);
@@ -107,14 +111,31 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
 }
 
 /**
+ * Saves given vacation to the database
+ * @param {Object} vacation - vacation to be saved
+ */
+function saveVacation(vacation) {
+    if (vacation.start_date)
+        vacation.start_date = moment(vacation.start_date).format('YYYY-MM-DD');
+    if (vacation.end_date)
+        vacation.end_date = moment(vacation.end_date).format('YYYY-MM-DD');
+
+    console.log(vacation);
+    return saveAPI(vacation, "/api/vacation");
+}
+
+/**
  * Saves given trip to the database
  * @param {Object} trip - trip to be saved
  */
 function saveTrip(trip) {
-    trip.start_date = moment(trip.start_date).format('YYYY-MM-DD HH:mm:ss');
-    trip.end_date = moment(trip.end_date).format('YYYY-MM-DD HH:mm:ss');
+    if (trip.start_date)
+        trip.start_date = moment(trip.start_date)
+            .format('YYYY-MM-DD HH:mm:ss');
+    if (trip.end_date)
+        trip.end_date = moment(trip.end_date).format('YYYY-MM-DD HH:mm:ss');
 
-    saveAPI(trip, "/api/trip");
+    return saveAPI(trip, "/api/trip");
 }
 
 /**
@@ -122,15 +143,13 @@ function saveTrip(trip) {
  * @param {Object} stop - stop to be saved
  */
 function saveStop(stop) {
-    stop.start_date = moment(stop.start_date).format('YYYY-MM-DD');
-    stop.end_date = moment(stop.end_date).format('YYYY-MM-DD');
-
-    saveAPI(stop, "/api/stop");
+    return saveAPI(stop, "/api/stop");
 }
 
 export {
     getVacations,
     getTripWithStops,
+    saveVacation,
     saveTrip,
     saveStop,
 }
