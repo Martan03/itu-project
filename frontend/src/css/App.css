@@ -117,9 +117,10 @@ p {
 }
 
 .card.stop img {
-    height: 150px;
-    width: 225px;
+    max-height: 110px;
+    max-width: 200px;
     border-radius: 10px;
+    margin: auto;
 }
 
 .card-content {
@@ -159,6 +160,14 @@ p {
     margin-top: 20px;
 }
 
+.card.stop .card-content p {
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .vacation-header {
     width: 100%;
     display: flex;
@@ -181,6 +190,7 @@ p {
     font-weight: normal;
     color: var(--fg-light);
     padding: 6px;
+    padding: 6px;
     font-size: 40px;
 }
 
@@ -190,7 +200,7 @@ p {
 }
 
 .vacation-header-content {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -234,18 +244,16 @@ p {
 .vacation-title-input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
-    font-weight: normal;
-    color: var(--fg-light);
     background-color: var(--dark-250);
     padding: 5px;
-    font-size: 40px;
 }
 
 .vacation-title-input:hover {
     background-color: var(--dark-200);
 }
 
-.vacation-header textarea {
+.vacation-header textarea,
+.card-content textarea {
     font-weight: normal;
     color: var(--fg-light);
     font-size: var(--font-size-18);
@@ -261,53 +269,25 @@ p {
     transition: background-color ease .15s;
 }
 
-.vacation-header textarea:focus {
+.card-content textarea {
+    width: 100%;
+}
+
+.vacation-header textarea:focus,
+.card-content textarea:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
-    color: var(--fg-light);
-    font-size: var(--font-size-18);
-    font-weight: normal;
     background-color: var(--dark-250);
     padding: 5px;
-    flex-grow: 1;
-    font-family: sans-serif;
-    resize: none;
 }
 
-.vacation-header textarea:hover {
+.vacation-header textarea:hover,
+.card-content textarea:hover {
     background-color: var(--dark-200);
-}
-
-.card-content input {
-    color: var(--fg-light);
-    font-weight: normal;
-    font-size: var(--font-size-25);
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
-    flex-grow: 1;
-}
-
-.card-content textarea {
-    margin-top: 10px;
-    flex-grow: 1;
-    color: var(--fg-light);
-    font-size: var(--font-size-18);
-    font-weight: normal;
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
 }
 
 .card-desc-edit {
     display: flex;
-}
-
-.card-content textarea:focus {
-    border: solid 1px var(--prim-light);
-    outline: 0px;
 }
 
 .card-content input:focus {
@@ -317,6 +297,35 @@ p {
 
 .err-content {
     margin-top: 10px;
+}
+
+.trip-layout {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    gap: 10px;
+}
+
+.trip-map {
+    width: calc(100% - 500px);
+}
+
+.trip-layout-details {
+    width: 500px;
+}
+
+@media screen and (max-width: 1250px) {
+    .trip-layout {
+        flex-direction: column;
+    }
+
+    .trip-map {
+        height: 450px;
+        width: 100%;
+    }
+
+    .trip-layout-details {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 1000px) {

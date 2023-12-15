@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import moment from 'moment';
 
 import Layout from "../Layout";
 import TripList from "../components/TripList";

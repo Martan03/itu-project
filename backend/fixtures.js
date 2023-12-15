@@ -60,8 +60,8 @@ function create_vacation_table() {
             id INT AUTO_INCREMENT PRIMARY KEY,
             title TEXT,
             description TEXT,
-            start_date DATE,
-            end_date DATE,
+            start_date DATE NULL,
+            end_date DATE NULL,
             image TEXT
         );
     `;
@@ -97,8 +97,8 @@ function create_trip_table() {
             vacation_id INT,
             title TEXT,
             description TEXT,
-            start_date DATE,
-            end_date DATE,
+            start_date DATETIME NULL,
+            end_date DATETIME NULL,
             FOREIGN KEY (vacation_id) REFERENCES vacation(id) ON DELETE CASCADE
         );
     `;

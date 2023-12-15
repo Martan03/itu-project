@@ -31,8 +31,21 @@ function query(res, query, args = []) {
     db.query(query, args, (err, result) => {
         if (err)
             res.status(500).json(err.message);
-        else
+        else {
             res.send(result);
+        }
+    });
+}
+
+/// Helper insert function, inserts to the database
+function insert(res, table, args = []) {
+    const query = `INSERT INTO ${table} SET ?`;
+    db.query(query, args, (err, result) => {
+        if (err)
+            res.status(500).json(err.message);
+        else {
+            res.json({id: result.insertId});
+        }
     });
 }
 
@@ -204,14 +217,25 @@ app.post("/api/stop", (req, res) => {
         'lng': req.body.lng,
     };
 
-    var sql = "INSERT INTO stop SET ?";
-    var args = [stop];
     if (req.body.id) {
         sql = "UPDATE stop SET ? WHERE id = ?";
         args = [stop, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'stop', [stop]);
     }
 
-    save(res, sql, args);
+});
+
+/// Deletes stop by given ID
+app.delete("/api/trip", (req, res) => {
+    if (!req.query.id) {
+        res.status(400).send("No ID given to delete vacation");
+        return;
+    }
+
+    sql = "DELETE FROM stop WHERE id = ?";
+    query(res, sql, [req.query.id]);
 });
 
 /// Deletes stop by given ID

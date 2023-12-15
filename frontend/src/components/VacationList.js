@@ -1,13 +1,18 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 import { React, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import moment from 'moment';
-import { DateRange } from "./DateRange";
+import { Link } from "react-router-dom";
+
+import { DateRange } from "../components/DateRange";
+import Error from "./Error";
+import { getVacations } from "../Db";
 
 /// Renders vacation
 function Vacation(props) {
-    const from = moment(props.item.start_date).format('DD.MM.');
-    const to = moment(props.item.end_date).format('DD.MM. YYYY');
-
     return (
         <div className="vacation">
             <div className="marker">
@@ -15,7 +20,10 @@ function Vacation(props) {
                 <div className="marker-line"></div>
             </div>
             <div className="data">
-                <DateRange start_date={props.item.start_date} end_date={props.item.end_date}/>
+                <DateRange
+                    start_date={props.item.start_date}
+                    end_date={props.item.end_date}
+                />
                 <Link to={`/vacation?id=${props.item.id}`} className="card">
                     <img src={props.item.image}
                          alt={props.item.title + " picture"} />
@@ -33,28 +41,17 @@ function Vacation(props) {
 function VacationList(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(null);
 
-    const nav = useNavigate();
-
+    // Loads vacations
     useEffect(() => {
-        fetch('http://localhost:3002/api' + props.api)
-            .then((response) => {
-                if (!response.ok)
-                    throw new Error(`Error occurred: ${response.status}`);
-                return response.json();
-            })
-            .then((data) => {
-                setData(data);
-            })
-            .catch((_) => {
-                nav('/500');
-            })
-            .finally(() => setLoading(false));
-    }, [props.api]);
+        getVacations(setData, setLoading, setErr, props.time, props.search);
+    }, [props.time, props.search]);
 
     return (
         <>
             { loading && <h2>Loading...</h2> }
+            { err && <Error /> }
             { data && (
                 data.map(item => (
                     <Vacation key={item.id} item={item} />

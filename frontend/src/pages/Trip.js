@@ -1,28 +1,61 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
-import { DateRange } from "../components/DateRange";
+import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
+import { getTripWithStops, saveTrip, saveStop, saveVacation } from "../Db.js";
+import Error from "../components/Error.js";
+import { DescInput, TitleInput } from "../components/Input";
 
 /// Renders map with route given by stops
 function RenderMap(props) {
-    const coords = props.stops.map(stop => (
-        [stop.lng, stop.lat]
-    ));
+    const [coords, setCoords] = useState([]);
+    useEffect(() => {
+        // Converts stops coordinates to coordinates array
+        setCoords(props.stops.stops.map(stop => (
+            [stop.lng, stop.lat]
+        )));
+    }, [props.stops.stops]);
 
-    if (coords.length < 2)
-        return;
+    // Adds new stop and saves it
+    const addStop = (lngLat) => {
+        var newStop = {
+            id: null,
+            title: '',
+            description: '',
+            lng: lngLat.lng,
+            lat: lngLat.lat,
+            trip_id: props.id,
+        }
+        saveStop(newStop).then((id) => {
+            newStop.id = id
+            props.stops.setStops(prevStops => [
+                ...prevStops,
+                newStop,
+            ]);
+        });
+    }
 
     return (
         <Map
-            size={{height: '450px', width: '100%'}}
-            showRoute={true}
-            coordsStart={coords[0]}
-            coordsEnd={coords[coords.length - 1]}
-            travelType={'car_fast'}
+            key={coords.length}
+            size={{height: '100%', width: '100%'}}
+            {...(coords.length >= 2 && {
+                showRoute: true,
+                coordsStart: coords[0],
+                coordsEnd: coords[coords.length - 1],
+                travelType: 'car_fast',
+                waypointsArr: coords.slice(1, -1)
+            })}
             lang={'cs'}
-            waypointsArr={coords.slice(1, -1)}
+            onClick={addStop}
         />
     )
 }
@@ -30,14 +63,17 @@ function RenderMap(props) {
 /// Renders details of the trip
 function TripDetails(props) {
     return (
-        <div className="vacation-header trip">
+        <div className="vacation-header">
             <div className="vacation-header-content">
-                <DateRange
-                    start_date={props.trip.start_date}
-                    end_date={props.trip.end_date}
+                <DateRangeInput data={props.trip} save={saveTrip} />
+                <TitleInput
+                    data={props.trip}
+                    save={saveTrip}
                 />
-                <h1>{props.trip.title}</h1>
-                <p>{props.trip.description}</p>
+                <DescInput
+                    data={props.trip}
+                    save={saveTrip}
+                />
             </div>
         </div>
     )
@@ -45,13 +81,37 @@ function TripDetails(props) {
 
 /// Component to display trip stop
 function Stop(props) {
+    // Sets stops with update stop value
+    const setData = (val) => {
+        var arr = [...props.stops.stops];
+        arr[props.index] = val;
+        props.stops.setStops(arr);
+    }
+
+    // Saves stop and sets id when created
+    const save = (stop) => {
+        saveStop(stop).then((id) => {
+            if (!id)
+                return;
+            stop.id = id;
+            setData(stop);
+        });
+    }
+
     return (
         <div className="card stop">
             <img src={props.stop.image}
-                    alt={props.stop.title + " picture"} />
+                 alt={props.stop.title + " picture"} />
             <div className="card-content">
-                <h2>{props.stop.title}</h2>
-                <p>{props.stop.description}</p>
+                <TitleInput
+                    data={{data: props.stop, setData}}
+                    save={save}
+                    small={true}
+                />
+                <DescInput
+                    data={{data: props.stop, setData}}
+                    save={save}
+                />
             </div>
         </div>
     )
@@ -59,52 +119,56 @@ function Stop(props) {
 
 /// Renders given stops
 function StopsList(props) {
-    return props.stops.map(stop => (
-        <Stop key={stop.id} stop={stop} />
+    return props.stops.stops.map((stop, index) => (
+        <Stop
+            key={index}
+            stop={stop}
+            stops={props.stops}
+            index={index}
+        />
     ));
 }
 
+/// Renders trip page with its stops
 function Trip(props) {
     const [trip, setTrip] = useState(null);
     const [stops, setStops] = useState(null);
-
     const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(null);
 
+    // Gets trip id from the url
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
 
+    // Redirects to error page when no ID set
     const nav = useNavigate();
 
+    // Loads trip with its stops
     useEffect(() => {
-        const fetchData = async () => {
-            const url = 'http://localhost:3002/api';
-            try {
-                const [trip_res, stop_res] = await Promise.all([
-                    fetch(`${url}/trip?id=${id}`).then(res => res.json()),
-                    fetch(`${url}/stop?trip_id=${id}`).then(res => res.json())
-                ]);
-
-                setTrip(trip_res[0]);
-                setStops(stop_res);
-                setLoading(false);
-            } catch (_) {
-                nav(`/500`);
-            }
-        }
-
-        fetchData();
+        getTripWithStops(setTrip, setStops, setLoading, setErr, id);
     }, [id, nav]);
+
+    // Redirects to 404 when no trip was found
+    useEffect(() => {
+        if (!trip && !loading && !err)
+            nav('/404');
+    }, [trip, loading, err, nav]);
 
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
+            { err && <Error /> }
             { trip && stops && (
-                <>
-                    <RenderMap stops={stops} />
-                    <TripDetails trip={trip} />
-                    <StopsList stops={stops} />
-                </>
+                <div className="trip-layout">
+                    <div className="trip-map">
+                        <RenderMap stops={{stops, setStops}} id={id} />
+                    </div>
+                    <div className="trip-layout-details">
+                        <TripDetails trip={{data: trip, setData: setTrip}} />
+                        <StopsList stops={{stops, setStops}} />
+                    </div>
+                </div>
             )}
         </Layout>
     );
