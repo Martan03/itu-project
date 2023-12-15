@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
-import DateRange from "../components/DateRange";
+import { DateRange } from "../components/DateRange";
 import Map from "../components/Map.js";
 
 /// Renders map with route given by stops

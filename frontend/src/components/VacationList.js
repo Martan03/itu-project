@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
-import DateRange from "./DateRange";
+import { DateRange } from "./DateRange";
 
 /// Renders vacation
 function Vacation(props) {

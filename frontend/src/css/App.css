@@ -226,6 +226,11 @@ p {
     transition: background-color ease .15s;
 }
 
+.vacation-title-input.small {
+    font-size: 25px;
+    width: 100%;
+}
+
 .vacation-title-input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;

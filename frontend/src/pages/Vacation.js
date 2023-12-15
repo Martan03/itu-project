@@ -4,7 +4,8 @@ import moment from 'moment';
 
 import Layout from "../Layout";
 import TripList from "../components/TripList";
-import DateRange from "../components/DateRange";
+import { DateRange } from "../components/DateRange";
+import { TitleInput, DescInput } from "../components/Input";
 
 function saveVacation(vacation) {
     vacation.start_date = moment(vacation.start_date).format("YYYY-MM-DD");
@@ -95,25 +96,17 @@ function Vacation(props) {
                             alt={data.title + " picture"} />
                         <div className="vacation-header-content">
                             <DateRange input
-                                names={["start_date", "end_date"]}
                                 values={[data.start_date, data.end_date]}
                                 onChange={inputChange}
                                 onBlur={saveData}/>
-                            <input
-                                className="vacation-title-input"
-                                value={data.title}
-                                type="text"
+                            <TitleInput
                                 onChange={inputChange}
-                                onKeyDown={confirmTitle}
-                                name="title"
-                                placeholder="Title"
-                                onBlur={saveData}/>
-                            <textarea
-                                value={data.description}
-                                name="description"
+                                onBlur={saveData}
+                                value={data.title}/>
+                            <DescInput
                                 onChange={inputChange}
-                                placeholder="Description"
-                                onBlur={saveData}/>
+                                onBlur={saveData}
+                                value={data.description}/>
                         </div>
                     </div>
                     <Link to={`/edit-vacation?id=${id}`}>

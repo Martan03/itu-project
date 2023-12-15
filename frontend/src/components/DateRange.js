@@ -4,12 +4,23 @@ import 'react-date-picker/dist/DatePicker.css'
 
 function DateInput(props) {
     const onChange = (e) => {
+        if (props.data) {
+            props.data.setData({
+                ...props.data.data,
+                [props.name]: e,
+            });
+        }
+
         if (props.onChange) {
             props.onChange({ target: { value: e, name: props.name } });
         }
     };
 
     const onBlur = (e) => {
+        if (props.save) {
+            props.save(props.data.data);
+        }
+
         if (props.onBlur) {
             if (!e.target.parentElement.parentElement.matches(":focus-within"))
             {
@@ -26,7 +37,7 @@ function DateInput(props) {
         format={props.format ? props.format : "dd.MM.yyyy"}
         onChange={onChange}
         onBlur={onBlur}
-        value={props.value}
+        value={props.data ? props.data.data : props.value}
     />
 }
 
@@ -42,17 +53,26 @@ function DateRange(props) {
 
     return <div className="date-range">
         <DateInput
-            value={props.values[0]}
-            name={props.names[0]}
+            value={props.values ? props.values[0] : null}
+            name={props.names ? props.names[0] : "start_date"}
             onChange={props.onChange}
-            onBlur={props.onBlur}/>
+            onBlur={props.onBlur}
+            data={props.data}
+            save={props.save}/>
         -
         <DateInput
-            value={props.values[1]}
-            name={props.names[1]}
+            value={props.values ? props.values[1] : null}
+            name={props.names ? props.names[1] : "end_date"}
             onChange={props.onChange}
-            onBlur={props.onBlur}/>
+            onBlur={props.onBlur}
+            data={props.data}
+            save={props.save}/>
     </div>
 }
 
-export default DateRange;
+function DateRangeInput(props) {
+    props.input = true;
+    return DateRange(props);
+}
+
+export {DateRange, DateRangeInput, DateInput};
