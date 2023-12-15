@@ -47,20 +47,16 @@ function Vacation(props) {
                 return response.json();
             })
             .then((data) => {
-                setData({
+                let processed_data = {
                     ...data[0],
                     ["start_date"]:
                         moment(data[0].start_date).format("YYYY-MM-DD"),
                     ["end_date"]:
                         moment(data[0].end_date).format("YYYY-MM-DD"),
-                });
-                setSavedData({
-                    ...data[0],
-                    ["start_date"]:
-                        moment(data[0].start_date).format("YYYY-MM-DD"),
-                    ["end_date"]:
-                        moment(data[0].end_date).format("YYYY-MM-DD"),
-                });
+                };
+
+                setData(processed_data);
+                setSavedData(processed_data);
             })
             .catch((_) => {
                 nav(`/500`);
@@ -82,18 +78,6 @@ function Vacation(props) {
         setAnyChange(value !== savedData[name]);
     };
 
-    const startDateChange = (e) => {
-        let value = moment(e).format("YYYY-MM-DD");
-        setData({ ...data, ["start_date"]: value });
-        setAnyChange(data.start_date !== value);
-    };
-
-    const endDateChange = (e) => {
-        let value = moment(e).format("YYYY-MM-DD");
-        setData({ ...data, ["end_date"]: value });
-        setAnyChange(data.end_date !== value);
-    };
-
     const saveData = () => {
         if (anyChange) {
             saveVacation(data);
@@ -111,14 +95,11 @@ function Vacation(props) {
                         <img src={data.image}
                             alt={data.title + " picture"} />
                         <div className="vacation-header-content">
-                            <DateRange
-                                start_date={data.start_date}
-                                end_date={data.end_date}
-                                onStartChange={startDateChange}
-                                onStartBlur={saveData}
-                                onEndChange={endDateChange}
-                                onEndBlur={saveData}
-                                editable/>
+                            <DateRange input
+                                names={["start_date", "end_date"]}
+                                values={[data.start_date, data.end_date]}
+                                onChange={inputChange}
+                                onBlur={saveData}/>
                             <input
                                 className="vacation-title-input"
                                 value={data.title}

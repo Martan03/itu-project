@@ -1,10 +1,38 @@
 import moment from 'moment';
 import DatePicker from "react-date-picker";
-import 'react-date-picker/dist/DatePicker.css';
+import 'react-date-picker/dist/DatePicker.css'
+
+function DateInput(props) {
+    const onChange = (e) => {
+        if (props.onChange) {
+            props.onStartChange({ target: { value: e, name: props.name } });
+        }
+    };
+
+    const onBlur = (e) => {
+        if (props.onStartBlur) {
+            if (!e.target.parentElement.parentElement.matches(":focus-within"))
+            {
+                props.onStartBlur({target: { name: props.name }});
+            }
+        }
+    };
+
+    return <DatePicker
+        calendarIcon={null}
+        clearIcon={null}
+        disableCalendar
+        className="date-picker"
+        format={props.format ? props.format : "dd.MM.yyyy"}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={props.value}
+    />
+}
 
 /// Renders date range of given dates
 function DateRange(props) {
-    if (!props.editable) {
+    if (!props.input) {
         const from = moment(props.start_date).format('DD.MM.');
         const to = moment(props.end_date).format('DD.MM. YYYY');
         return props.start_date == props.end_date
@@ -12,58 +40,18 @@ function DateRange(props) {
             : <p className="date">{from} - {to}</p>;
     }
 
-    const onStartChange = (e) => {
-        if (props.onStartChange) {
-            props.onStartChange(e);
-        }
-    };
-
-    const onEndChange = (e) => {
-        if (props.onEndChange) {
-            props.onEndChange(e);
-        }
-    };
-
-    const onStartBlur = (e) => {
-        if (props.onStartBlur) {
-            if (!e.target.parentElement.parentElement.matches(":focus-within"))
-            {
-                props.onStartBlur();
-            }
-        }
-    };
-
-    const onEndBlur = (e) => {
-        if (props.onStartBlur) {
-            if (!e.target.parentElement.parentElement.matches(":focus-within"))
-            {
-                props.onEndBlur();
-            }
-        }
-    };
-
     return <div className="date-range">
-        <DatePicker
-            calendarIcon={null}
-            clearIcon={null}
-            disableCalendar
-            className="date-picker"
-            format="dd.MM.yyyy"
-            onChange={onStartChange}
-            onBlur={onStartBlur}
-            value={props.start_date}
-        />
+        <DateInput
+            value={props.values[0]}
+            name={props.names[0]}
+            onChange={props.onChange}
+            onBlur={props.onBlur}/>
         -
-        <DatePicker
-            calendarIcon={null}
-            clearIcon={null}
-            disableCalendar
-            className="date-picker"
-            format="dd.MM.yyyy"
-            onChange={onEndChange}
-            onBlur={onEndBlur}
-            value={props.end_date}
-        />
+        <DateInput
+            value={props.values[1]}
+            name={props.names[1]}
+            onChange={props.onChange}
+            onBlur={props.onBlur}/>
     </div>
 }
 
