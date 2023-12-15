@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import moment from 'moment';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from "../Layout";
 import TripList from "../components/TripList";
@@ -32,17 +31,15 @@ function Vacation(props) {
         setData(v);
     };
 
-    const mapTrips = t => {
-        updateTrips(t.map(t => {
-            t.start_date = new Date(t.start_date);
-            t.end_date = new Date(t.end_date);
-            return t;
-        }));
-    }
-
     useEffect(() => getVacationWithTrips(
         mapVacation,
-        mapTrips,
+        t => {
+            updateTrips(t.map(t => {
+                t.start_date = new Date(t.start_date);
+                t.end_date = new Date(t.end_date);
+                return t;
+            }));
+        },
         setLoading,
         e => console.error(e),
         id
@@ -80,7 +77,7 @@ function Vacation(props) {
             reader.readAsDataURL(file);
 
             reader.onload = e => {
-                setData({...data, ["image"]: e.target.result});
+                setData({...data, image: e.target.result});
                 // TODO: saveVacation(data2);
             }
         }
