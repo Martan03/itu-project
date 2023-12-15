@@ -84,7 +84,12 @@ function Vacation(props) {
             setSavedData(data);
             setAnyChange(false);
         }
-    }
+    };
+
+    const newTrip = () => {
+        console.log("new trip");
+        // TODO
+    };
 
     return (
         <Layout search={props.search} menu={props.menu}>
@@ -109,12 +114,23 @@ function Vacation(props) {
                                 value={data.description}/>
                         </div>
                     </div>
-                    <Link to={`/edit-vacation?id=${id}`}>
-                        <button className="bottom-right-float">Edit</button>
-                    </Link>
                 </>
             )}
             <TripList api={`/trip?vacation_id=${id}`} />
+
+            <div className="vacation">
+                <div className="marker">
+                    <div className="marker-circle"></div>
+                    <div className="marker-line"></div>
+                </div>
+                <div className="data trip">
+                    <button
+                        className="dark-button add-trip-button"
+                        onClick={newTrip}>
+                        <h1>Add Trip</h1>
+                    </button>
+                </div>
+            </div>
         </Layout>
     );
 }

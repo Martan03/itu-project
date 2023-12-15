@@ -9,7 +9,6 @@ import UpcomingVacations from "./pages/UpcomingVacations";
 import Vacations from "./pages/Vacations";
 import Vacation from "./pages/Vacation";
 import Trip from "./pages/Trip";
-import EditVacation from "./pages/EditVacation";
 
 import NotFound from "./pages/error/NotFound.js";
 import ServerError from "./pages/error/ServerError.js";
@@ -63,12 +62,6 @@ function App() {
                 }/>
                 <Route path='/trip' element={
                     <Trip
-                        search={{query, setQuery}}
-                        menu={{small, setSmall, menuVis, setMenuVis}}
-                    />
-                }/>
-                <Route path='/edit-vacation' element={
-                    <EditVacation
                         search={{query, setQuery}}
                         menu={{small, setSmall, menuVis, setMenuVis}}
                     />

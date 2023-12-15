@@ -392,3 +392,23 @@ p {
 .date-range {
     color: var(--fg-darker);
 }
+
+.dark-button {
+    background-color: var(--dark-250);
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    color: var(--fg-dark);
+}
+
+.add-trip-button {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1300px;
+    height: 98px;
+    transition: background-color ease .15s;
+}
+
+.add-trip-button:hover {
+    background-color: var(--dark-300);
+}
