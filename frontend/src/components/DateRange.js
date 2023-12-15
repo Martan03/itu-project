@@ -77,8 +77,7 @@ function DateRange(props) {
 }
 
 function DateRangeInput(props) {
-    props.input = true;
-    return DateRange(props);
+    return DateRange({...props, ["input"]: true});
 }
 
 export {DateRange, DateRangeInput, DateInput};
