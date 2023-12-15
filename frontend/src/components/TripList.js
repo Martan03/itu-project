@@ -41,6 +41,7 @@ function Trip(props) {
 
     const inputConfirm = () => {
         if (anyChange) {
+            props.setTrip(data);
             saveTrip(data);
             setSavedData(data);
             setAnyChange(false);
@@ -95,13 +96,20 @@ function TripList(props) {
         deleteTrip(t.id);
     };
 
+    const setTrip = idx => t => {
+        let trips = [...data];
+        trips[idx] = t;
+        setData(trips);
+    }
+
     return (
         <>
             { data && (
                 data.length ? (
-                    data.map(item => (
+                    data.map((item, idx) => (
                         <Trip
                             removeTrip={removeTrip}
+                            setTrip={setTrip(idx)}
                             item={item}
                             key={item.id}
                             vacation_id={props.id}/>

@@ -6,19 +6,25 @@ import Layout from "../Layout";
 import TripList from "../components/TripList";
 import { DateRange } from "../components/DateRange";
 import { TitleInput, DescInput } from "../components/Input";
-import { saveVacation, getVacationWithTrips } from "../Db";
+import { saveVacation, getVacationWithTrips, saveTrip } from "../Db";
 
 function Vacation(props) {
-    console.log("hi");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [savedData, setSavedData] = useState(null);
     const [anyChange, setAnyChange] = useState(false);
     const [trips, setTrips] = useState([]);
 
+    const nav = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
+
+    const updateTrips = t => {
+        let arr = [...t];
+        arr.sort((a, b) => a.start_date - b.start_date);
+        setTrips(arr);
+    }
 
     const mapVacation = v => {
         v.start_date = new Date(v.start_date);
@@ -27,7 +33,7 @@ function Vacation(props) {
     };
 
     const mapTrips = t => {
-        setTrips(t.map(t => {
+        updateTrips(t.map(t => {
             t.start_date = new Date(t.start_date);
             t.end_date = new Date(t.end_date);
             return t;
@@ -57,8 +63,10 @@ function Vacation(props) {
     };
 
     const newTrip = () => {
-        console.log("new trip");
-        // TODO
+        saveTrip({}).then(id => {
+            console.log(id);
+            nav(`/trip?id=${id}`);
+        });
     };
 
     const chooseImage = () => {
@@ -108,7 +116,7 @@ function Vacation(props) {
                     </div>
                 </>
             )}
-            <TripList id={id} trips={trips} setTrips={setTrips} />
+            <TripList id={id} trips={trips} setTrips={updateTrips} />
 
             <div className="vacation">
                 <div className="marker">
