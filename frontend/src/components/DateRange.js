@@ -26,7 +26,8 @@ function DateRange(props) {
 
     const onStartBlur = (e) => {
         if (props.onStartBlur) {
-            if (!e.target.parentElement.parentElement.matches(":focus-within")) {
+            if (!e.target.parentElement.parentElement.matches(":focus-within"))
+            {
                 props.onStartBlur();
             }
         }
@@ -34,7 +35,8 @@ function DateRange(props) {
 
     const onEndBlur = (e) => {
         if (props.onStartBlur) {
-            if (!e.target.parentElement.parentElement.matches(":focus-within")) {
+            if (!e.target.parentElement.parentElement.matches(":focus-within"))
+            {
                 props.onEndBlur();
             }
         }
