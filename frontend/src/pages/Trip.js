@@ -10,9 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from "../Layout";
 import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
-import { getTripWithStops, saveTrip, saveStop, saveVacation } from "../Db.js";
+import { getTripWithStops, saveTrip, saveStop, deleteStop } from "../Db.js";
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
+
+import { ReactComponent as BinIcon } from '../icons/bin.svg';
 
 /// Renders map with route given by stops
 function RenderMap(props) {
@@ -98,11 +100,20 @@ function Stop(props) {
         });
     }
 
+    // Deletes stop
+    const delStop = () => {
+        deleteStop(props.stop.id)
+        const stops = [...props.stops.stops];
+        stops.splice(props.index, 1);
+        props.stops.setStops(stops);
+    }
+
     return (
         <div className="card stop">
             <img src={props.stop.image}
                  alt={props.stop.title + " picture"} />
             <div className="card-content">
+                <BinIcon className="remove-btn" onClick={delStop} />
                 <TitleInput
                     data={{data: props.stop, setData}}
                     save={save}

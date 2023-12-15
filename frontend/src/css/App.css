@@ -126,6 +126,7 @@ p {
 .card-content {
     width: 100%;
     padding: 15px 20px;
+    position: relative;
 }
 
 .card-expand {
@@ -311,6 +312,14 @@ p {
 
 .trip-layout-details {
     width: 500px;
+}
+
+.remove-btn {
+    max-width: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1250px) {

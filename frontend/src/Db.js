@@ -22,14 +22,12 @@ function fetchAPI(setData, setLoading, setErr, url) {
                 throw new Error(res.status);
             return res.json();
         })
-        .then((data) => {
-            setData(data);
-        })
+        .then(data => setData(data))
         .catch((err) => {
             setData(null);
             setErr(err.message);
         })
-        .finally(() => setLoading(false));
+        .finally(setLoading(false));
 }
 
 /**
@@ -37,7 +35,7 @@ function fetchAPI(setData, setLoading, setErr, url) {
  * @param {Object} data - data to be saved
  * @param {String} url - URL to the API endpoint
  */
-function saveAPI(data, url, setData) {
+function saveAPI(data, url) {
     return fetch(`${API_URL}${url}`, {
         method: 'POST',
         headers: {
@@ -50,12 +48,27 @@ function saveAPI(data, url, setData) {
                 throw new Error(res.status);
             return res.json();
         })
-        .then((data) => {
-            return data.id;
+        .then(data => data.id)
+        .catch(err => console.error(err.message));
+}
+
+/**
+ * Deletes from the database
+ * @param {Number} id - id of the item to be deleted
+ * @param {String} url - url of the API endpoint
+ */
+function deleteAPI(id, url) {
+    fetch(`${API_URL}${url}?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then((res) => {
+            if (!res.ok)
+                throw new Error(res.status);
         })
-        .catch((err) => {
-            console.error(err);
-        })
+        .catch(err => console.error(err.message));
 }
 
 /**
@@ -146,10 +159,37 @@ function saveStop(stop) {
     return saveAPI(stop, "/api/stop");
 }
 
+/**
+ * Deletes vacation from the database
+ * @param {Number} id - id of the vacation to be removed
+ */
+function deleteVacation(id) {
+    deleteAPI(id, "/api/vacation");
+}
+
+/**
+ * Deletes trip from the database
+ * @param {Number} id - id of the trip to be removed
+ */
+function deleteTrip(id) {
+    deleteAPI(id, "/api/trip");
+}
+
+/**
+ * Deletes stop from the database
+ * @param {Number} id - id of the stop to be removed
+ */
+function deleteStop(id) {
+    deleteAPI(id, "/api/stop");
+}
+
 export {
     getVacations,
     getTripWithStops,
     saveVacation,
     saveTrip,
     saveStop,
+    deleteVacation,
+    deleteTrip,
+    deleteStop,
 }

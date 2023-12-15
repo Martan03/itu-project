@@ -228,7 +228,7 @@ app.post("/api/stop", (req, res) => {
 });
 
 /// Deletes stop by given ID
-app.delete("/api/trip", (req, res) => {
+app.delete("/api/stop", (req, res) => {
     if (!req.query.id) {
         res.status(400).send("No ID given to delete vacation");
         return;
