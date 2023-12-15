@@ -9,6 +9,7 @@ import { TitleInput, DescInput } from "../components/Input";
 import { saveVacation, getVacationWithTrips } from "../Db";
 
 function Vacation(props) {
+    console.log("hi");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [savedData, setSavedData] = useState(null);
@@ -18,8 +19,6 @@ function Vacation(props) {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
-
-    const nav = useNavigate();
 
     const mapVacation = v => {
         v.start_date = new Date(v.start_date);
@@ -35,13 +34,13 @@ function Vacation(props) {
         }));
     }
 
-    getVacationWithTrips(
+    useEffect(() => getVacationWithTrips(
         mapVacation,
         mapTrips,
         setLoading,
         e => console.error(e),
         id
-    );
+    ), [id]);
 
     const inputChange = (e) => {
         const { name, value } = e.target;
