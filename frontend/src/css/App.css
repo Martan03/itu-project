@@ -412,3 +412,25 @@ p {
 .add-trip-button:hover {
     background-color: var(--dark-300);
 }
+
+.trip-list-header {
+    display: flex;
+}
+
+.trip-list-header .date-range {
+    flex-grow: 1;
+}
+
+.remove-trip-button {
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    margin-right: 10px;
+    color: var(--fg-dark);
+}
+
+.remove-trip-button svg:hover {
+    color: #E55;
+}

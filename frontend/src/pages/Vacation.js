@@ -116,7 +116,7 @@ function Vacation(props) {
                     </div>
                 </>
             )}
-            <TripList api={`/trip?vacation_id=${id}`} />
+            <TripList id={id} />
 
             <div className="vacation">
                 <div className="marker">
