@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
+import { saveTrip, deleteTrip } from "../Db";
 
 /// Fetches data from API from given url
 /// requires setData, setError, setLoading to set corresponding values
@@ -24,54 +25,6 @@ async function FetchApi(url, setData, setLoading, nav) {
             nav('/500');
         })
         .finally(() => setLoading(false));
-}
-
-function saveTrip(trip) {
-    trip.start_date = moment(trip.start_date).format("YYYY-MM-DD");
-    trip.end_date = moment(trip.end_date).format("YYYY-MM-DD");
-    const save = async () => {
-        try {
-            const res = await fetch('http://localhost:3002/api/trip', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(trip),
-            });
-
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
-    save();
-}
-
-function deleteTrip(trip) {
-    trip.start_date = moment(trip.start_date).format("YYYY-MM-DD");
-    trip.end_date = moment(trip.end_date).format("YYYY-MM-DD");
-    const remove = async () => {
-        try {
-            const res = await fetch(
-                `http://localhost:3002/api/trip?id=${trip.id}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
-            );
-
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
-    remove();
 }
 
 /// Renders given trip and its stops
@@ -133,25 +86,17 @@ function Trip(props) {
 
 /// Renders vacation trips list
 function TripList(props) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const nav = useNavigate();
-
-    useEffect(() => {
-        FetchApi(`/trip?vacation_id=${props.id}`, setData, setLoading, nav);
-    }, [`/trip?vacation_id=${props.id}`, nav]);
+    let data = props.trips;
+    let setData = props.setTrips;
 
     const removeTrip = (t) => {
         console.log("removing ", t.id);
-        let idx = data.findIndex((i) => i.id === t.id);
-        setData(data.splice(idx, 1));
-        deleteTrip(t);
+        setData(data.filter(i => i.id !== t.id));
+        deleteTrip(t.id);
     };
 
     return (
         <>
-            { loading && <h1>Loading...</h1> }
             { data && (
                 data.length ? (
                     data.map(item => (

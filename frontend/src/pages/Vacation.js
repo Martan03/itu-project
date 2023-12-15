@@ -6,35 +6,14 @@ import Layout from "../Layout";
 import TripList from "../components/TripList";
 import { DateRange } from "../components/DateRange";
 import { TitleInput, DescInput } from "../components/Input";
-
-function saveVacation(vacation) {
-    vacation.start_date = moment(vacation.start_date).format("YYYY-MM-DD");
-    vacation.end_date = moment(vacation.end_date).format("YYYY-MM-DD");
-    const save = async () => {
-        try {
-            const res = await fetch('http://localhost:3002/api/vacation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(vacation),
-            });
-
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
-    save();
-}
+import { saveVacation, getVacationWithTrips } from "../Db";
 
 function Vacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [savedData, setSavedData] = useState(null);
     const [anyChange, setAnyChange] = useState(false);
+    const [trips, setTrips] = useState([]);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -42,35 +21,27 @@ function Vacation(props) {
 
     const nav = useNavigate();
 
-    useEffect(() => {
-        fetch(`http://localhost:3002/api/vacation?id=${id}`)
-            .then((response) => {
-                if (!response.ok)
-                    throw new Error(`Error occurred: ${response.status}`);
-                return response.json();
-            })
-            .then((data) => {
-                let pdata = {
-                    ...data[0],
-                    ["start_date"]: new Date(data[0].start_date),
-                    ["end_date"]: new Date(data[0].end_date),
-                }
-                setData(pdata);
-                setSavedData(pdata);
-            })
-            .catch((_) => {
-                nav(`/500`);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, [id, nav]);
-
-    const confirmTitle = (e) => {
-        if (e.key === "Enter") {
-            e.target.blur()
-        }
+    const mapVacation = v => {
+        v.start_date = new Date(v.start_date);
+        v.end_date = new Date(v.end_date);
+        setData(v);
     };
+
+    const mapTrips = t => {
+        setTrips(t.map(t => {
+            t.start_date = new Date(t.start_date);
+            t.end_date = new Date(t.end_date);
+            return t;
+        }));
+    }
+
+    getVacationWithTrips(
+        mapVacation,
+        mapTrips,
+        setLoading,
+        e => console.error(e),
+        id
+    );
 
     const inputChange = (e) => {
         const { name, value } = e.target;
@@ -138,7 +109,7 @@ function Vacation(props) {
                     </div>
                 </>
             )}
-            <TripList id={id} />
+            <TripList id={id} trips={trips} setTrips={setTrips} />
 
             <div className="vacation">
                 <div className="marker">
