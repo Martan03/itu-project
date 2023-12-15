@@ -35,8 +35,12 @@ function Vacation(props) {
         mapVacation,
         t => {
             updateTrips(t.map(t => {
-                t.start_date = new Date(t.start_date);
-                t.end_date = new Date(t.end_date);
+                if (t.start_date) {
+                    t.start_date = new Date(t.start_date);
+                }
+                if (t.end_date) {
+                    t.end_date = new Date(t.end_date);
+                }
                 return t;
             }));
         },
@@ -60,7 +64,7 @@ function Vacation(props) {
     };
 
     const newTrip = () => {
-        saveTrip({}).then(id => {
+        saveTrip({vacation_id: id}).then(id => {
             console.log(id);
             nav(`/trip?id=${id}`);
         });
