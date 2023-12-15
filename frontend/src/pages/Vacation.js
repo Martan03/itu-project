@@ -30,6 +30,8 @@ function saveVacation(vacation) {
 function Vacation(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [savedData, setSavedData] = useState(null);
+    const [anyChange, setAnyChange] = useState(false);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -52,11 +54,20 @@ function Vacation(props) {
                     ["end_date"]:
                         moment(data[0].end_date).format("YYYY-MM-DD"),
                 });
+                setSavedData({
+                    ...data[0],
+                    ["start_date"]:
+                        moment(data[0].start_date).format("YYYY-MM-DD"),
+                    ["end_date"]:
+                        moment(data[0].end_date).format("YYYY-MM-DD"),
+                });
             })
             .catch((_) => {
                 nav(`/500`);
             })
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+            });
     }, [id, nav]);
 
     const confirmTitle = (e) => {
@@ -68,18 +79,27 @@ function Vacation(props) {
     const inputChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
+        setAnyChange(value !== savedData[name]);
     };
 
     const startDateChange = (e) => {
-        setData({ ...data, ["start_date"]: moment(e).format("YYYY-MM-DD") });
+        let value = moment(e).format("YYYY-MM-DD");
+        setData({ ...data, ["start_date"]: value });
+        setAnyChange(data.start_date !== value);
     };
 
     const endDateChange = (e) => {
-        setData({ ...data, ["end_date"]: moment(e).format("YYYY-MM-DD") });
+        let value = moment(e).format("YYYY-MM-DD");
+        setData({ ...data, ["end_date"]: value });
+        setAnyChange(data.end_date !== value);
     };
 
     const saveData = () => {
-        saveVacation(data);
+        if (anyChange) {
+            saveVacation(data);
+            setSavedData(data);
+            setAnyChange(false);
+        }
     }
 
     return (
