@@ -4,8 +4,7 @@ import moment from 'moment';
 
 import Layout from "../Layout";
 import TripList from "../components/TripList";
-import DatePicker from "react-date-picker";
-import 'react-date-picker/dist/DatePicker.css';
+import DateRange from "../components/DateRange";
 
 function saveVacation(vacation) {
     const save = async () => {
@@ -26,53 +25,6 @@ function saveVacation(vacation) {
         }
     }
     save();
-}
-
-/// Renders vacation date
-function VacationDate(props) {
-    const [startDate, setStartDate] = useState(props.start_date);
-    const [endDate, setEndDate] = useState(props.end_date);
-
-    const changeStartDate = (e) => {
-        setStartDate(e);
-    }
-
-    const changeEndDate = (e) => {
-        setEndDate(e);
-    }
-
-    const saveStartDate = () => {
-        props.saveStartDate(startDate);
-    }
-
-    const saveEndDate = () => {
-        props.saveEndDate(startDate);
-    }
-
-    return <div className="date-range">
-        <DatePicker
-            calendarIcon={null}
-            clearIcon={null}
-            disableCalendar
-            className="date-picker"
-            format="dd.MM.yyyy"
-            onChange={changeStartDate}
-            onBlur={saveStartDate}
-            value={startDate}
-        />
-        -
-        <DatePicker
-            calendarIcon={null}
-            clearIcon={null}
-            disableCalendar
-            className="date-picker"
-            format="dd.MM.yyyy"
-            onChange={changeEndDate}
-            onBlur={saveEndDate}
-            value={endDate}
-        />
-    </div>
-
 }
 
 function Vacation(props) {
@@ -111,27 +63,24 @@ function Vacation(props) {
         if (e.key === "Enter") {
             e.target.blur()
         }
-    }
+    };
 
     const inputChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
-    }
+    };
 
-    const stopEditDesc = () => {
-        saveVacation(data);
+    const startDateChange = (e) => {
+        setData({ ...data, ["start_date"]: moment(e).format("YYYY-MM-DD") });
     };
-    const stopEditTitle = () => {
-        saveVacation(data);
+
+    const endDateChange = (e) => {
+        setData({ ...data, ["end_date"]: moment(e).format("YYYY-MM-DD") });
     };
-    const saveStartDate = (d) => {
-        setData({ ...data, ["start_date"]: moment(d).format("YYYY-MM-DD") });
+
+    const saveData = () => {
         saveVacation(data);
-    };
-    const saveEndDate = (d) => {
-        setData({ ...data, ["end_date"]: moment(d).format("YYYY-MM-DD") });
-        saveVacation(data);
-    };
+    }
 
     return (
         <Layout search={props.search} menu={props.menu}>
@@ -142,11 +91,14 @@ function Vacation(props) {
                         <img src={data.image}
                             alt={data.title + " picture"} />
                         <div className="vacation-header-content">
-                            <VacationDate
+                            <DateRange
                                 start_date={data.start_date}
                                 end_date={data.end_date}
-                                saveStartDate={saveStartDate}
-                                saveEndDate={saveEndDate}/>
+                                onStartChange={startDateChange}
+                                onStartBlur={saveData}
+                                onEndChange={endDateChange}
+                                onEndBlur={saveData}
+                                editable/>
                             <input
                                 className="vacation-title-input"
                                 value={data.title}
@@ -155,13 +107,13 @@ function Vacation(props) {
                                 onKeyDown={confirmTitle}
                                 name="title"
                                 placeholder="Title"
-                                onBlur={stopEditTitle}/>
+                                onBlur={saveData}/>
                             <textarea
                                 value={data.description}
                                 name="description"
                                 onChange={inputChange}
                                 placeholder="Description"
-                                onBlur={stopEditDesc}/>
+                                onBlur={saveData}/>
                         </div>
                     </div>
                     <Link to={`/edit-vacation?id=${id}`}>
