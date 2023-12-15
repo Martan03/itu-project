@@ -415,6 +415,7 @@ p {
 
 .trip-list-header {
     display: flex;
+    max-width: 1300px;
 }
 
 .trip-list-header .date-range {
