@@ -112,7 +112,7 @@ async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, way
 
         url.searchParams.set('apikey', API_KEY);
         url.searchParams.set('lang', lang);
-        url.searchParams.set('start', coordsStart.join(','));
+        url.searchParams.set('start', `${coordsStart[0] + 0.5},${coordsStart[1] - 1}`);
         url.searchParams.set('end', coordsEnd.join(','));
 
         if (waypointsArr && waypointsArr.length > 0) {
@@ -145,9 +145,64 @@ async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, way
 
         if (source && json.geometry) {
             source.setData(json.geometry);
+
+            const exist = map.getLayer('route-layer')
+            if (exist)
+                map.removeLayer('route-layer');
+
+            map.addLayer({
+                id: 'route-layer',
+                type: 'line',
+                source: 'route-geometry',
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#0033ff',
+                    'line-width': 8,
+                    'line-opacity': 0.6,
+                }
+            })
             // shows the whole geometry in the viewport
             map.jumpTo(map.cameraForBounds(
                 bbox(json.geometry.geometry.coordinates), {
+                    padding: 40,
+                }
+            ));
+        }
+
+        url.searchParams.set('start', coordsStart.join(','));
+        const response1 = await fetch(url.toString(), {
+            mode: 'cors',
+        });
+        const json1 = await response1.json();
+        const source1 = map.getSource('route-geometry1');
+
+        if (source1 && json1.geometry) {
+            source1.setData(json1.geometry);
+
+            const exist = map.getLayer('route-layer1')
+            if (exist)
+                map.removeLayer('route-layer1');
+
+            map.addLayer({
+                id: 'route-layer1',
+                type: 'line',
+                source: 'route-geometry1',
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#0033ff',
+                    'line-width': 8,
+                    'line-opacity': 0.6,
+                }
+            })
+            // shows the whole geometry in the viewport
+            map.jumpTo(map.cameraForBounds(
+                bbox(json1.geometry.geometry.coordinates), {
                     padding: 40,
                 }
             ));
@@ -214,6 +269,13 @@ export default function Map({
                     type: "LineString",
                     coordinates: [],
                 },
+            },
+            'route-geometry1': {
+                type: 'geojson',
+                data: {
+                    type: "LineString",
+                    coordinates: [],
+                },
             }
         };
 
@@ -232,9 +294,22 @@ export default function Map({
                     // those declared above
                     source: 'basic-tiles',
                 }, {
-                    id: 'route-geometry',
+                    id: 'route-layer',
                     type: 'line',
                     source: 'route-geometry',
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round',
+                    },
+                    paint: {
+                        'line-color': '#0033ff',
+                        'line-width': 8,
+                        'line-opacity': 0.6,
+                    },
+                }, {
+                    id: 'route-layer1',
+                    type: 'line',
+                    source: 'route-geometry1',
                     layout: {
                         'line-join': 'round',
                         'line-cap': 'round',
