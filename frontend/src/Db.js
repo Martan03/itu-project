@@ -177,10 +177,9 @@ function saveVacation(vacation) {
  */
 function saveTrip(trip) {
     if (trip.start_date)
-        trip.start_date = moment(trip.start_date)
-            .format('YYYY-MM-DD HH:mm:ss');
+        trip.start_date = moment(trip.start_date).format('YYYY-MM-DD');
     if (trip.end_date)
-        trip.end_date = moment(trip.end_date).format('YYYY-MM-DD HH:mm:ss');
+        trip.end_date = moment(trip.end_date).format('YYYY-MM-DD');
 
     return saveAPI(trip, "/api/trip");
 }

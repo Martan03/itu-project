@@ -104,14 +104,14 @@ app.post("/api/vacation", (req, res) => {
         'image': req.body.image,
     };
 
-    var sql = "INSERT INTO vacation SET ?";
-    var args = [vacation];
     if (req.body.id) {
         sql = "UPDATE vacation SET ? WHERE id = ?";
         args = [vacation, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'vacation', [vacation]);
     }
 
-    save(res, sql, args);
 });
 
 /// Deletes vacation by given ID
@@ -169,14 +169,14 @@ app.post("/api/trip", (req, res) => {
         'end_date': req.body.end_date,
     };
 
-    var sql = "INSERT INTO trip SET ?";
-    var args = [trip];
     if (req.body.id) {
         sql = "UPDATE trip SET ? WHERE id = ?";
         args = [trip, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'trip', [trip])
     }
 
-    save(res, sql, args);
 });
 
 /// Deletes trip by given ID
@@ -229,17 +229,6 @@ app.post("/api/stop", (req, res) => {
 
 /// Deletes stop by given ID
 app.delete("/api/stop", (req, res) => {
-    if (!req.query.id) {
-        res.status(400).send("No ID given to delete vacation");
-        return;
-    }
-
-    sql = "DELETE FROM stop WHERE id = ?";
-    query(res, sql, [req.query.id]);
-});
-
-/// Deletes stop by given ID
-app.delete("/api/trip", (req, res) => {
     if (!req.query.id) {
         res.status(400).send("No ID given to delete vacation");
         return;

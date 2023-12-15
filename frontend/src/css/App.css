@@ -207,6 +207,10 @@ p {
     gap: 5px;
 }
 
+.vacation-header-content.trip {
+    width: 100%;
+}
+
 .vacation-header .date {
     color: var(--fg-darker);
     line-height: normal;
@@ -321,6 +325,8 @@ p {
     right: 0;
     cursor: pointer;
 }
+
+
 
 @media screen and (max-width: 1250px) {
     .trip-layout {
