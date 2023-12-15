@@ -5,15 +5,15 @@ import 'react-date-picker/dist/DatePicker.css'
 function DateInput(props) {
     const onChange = (e) => {
         if (props.onChange) {
-            props.onStartChange({ target: { value: e, name: props.name } });
+            props.onChange({ target: { value: e, name: props.name } });
         }
     };
 
     const onBlur = (e) => {
-        if (props.onStartBlur) {
+        if (props.onBlur) {
             if (!e.target.parentElement.parentElement.matches(":focus-within"))
             {
-                props.onStartBlur({target: { name: props.name }});
+                props.onBlur({target: { name: props.name }});
             }
         }
     };

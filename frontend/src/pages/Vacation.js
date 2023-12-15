@@ -7,6 +7,8 @@ import TripList from "../components/TripList";
 import DateRange from "../components/DateRange";
 
 function saveVacation(vacation) {
+    vacation.start_date = moment(vacation.start_date).format("YYYY-MM-DD");
+    vacation.end_date = moment(vacation.end_date).format("YYYY-MM-DD");
     const save = async () => {
         try {
             const res = await fetch('http://localhost:3002/api/vacation', {
@@ -47,16 +49,13 @@ function Vacation(props) {
                 return response.json();
             })
             .then((data) => {
-                let processed_data = {
+                let pdata = {
                     ...data[0],
-                    ["start_date"]:
-                        moment(data[0].start_date).format("YYYY-MM-DD"),
-                    ["end_date"]:
-                        moment(data[0].end_date).format("YYYY-MM-DD"),
-                };
-
-                setData(processed_data);
-                setSavedData(processed_data);
+                    ["start_date"]: new Date(data[0].start_date),
+                    ["end_date"]: new Date(data[0].end_date),
+                }
+                setData(pdata);
+                setSavedData(pdata);
             })
             .catch((_) => {
                 nav(`/500`);
@@ -75,7 +74,7 @@ function Vacation(props) {
     const inputChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
-        setAnyChange(value !== savedData[name]);
+        setAnyChange(String(value) !== String(savedData[name]));
     };
 
     const saveData = () => {
