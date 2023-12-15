@@ -43,7 +43,7 @@ function DateInput(props) {
         format={props.format ? props.format : "dd.MM.yyyy"}
         onChange={onChange}
         onBlur={onBlur}
-        value={props.data ? props.data.data : props.value}
+        value={props.data ? props.data.data[props.name] : props.value}
     />
 }
 
