@@ -5,28 +5,6 @@ import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { saveTrip, deleteTrip } from "../Db";
 
-/// Fetches data from API from given url
-/// requires setData, setError, setLoading to set corresponding values
-async function FetchApi(url, setData, setLoading, nav) {
-    fetch(`http://localhost:3002/api${url}`)
-        .then((response) => {
-            if (!response.ok)
-                throw new Error(`Error occurred: ${response.status}`);
-            return response.json();
-        })
-        .then((data) => {
-            data.forEach((d) => {
-                d.start_date = new Date(d.start_date);
-                d.end_date = new Date(d.end_date);
-            });
-            setData(data);
-        })
-        .catch((_) => {
-            nav('/500');
-        })
-        .finally(() => setLoading(false));
-}
-
 /// Renders given trip and its stops
 function Trip(props) {
     const [data, setData] = useState(props.item);
