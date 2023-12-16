@@ -19,6 +19,7 @@ import {
     getStopsForTrips,
 } from "../Db";
 import Map from "../components/Map";
+import { Checkbox } from "../components/Checkbox";
 
 function ImagePicker({data, setData}) {
     const chooseImage = () => {
@@ -101,20 +102,65 @@ function AddTripButton({id}) {
 }
 
 function TripsMap({trips}) {
+    const [filter, setFilter] = useState({
+        no_date: false,
+        car: true,
+        foot: true,
+        bike: true,
+        other: true,
+    });
+
+    const inputChange = e => {
+        const { name, value } = e.target;
+        setFilter({...filter, [name]: value});
+    }
+
     let routes = trips
-        .filter(t => t.stops.length >= 2)
+        .filter(t => t.stops.length >= 2
+            && (filter.no_date || t.start_date)
+            && filter[t.travelType ?? 'other']
+        )
         .map(t => ({
             showRoute: true,
             travelType: t.travelType || 'car_fast',
             coords: t.stops.map(s => [s.lng, s.lat]),
         }));
 
-    return <div className="vacation-map">
-        <Map
-            key={routes.length}
-            lang={'cs'}
-            size={{height: '100%', width: '100%'}}
-            routes={routes}/>
+    return <div>
+        <div className="vacation-map-filters">
+            <Checkbox
+                name={"no_date"}
+                label={"With no date"}
+                onChange={inputChange}
+                value={filter.no_date}/>
+            <Checkbox
+                name={"car"}
+                label={"In car"}
+                onChange={inputChange}
+                value={filter.car}/>
+            <Checkbox
+                name={"foot"}
+                label={"On foot"}
+                onChange={inputChange}
+                value={filter.foot}/>
+            <Checkbox
+                name={"bike"}
+                label={"On bike"}
+                onChange={inputChange}
+                value={filter.bike}/>
+            <Checkbox
+                name={"other"}
+                label={"Other"}
+                onChange={inputChange}
+                value={filter.other}/>
+        </div>
+        <div className="vacation-map">
+            <Map
+                key={routes.length}
+                lang={'cs'}
+                size={{height: '100%', width: '100%'}}
+                routes={routes}/>
+        </div>
     </div>
 }
 

@@ -544,7 +544,7 @@ p {
 
 /* Jakub Antonín Štigler <xstigl00> */
 .vacation-map {
-    margin-top: 40px;
+    margin-top: 20px;
     width: 100%;
     height: calc(100vh - 150px);
 }
@@ -554,6 +554,7 @@ p {
     display: flex;
     margin-left: 40px;
     margin-top: 40px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
     max-width: 1300px;
 }
@@ -562,4 +563,33 @@ p {
 .vacation-stats p {
     margin-right: 1em;
     margin-left: 1em;
+}
+
+.vacation-map-filters {
+    display: flex;
+    margin-left: 40px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.vacation-map-filters > div {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.checkbox label {
+    margin-left: 0.5em;
+}
+
+.checkbox input {
+    background-color: red;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

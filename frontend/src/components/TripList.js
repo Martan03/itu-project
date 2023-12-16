@@ -18,7 +18,7 @@ function getTravelTypeString(trip) {
     case "car":
         return "In car";
     case "foot":
-        return "By foot";
+        return "On foot";
     case "bike":
         return "On bike";
     }
