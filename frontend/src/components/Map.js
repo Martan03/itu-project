@@ -106,8 +106,15 @@ function bbox(coords) {
 // This is an asynchronous function for querying a route between the two points
 // defined above
 // See https://api.mapy.cz/v1/docs/routing/#/routing/basic_route_v1_routing_route_get
-async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, waypointsArr) {
+async function route(map, lang, API_KEY, r) {
+    if (r.coords.length < 2) {
+        console.error("Route must have at least 2 waypoints.");
+    }
     try {
+        let coordsStart = r.coords[0];
+        let coordsEnd = r.coords[r.coords.length - 1];
+        let waypointsArr = r.coords.slice(1, r.coords.length - 1);
+
         const url = new URL(`https://api.mapy.cz/v1/routing/route`);
 
         url.searchParams.set('apikey', API_KEY);
@@ -128,7 +135,7 @@ async function route(map, coordsStart, coordsEnd, lang, travelType, API_KEY, way
             bike_road,
             bike_mountain
         */
-        url.searchParams.set('routeType', travelType);
+        url.searchParams.set('routeType', r.travelType);
         // if you want to avoid paid routes (eg. highways) set this to true
         url.searchParams.set('avoidToll', 'false');
 
@@ -164,8 +171,7 @@ const addMarkerToMap = (lngLat, map) => {
 };
 
 export default function Map({
-    size, showRoute, coordsStart, coordsEnd, waypointsArr,
-    travelType, lang, addMarkers, markersArr, onClick
+    size, routes, lang, addMarkers, markersArr, onClick
 }) {
     const mapContainer = useRef(null);
     const map          = useRef(null);
@@ -265,17 +271,15 @@ export default function Map({
         });
 
         map.current.on('load', () => {
-            if (showRoute === true) {
-                route(
-                    map.current, coordsStart, coordsEnd, lang,
-                    travelType, API_KEY, waypointsArr
-                );
+            if (routes) {
+                routes.forEach(r => {
+                    if (r.showRoute) {
+                        route(map.current, lang, API_KEY, r);
+                    }
+                });
             }
         });
-    }, [
-        lng, lat, API_KEY, coordsStart, coordsEnd, lang,
-        showRoute, travelType, waypointsArr
-    ]);
+    }, [lng, lat, API_KEY, lang, routes]);
 
     useEffect(() => {
         if (addMarkers && markersArr && markersArr.length > 0) {

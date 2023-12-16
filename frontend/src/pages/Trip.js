@@ -50,11 +50,11 @@ function RenderMap(props) {
             key={coords.length}
             size={{height: '100%', width: '100%'}}
             {...(coords.length >= 2 && {
-                showRoute: true,
-                coordsStart: coords[0],
-                coordsEnd: coords[coords.length - 1],
-                travelType: 'car_fast',
-                waypointsArr: coords.slice(1, -1)
+                routes: [{
+                    showRoute: true,
+                    travelType: 'car_fast',
+                    coords: coords
+                }]
             })}
             lang={'cs'}
             onClick={addStop}
