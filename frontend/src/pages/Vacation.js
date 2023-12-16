@@ -51,8 +51,8 @@ function ImagePicker({data, setData}) {
 function VacationHeader(props) {
     const inputChange = (e) => {
         const { name, value } = e.target;
-        props.setData({ ...props.data, [name]: value });
         props.setAnyChange(String(value) !== String(props.savedData[name]));
+        props.setData({ ...props.data, [name]: value });
     };
 
     const saveData = () => {
@@ -255,7 +255,8 @@ function Vacation(props) {
     const mapVacation = v => {
         v.start_date = new Date(v.start_date);
         v.end_date = new Date(v.end_date);
-        setData(v);
+        setData({...v});
+        setSavedData(v);
     };
 
     useEffect(() => getVacationWithTripsAndStops(
@@ -288,7 +289,7 @@ function Vacation(props) {
                             setData={setData}
                             anyChange={anyChange}
                             setAnyChange={setAnyChange}
-                            saveData={savedData}
+                            savedData={savedData}
                             setSavedData={setSavedData}/>
                     </div>
 
