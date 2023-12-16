@@ -467,3 +467,9 @@ p {
 .img-hover:hover {
     opacity: 0.85;
 }
+
+.vacation-map {
+    margin-top: 40px;
+    width: 100%;
+    height: calc(100vh - 150px);
+}

@@ -6,6 +6,7 @@ import TripList from "../components/TripList";
 import { DateRange } from "../components/DateRange";
 import { TitleInput, DescInput } from "../components/Input";
 import { saveVacation, getVacationWithTrips, saveTrip } from "../Db";
+import Map from "../components/Map";
 
 function Vacation(props) {
     const [data, setData] = useState(null);
@@ -123,23 +124,28 @@ function Vacation(props) {
                                 value={data.description}/>
                         </div>
                     </div>
+
+                    <TripList id={id} trips={trips} setTrips={updateTrips} />
+
+                    <div className="vacation">
+                        <div className="marker">
+                            <div className="marker-circle"></div>
+                            <div className="marker-line"></div>
+                        </div>
+                        <div className="data trip">
+                            <button
+                                className="dark-button add-trip-button"
+                                onClick={newTrip}>
+                                <h1>Add Trip</h1>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="vacation-map">
+                        <Map size={{height: '100%', width: '100%'}}/>
+                    </div>
                 </>
             )}
-            <TripList id={id} trips={trips} setTrips={updateTrips} />
-
-            <div className="vacation">
-                <div className="marker">
-                    <div className="marker-circle"></div>
-                    <div className="marker-line"></div>
-                </div>
-                <div className="data trip">
-                    <button
-                        className="dark-button add-trip-button"
-                        onClick={newTrip}>
-                        <h1>Add Trip</h1>
-                    </button>
-                </div>
-            </div>
         </Layout>
     );
 }
