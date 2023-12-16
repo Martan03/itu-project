@@ -2,12 +2,14 @@
  * ITU project
  *
  * Martin Slezák <xsleza26>
+ * Jakub Antonín Štigler <xstigl00>
  */
 
 import moment from 'moment';
 
 const API_URL = "http://localhost:3002";
 
+// Martin Slezák <xsleza26>
 /**
  * Fetches data from the API
  * @param {function} setData - sets variable value to contain fetched value
@@ -30,6 +32,7 @@ function fetchAPI(setData, setLoading, setErr, url) {
         .finally(setLoading(false));
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Sends data to the database to be saved
  * @param {Object} data - data to be saved
@@ -53,6 +56,7 @@ function saveAPI(data, url) {
         .catch(err => console.error(err.message));
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Deletes from the database
  * @param {Number} id - id of the item to be deleted
@@ -72,6 +76,7 @@ function deleteAPI(id, url) {
         .catch(err => console.error(err.message));
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Gets all vacations from the database
  * @param {function} setData - sets variable value to contain vacations
@@ -93,6 +98,7 @@ function getVacations(setData, setLoading, setErr, time = 0, search) {
     fetchAPI(setData, setLoading, setErr, url);
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Gets trip with its stops from the database
  * @param {function} setTrip - sets trip
@@ -124,6 +130,14 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
     fetchData();
 }
 
+// Jakub Antonín Štigler <xstigl00>
+/**
+ * Gets stops for all trips the trips
+ * @param {function} setTripsStops - sets trip stops
+ * @param {function} setLoaded - sets loading value
+ * @param {function} setErr - sets error value
+ * @param {array} ids - trip ids
+ */
 function getStopsForTrips(setTripsStops, setLoaded, setErr, ids) {
     const fetchData = async () => {
         try {
@@ -144,6 +158,7 @@ function getStopsForTrips(setTripsStops, setLoaded, setErr, ids) {
     fetchData();
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Gets vacation with its trips from the database
  * @param {function} setVacation - sets vacation
@@ -175,6 +190,7 @@ function getVacationWithTrips(setVacation, setTrips, setLoading, setErr, id) {
     fetchData();
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Saves given vacation to the database
  * @param {Object} vacation - vacation to be saved
@@ -190,6 +206,7 @@ function saveVacation(vacation) {
     return saveAPI(vacation, "/api/vacation");
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Saves given trip to the database
  * @param {Object} trip - trip to be saved
@@ -204,6 +221,7 @@ function saveTrip(trip) {
     return saveAPI(trip, "/api/trip");
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Saves given stop to the database
  * @param {Object} stop - stop to be saved
@@ -213,6 +231,7 @@ function saveStop(stop) {
     return saveAPI(stop, "/api/stop");
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Deletes vacation from the database
  * @param {Number} id - id of the vacation to be removed
@@ -221,6 +240,7 @@ function deleteVacation(id) {
     deleteAPI(id, "/api/vacation");
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Deletes trip from the database
  * @param {Number} id - id of the trip to be removed
@@ -229,6 +249,7 @@ function deleteTrip(id) {
     deleteAPI(id, "/api/trip");
 }
 
+// Martin Slezák <xsleza26>
 /**
  * Deletes stop from the database
  * @param {Number} id - id of the stop to be removed

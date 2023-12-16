@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Jakub Antonín Štigler <xstigl00>
+ */
+
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { DateRange } from './DateRange';
@@ -9,12 +15,12 @@ function getTravelTypeString(trip) {
         return "Other";
     }
     switch (trip.travelType.split("_")[0]) {
-        case "car":
-            return "In car";
-        case "foot":
-            return "By foot";
-        case "bike":
-            return "On bike";
+    case "car":
+        return "In car";
+    case "foot":
+        return "By foot";
+    case "bike":
+        return "On bike";
     }
     return "Other";
 }
