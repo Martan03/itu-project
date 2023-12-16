@@ -8,7 +8,8 @@ import { TitleInput, DescInput } from "../components/Input";
 import {
     saveVacation,
     getVacationWithTrips,
-    saveTrip
+    saveTrip,
+    getStopsForTrips,
 } from "../Db";
 import Map from "../components/Map";
 
@@ -93,8 +94,38 @@ function AddTripButton({id}) {
 }
 
 function TripsMap({trips}) {
+    const [routes, setRoutes] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        getStopsForTrips(
+            ts => {
+                console.log(ts);
+                setRoutes(ts
+                    .filter(t => t.length >= 2)
+                    .map(t => ({
+                        showRoute: true,
+                        travelType: 'car_fast',
+                        coords: t.map(c => [c.lng, c.lat])
+                    }))
+                )
+            },
+            setLoaded,
+            e => console.error(e),
+            trips.map(t => t.id)
+        );
+    }, [trips]);
+
+    console.log(routes);
+
     return <div className="vacation-map">
-        <Map size={{height: '100%', width: '100%'}}/>
+        { loaded
+            ? <Map
+                lang={'cs'}
+                size={{height: '100%', width: '100%'}}
+                routes={routes}/>
+            : <h2>Loading...</h2>
+        }
     </div>
 }
 

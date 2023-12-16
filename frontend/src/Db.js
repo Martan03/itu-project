@@ -127,7 +127,7 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
 function getStopsForTrips(setTripsStops, setLoaded, setErr, ids) {
     const fetchData = async () => {
         try {
-            const trips = Promise.all(ids.map(id => {
+            const trips = await Promise.all(ids.map(id => {
                 return fetch(`${API_URL}/api/stop?trip_id=${id}`)
                     .then(res => res.json())
             }));
