@@ -4,6 +4,21 @@ import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { saveTrip, deleteTrip } from "../Db";
 
+function getTravelTypeString(trip) {
+    if (!trip.travelType) {
+        return "Other";
+    }
+    switch (trip.travelType.split("_")[0]) {
+        case "car":
+            return "In car";
+        case "foot":
+            return "By foot";
+        case "bike":
+            return "On bike";
+    }
+    return "Other";
+}
+
 /// Renders given trip and its stops
 function Trip(props) {
     const [data, setData] = useState(props.item);
@@ -53,8 +68,12 @@ function Trip(props) {
                     <div className="card-content">
                         <div className="card-expand">
                             <h2>{data.title ?? "Unnamed trip"}</h2>
+                            <p>{(data.distance ?? 0) / 1000} km</p>
                         </div>
-                        <p>{data.description ?? "No description"}</p>
+                        <div className="card-expand">
+                            <p>{data.description ?? "No description"}</p>
+                            <p>{getTravelTypeString(data)}</p>
+                        </div>
                     </div>
                 </Link>
             </div>
@@ -92,7 +111,7 @@ function TripList(props) {
                             vacation_id={props.id}/>
                     ))
                 ) : (
-                    <h1>No vacation trips found...</h1>
+                    <></>
                 )
             )}
         </>

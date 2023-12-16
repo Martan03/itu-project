@@ -100,7 +100,6 @@ function TripsMap({trips}) {
     useEffect(() => {
         getStopsForTrips(
             ts => {
-                console.log(ts);
                 setRoutes(ts
                     .filter(t => t.length >= 2)
                     .map(t => ({
@@ -116,8 +115,6 @@ function TripsMap({trips}) {
         );
     }, [trips]);
 
-    console.log(routes);
-
     return <div className="vacation-map">
         { loaded
             ? <Map
@@ -126,6 +123,66 @@ function TripsMap({trips}) {
                 routes={routes}/>
             : <h2>Loading...</h2>
         }
+    </div>
+}
+
+function getTravelType(trip) {
+    if (!trip.travelType) {
+        return 'other';
+    }
+    return trip.travelType.split("_")[0];
+}
+
+function VacationStats({trips}) {
+    let car = trips.filter(t => getTravelType(t) === 'car');
+    let foot = trips.filter(t => getTravelType(t) === 'foot');
+    let bike = trips.filter(t => getTravelType(t) === 'bike');
+    let other = trips.filter(t => getTravelType(t) === 'other');
+
+    let total_dist = trips
+        .map(t => t.distance ?? 0)
+        .reduce((sum, d) => sum + d, 0);
+    let car_dist = car
+        .map(t => t.distance ?? 0)
+        .reduce((sum, d) => sum + d, 0);
+    let foot_dist = foot
+        .map(t => t.distance ?? 0)
+        .reduce((sum, d) => sum + d, 0);
+    let bike_dist = bike
+        .map(t => t.distance ?? 0)
+        .reduce((sum, d) => sum + d, 0);
+    let other_dist = other
+        .map(t => t.distance ?? 0)
+        .reduce((sum, d) => sum + d, 0);
+
+    return <div className="vacation-stats">
+        <p>Number of trips: {trips.length}</p>
+        <p>Total distance: {total_dist / 1000} km</p>
+        <p>Avg distance: {total_dist / trips.length / 1000} km</p>
+        { car.length && car.length !== trips.length ? <>
+            <p>Number of car trips: {car.length}</p>
+            <p>Car distance: {car_dist / 1000} km</p>
+            <p>Avg car distance: {car_dist / car.length / 1000} km</p>
+        </> : <></> }
+        { foot.length && foot.length !== trips.length ? <>
+            <p>Number of trips by foot: {foot.length}</p>
+            <p>Distance walked: {foot_dist / 1000} km</p>
+            <p>Avg walk distance: {foot_dist / foot.length / 1000} km</p>
+        </> : <></> }
+        { bike.length && bike.length !== trips.length ? <>
+            <p>Number of trips on bike: {bike.length}</p>
+            <p>Distance biked: {bike_dist / 1000} km</p>
+            <p>Avg bike distance: {bike_dist / bike.length / 1000} km</p>
+        </> : <></> }
+        { other.length && other.length !== trips.length ? <>
+            <p>Number other trips: {other.length}</p>
+            <p>Distance of other trips: {other_dist / 1000} km</p>
+            <p>
+                Avg distance of other trips: {
+                    other_dist / other.length / 1000
+                } km
+            </p>
+        </> : <></> }
     </div>
 }
 
@@ -177,6 +234,7 @@ function Vacation(props) {
         e => console.error(e),
         id
     ), [id]);
+
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
@@ -195,6 +253,7 @@ function Vacation(props) {
 
                     <TripList id={id} trips={trips} setTrips={updateTrips} />
                     <AddTripButton id={id} />
+                    <VacationStats trips={trips}/>
                     <TripsMap trips={trips} />
                 </>
             )}

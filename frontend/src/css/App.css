@@ -473,3 +473,16 @@ p {
     width: 100%;
     height: calc(100vh - 150px);
 }
+
+.vacation-stats {
+    display: flex;
+    margin-left: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    max-width: 1300px;
+}
+
+.vacation-stats p {
+    margin-right: 1em;
+    margin-left: 1em;
+}
