@@ -52,9 +52,9 @@ function Trip(props) {
                 <Link to={`/trip?id=${props.item.id}`} className="card trip">
                     <div className="card-content">
                         <div className="card-expand">
-                            <h2>{data.title ?? "Trip name"}</h2>
+                            <h2>{data.title ?? "Unnamed trip"}</h2>
                         </div>
-                        <p>{data.description ?? "Trip description"}</p>
+                        <p>{data.description ?? "No description"}</p>
                     </div>
                 </Link>
             </div>

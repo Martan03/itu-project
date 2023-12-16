@@ -21,7 +21,15 @@ function Vacation(props) {
 
     const updateTrips = t => {
         let arr = [...t];
-        arr.sort((a, b) => a.start_date - b.start_date);
+        arr.sort((a, b) => {
+            if (!b.start_date) {
+                return -1;
+            }
+            if (!a.start_date) {
+                return 1;
+            }
+            return a.start_date - b.start_date;
+        });
         setTrips(arr);
     }
 
