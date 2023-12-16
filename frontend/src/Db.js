@@ -124,6 +124,26 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
     fetchData();
 }
 
+function getStopsForTrips(setTripsStops, setLoaded, setErr, ids) {
+    const fetchData = async () => {
+        try {
+            const trips = Promise.all(ids.map(id => {
+                return fetch(`${API_URL}/api/stop?trip_id=${id}`)
+                    .then(res => res.json())
+            }));
+
+            setTripsStops(trips);
+            setLoaded(true);
+        } catch (err) {
+            setTripsStops([]);
+            setLoaded(true);
+            setErr(err.message);
+        }
+    }
+
+    fetchData();
+}
+
 /**
  * Gets vacation with its trips from the database
  * @param {function} setVacation - sets vacation
@@ -220,6 +240,7 @@ function deleteStop(id) {
 export {
     getVacations,
     getTripWithStops,
+    getStopsForTrips,
     getVacationWithTrips,
     saveVacation,
     saveTrip,

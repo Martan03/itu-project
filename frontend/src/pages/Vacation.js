@@ -5,8 +5,98 @@ import Layout from "../Layout";
 import TripList from "../components/TripList";
 import { DateRange } from "../components/DateRange";
 import { TitleInput, DescInput } from "../components/Input";
-import { saveVacation, getVacationWithTrips, saveTrip } from "../Db";
+import {
+    saveVacation,
+    getVacationWithTrips,
+    saveTrip
+} from "../Db";
 import Map from "../components/Map";
+
+function ImagePicker({data, setData}) {
+    const chooseImage = () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+
+        input.onchange = e => {
+            let file = e.target.files[0];
+
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = e => {
+                setData({...data, image: e.target.result});
+                // TODO: saveVacation(data2);
+            }
+        }
+
+        input.click();
+    };
+
+    return <img
+        className="img-hover"
+        onClick={chooseImage}
+        src={data.image}
+        alt={data.title + " picture"}/>;
+}
+
+function VacationHeader(props) {
+    const inputChange = (e) => {
+        const { name, value } = e.target;
+        props.setData({ ...props.data, [name]: value });
+        props.setAnyChange(String(value) !== String(props.savedData[name]));
+    };
+
+    const saveData = () => {
+        if (props.anyChange) {
+            saveVacation(props.data);
+            props.setSavedData(props.data);
+            props.setAnyChange(false);
+        }
+    };
+
+    return <div className="vacation-header-content">
+        <DateRange input
+            values={[props.data.start_date, props.data.end_date]}
+            onChange={inputChange}
+            onBlur={saveData}/>
+        <TitleInput
+            onChange={inputChange}
+            onBlur={saveData}
+            value={props.data.title}/>
+        <DescInput
+            onChange={inputChange}
+            onBlur={saveData}
+            value={props.data.description}/>
+    </div>;
+}
+
+function AddTripButton({id}) {
+    const nav = useNavigate();
+
+    const newTrip = () => {
+        saveTrip({vacation_id: id}).then(id => nav(`/trip?id=${id}`));
+    };
+
+    return <div className="vacation">
+        <div className="marker">
+            <div className="marker-circle"></div>
+            <div className="marker-line"></div>
+        </div>
+        <div className="data trip">
+            <button
+                className="dark-button add-trip-button"
+                onClick={newTrip}>
+                <h1>Add Trip</h1>
+            </button>
+        </div>
+    </div>
+}
+
+function TripsMap({trips}) {
+    return <div className="vacation-map">
+        <Map size={{height: '100%', width: '100%'}}/>
+    </div>
+}
 
 function Vacation(props) {
     const [data, setData] = useState(null);
@@ -15,7 +105,6 @@ function Vacation(props) {
     const [anyChange, setAnyChange] = useState(false);
     const [trips, setTrips] = useState([]);
 
-    const nav = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
@@ -57,93 +146,25 @@ function Vacation(props) {
         e => console.error(e),
         id
     ), [id]);
-
-    const inputChange = (e) => {
-        const { name, value } = e.target;
-        setData({ ...data, [name]: value });
-        setAnyChange(String(value) !== String(savedData[name]));
-    };
-
-    const saveData = () => {
-        if (anyChange) {
-            saveVacation(data);
-            setSavedData(data);
-            setAnyChange(false);
-        }
-    };
-
-    const newTrip = () => {
-        saveTrip({vacation_id: id}).then(id => {
-            console.log(id);
-            nav(`/trip?id=${id}`);
-        });
-    };
-
-    const chooseImage = () => {
-        let input = document.createElement('input');
-        input.type = 'file';
-
-        input.onchange = e => {
-            let file = e.target.files[0];
-
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = e => {
-                setData({...data, image: e.target.result});
-                // TODO: saveVacation(data2);
-            }
-        }
-
-        input.click();
-    };
-
     return (
         <Layout search={props.search} menu={props.menu}>
             { loading && <h2>Loading...</h2> }
             { data && (
                 <>
                     <div className="vacation-header">
-                        <img
-                            className="img-hover"
-                            onClick={chooseImage}
-                            src={data.image}
-                            alt={data.title + " picture"}/>
-                        <div className="vacation-header-content">
-                            <DateRange input
-                                values={[data.start_date, data.end_date]}
-                                onChange={inputChange}
-                                onBlur={saveData}/>
-                            <TitleInput
-                                onChange={inputChange}
-                                onBlur={saveData}
-                                value={data.title}/>
-                            <DescInput
-                                onChange={inputChange}
-                                onBlur={saveData}
-                                value={data.description}/>
-                        </div>
+                        <ImagePicker data={data} setData={setData} />
+                        <VacationHeader
+                            data={data}
+                            setData={setData}
+                            anyChange={anyChange}
+                            setAnyChange={setAnyChange}
+                            saveData={savedData}
+                            setSavedData={setSavedData}/>
                     </div>
 
                     <TripList id={id} trips={trips} setTrips={updateTrips} />
-
-                    <div className="vacation">
-                        <div className="marker">
-                            <div className="marker-circle"></div>
-                            <div className="marker-line"></div>
-                        </div>
-                        <div className="data trip">
-                            <button
-                                className="dark-button add-trip-button"
-                                onClick={newTrip}>
-                                <h1>Add Trip</h1>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="vacation-map">
-                        <Map size={{height: '100%', width: '100%'}}/>
-                    </div>
+                    <AddTripButton id={id} />
+                    <TripsMap trips={trips} />
                 </>
             )}
         </Layout>
