@@ -14,6 +14,7 @@ import { TitleInput, DescInput } from "../components/Input";
 import {
     saveVacation,
     getVacationWithTrips,
+    getVacationWithTripsAndStops,
     saveTrip,
     getStopsForTrips,
 } from "../Db";
@@ -100,35 +101,20 @@ function AddTripButton({id}) {
 }
 
 function TripsMap({trips}) {
-    const [routes, setRoutes] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-
-    useEffect(() => {
-        getStopsForTrips(
-            ts => {
-                setRoutes(ts
-                    .filter(t => t.length >= 2)
-                    .map(t => ({
-                        showRoute: true,
-                        travelType: 'car_fast',
-                        coords: t.map(c => [c.lng, c.lat])
-                    }))
-                )
-            },
-            setLoaded,
-            e => console.error(e),
-            trips.map(t => t.id)
-        );
-    }, [trips]);
+    let routes = trips
+        .filter(t => t.stops.length >= 2)
+        .map(t => ({
+            showRoute: true,
+            travelType: t.travelType || 'car_fast',
+            coords: t.stops.map(s => [s.lng, s.lat]),
+        }));
 
     return <div className="vacation-map">
-        { loaded
-            ? <Map
-                lang={'cs'}
-                size={{height: '100%', width: '100%'}}
-                routes={routes}/>
-            : <h2>Loading...</h2>
-        }
+        <Map
+            key={routes.length}
+            lang={'cs'}
+            size={{height: '100%', width: '100%'}}
+            routes={routes}/>
     </div>
 }
 
@@ -226,7 +212,7 @@ function Vacation(props) {
         setData(v);
     };
 
-    useEffect(() => getVacationWithTrips(
+    useEffect(() => getVacationWithTripsAndStops(
         mapVacation,
         t => {
             updateTrips(t.map(t => {

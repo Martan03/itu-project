@@ -93,7 +93,6 @@ function TripList(props) {
     let setData = props.setTrips;
 
     const removeTrip = (t) => {
-        console.log("removing ", t.id);
         setData(data.filter(i => i.id !== t.id));
         deleteTrip(t.id);
     };

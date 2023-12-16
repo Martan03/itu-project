@@ -130,34 +130,6 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
     fetchData();
 }
 
-// Jakub Antonín Štigler <xstigl00>
-/**
- * Gets stops for all trips the trips
- * @param {function} setTripsStops - sets trip stops
- * @param {function} setLoaded - sets loading value
- * @param {function} setErr - sets error value
- * @param {array} ids - trip ids
- */
-function getStopsForTrips(setTripsStops, setLoaded, setErr, ids) {
-    const fetchData = async () => {
-        try {
-            const trips = await Promise.all(ids.map(id => {
-                return fetch(`${API_URL}/api/stop?trip_id=${id}`)
-                    .then(res => res.json())
-            }));
-
-            setTripsStops(trips);
-            setLoaded(true);
-        } catch (err) {
-            setTripsStops([]);
-            setLoaded(true);
-            setErr(err.message);
-        }
-    }
-
-    fetchData();
-}
-
 // Martin Slezák <xsleza26>
 /**
  * Gets vacation with its trips from the database
@@ -179,6 +151,49 @@ function getVacationWithTrips(setVacation, setTrips, setLoading, setErr, id) {
 
             setVacation(vac_res[0]);
             setTrips(trip_res);
+            setLoading(false);
+        } catch (err) {
+            setVacation(null);
+            setTrips([]);
+            setLoading(false);
+            setErr(err.message);
+        }
+    }
+    fetchData();
+}
+
+// Jakub Antonín Štigler <xstigl00>
+/**
+ * Gets vacation with its trips from the database
+ * @param {function} setVacation - sets vacation
+ * @param {function} setTrips - sets trips
+ * @param {function} setLoading - sets loading value
+ * @param {function} setErr - set error value
+ * @param {number} id - vacation id
+ */
+function getVacationWithTripsAndStops(
+    setVacation,
+    setTrips,
+    setLoading,
+    setErr,
+    id
+) {
+    const fetchData = async () => {
+        try {
+            const [vac_res, trip_res] = await Promise.all([
+                fetch(`${API_URL}/api/vacation?id=${id}`)
+                    .then(res => res.json()),
+                fetch(`${API_URL}/api/trip?vacation_id=${id}`)
+                    .then(res => res.json())
+            ]);
+
+            const trips = await Promise.all(trip_res.map(t => {
+                return fetch(`${API_URL}/api/stop?trip_id=${t.id}`)
+                    .then(res => res.json());
+            }));
+
+            setVacation(vac_res[0]);
+            setTrips(trip_res.map((t, i) => ({...t, stops: trips[i]})));
             setLoading(false);
         } catch (err) {
             setVacation(null);
@@ -261,8 +276,8 @@ function deleteStop(id) {
 export {
     getVacations,
     getTripWithStops,
-    getStopsForTrips,
     getVacationWithTrips,
+    getVacationWithTripsAndStops,
     saveVacation,
     saveTrip,
     saveStop,
