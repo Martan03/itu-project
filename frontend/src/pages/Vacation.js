@@ -139,55 +139,58 @@ function getTravelType(trip) {
     return trip.travelType.split("_")[0];
 }
 
-function VacationStats({trips}) {
-    let car = trips.filter(t => getTravelType(t) === 'car');
-    let foot = trips.filter(t => getTravelType(t) === 'foot');
-    let bike = trips.filter(t => getTravelType(t) === 'bike');
-    let other = trips.filter(t => getTravelType(t) === 'other');
+function getStats(trips, type) {
+    let filtered = type ? trips.filter(t => getTravelType(t) === type) : trips;
+    if (type && (filtered.length === 0 || filtered.length === trips.length)) {
+        return null;
+    }
 
-    let total_dist = trips
-        .map(t => t.distance ?? 0)
-        .reduce((sum, d) => sum + d, 0);
-    let car_dist = car
-        .map(t => t.distance ?? 0)
-        .reduce((sum, d) => sum + d, 0);
-    let foot_dist = foot
-        .map(t => t.distance ?? 0)
-        .reduce((sum, d) => sum + d, 0);
-    let bike_dist = bike
-        .map(t => t.distance ?? 0)
-        .reduce((sum, d) => sum + d, 0);
-    let other_dist = other
-        .map(t => t.distance ?? 0)
-        .reduce((sum, d) => sum + d, 0);
+    filtered = filtered.map(t => t.distance ?? 0);
+
+    let dist = filtered.reduce((sum, d) => sum + d, 0);
+    return {
+        count: filtered.length,
+        dist: dist,
+        avg_dist: dist / filtered.length,
+        max_dist: filtered.reduce((max, c) => c > max ? c : max, 0),
+    };
+}
+
+function VacationStats({trips}) {
+    let all = getStats(trips, null);
+    let car = getStats(trips, 'car');
+    let foot = getStats(trips, 'foot');
+    let bike = getStats(trips, 'bike');
+    let other = getStats(trips, 'other');
 
     return <div className="vacation-stats">
-        <p>Number of trips: {trips.length}</p>
-        <p>Total distance: {total_dist / 1000} km</p>
-        <p>Avg distance: {total_dist / trips.length / 1000} km</p>
-        { car.length && car.length !== trips.length ? <>
-            <p>Number of car trips: {car.length}</p>
-            <p>Car distance: {car_dist / 1000} km</p>
-            <p>Avg car distance: {car_dist / car.length / 1000} km</p>
+        <p>Number of trips: {all.count}</p>
+        <p>Total distance: {all.dist / 1000} km</p>
+        <p>Avg distance: {all.avg_dist / 1000} km</p>
+        <p>Max distance: {all.max_dist / 1000} km</p>
+        { car ? <>
+            <p>Number of car trips: {car.count}</p>
+            <p>Car distance: {car.dist / 1000} km</p>
+            <p>Avg car distance: {car.avg_dist / 1000} km</p>
+            <p>Longest car ride: {car.max_dist / 1000} km</p>
         </> : <></> }
-        { foot.length && foot.length !== trips.length ? <>
-            <p>Number of trips by foot: {foot.length}</p>
-            <p>Distance walked: {foot_dist / 1000} km</p>
-            <p>Avg walk distance: {foot_dist / foot.length / 1000} km</p>
+        { foot ? <>
+            <p>Number of trips by foot: {foot.count}</p>
+            <p>Distance walked: {foot.dist / 1000} km</p>
+            <p>Avg walk distance: {foot.avg_dist / 1000} km</p>
+            <p>Longest walk: {foot.max_dist / 1000} km</p>
         </> : <></> }
-        { bike.length && bike.length !== trips.length ? <>
-            <p>Number of trips on bike: {bike.length}</p>
-            <p>Distance biked: {bike_dist / 1000} km</p>
-            <p>Avg bike distance: {bike_dist / bike.length / 1000} km</p>
+        { bike ? <>
+            <p>Number of trips on bike: {bike.count}</p>
+            <p>Distance biked: {bike.dist / 1000} km</p>
+            <p>Avg bike distance: {bike.avg_dist / 1000} km</p>
+            <p>Longest bike ride: {bike.max_dist / 1000} km</p>
         </> : <></> }
-        { other.length && other.length !== trips.length ? <>
-            <p>Number other trips: {other.length}</p>
-            <p>Distance of other trips: {other_dist / 1000} km</p>
-            <p>
-                Avg distance of other trips: {
-                    other_dist / other.length / 1000
-                } km
-            </p>
+        { other ? <>
+            <p>Number other trips: {other.count}</p>
+            <p>Distance of other trips: {other.dist / 1000} km</p>
+            <p>Avg distance of other trips: {other.avg_dist / 1000} km</p>
+            <p>Longest other trip: {other.max_dist / 1000} km</p>
         </> : <></> }
     </div>
 }
