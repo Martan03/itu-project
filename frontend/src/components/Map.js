@@ -279,7 +279,7 @@ export default function Map({
                 });
             }
         });
-    }, [lng, lat, API_KEY, lang, routes]);
+    }, [lng, lat, API_KEY, lang, routes, onClick]);
 
     useEffect(() => {
         if (addMarkers && markersArr && markersArr.length > 0) {
