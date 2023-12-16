@@ -135,7 +135,6 @@ function saveVacation(vacation) {
     if (vacation.end_date)
         vacation.end_date = moment(vacation.end_date).format('YYYY-MM-DD');
 
-    console.log(vacation);
     return saveAPI(vacation, "/api/vacation");
 }
 

@@ -111,7 +111,6 @@ app.post("/api/vacation", (req, res) => {
     } else {
         insert(res, 'vacation', [vacation]);
     }
-
 });
 
 /// Deletes vacation by given ID

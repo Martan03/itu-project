@@ -99,6 +99,8 @@ function create_trip_table() {
             description TEXT,
             start_date DATE NULL,
             end_date DATE NULL,
+            route_type TEXT,
+            route_length FLOAT,
             FOREIGN KEY (vacation_id) REFERENCES vacation(id) ON DELETE CASCADE
         );
     `;

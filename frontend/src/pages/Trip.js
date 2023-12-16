@@ -50,11 +50,11 @@ function RenderMap(props) {
             key={coords.length}
             size={{height: '100%', width: '100%'}}
             {...(coords.length >= 2 && {
-                showRoute: true,
-                coordsStart: coords[0],
-                coordsEnd: coords[coords.length - 1],
-                travelType: 'car_fast',
-                waypointsArr: coords.slice(1, -1)
+                routes: [{
+                    showRoute: true,
+                    travelType: 'car_fast',
+                    coords: coords,
+                }],
             })}
             lang={'cs'}
             onClick={addStop}
@@ -173,7 +173,11 @@ function Trip(props) {
             { trip && stops && (
                 <div className="trip-layout">
                     <div className="trip-map">
-                        <RenderMap stops={{stops, setStops}} id={id} />
+                        <RenderMap
+                            stops={{stops, setStops}}
+                            trip={{trip, setTrip}}
+                            id={id}
+                        />
                     </div>
                     <div className="trip-layout-details">
                         <TripDetails trip={{data: trip, setData: setTrip}} />

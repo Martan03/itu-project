@@ -326,7 +326,26 @@ p {
     cursor: pointer;
 }
 
+.add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 45px;
+    width: 45px;
+    font-size: 30px;
+    border-radius: 50%;
+    text-align: center;
+    transition: .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--prim);
+    border: none;
+    color: var(--dark-100);
+}
 
+.add-btn:hover {
+    background-color: var(--prim-light);
+}
 
 @media screen and (max-width: 1250px) {
     .trip-layout {
