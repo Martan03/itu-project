@@ -565,6 +565,7 @@ p {
     margin-left: 1em;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .vacation-map-filters {
     display: flex;
     margin-left: 40px;
@@ -572,19 +573,23 @@ p {
     justify-content: space-between;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .vacation-map-filters > div {
     margin-left: 1em;
     margin-right: 1em;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .checkbox label {
     margin-left: 0.5em;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .checkbox input {
     background-color: red;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

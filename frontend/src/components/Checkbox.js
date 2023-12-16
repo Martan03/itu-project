@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Jakub Antonín Štigler <xstigl00>
+ */
+
 function Checkbox(props) {
     let onChange = () => {
         if (props.onChange) {
