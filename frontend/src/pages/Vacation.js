@@ -13,10 +13,8 @@ import { DateRange } from "../components/DateRange";
 import { TitleInput, DescInput } from "../components/Input";
 import {
     saveVacation,
-    getVacationWithTrips,
     getVacationWithTripsAndStops,
     saveTrip,
-    getStopsForTrips,
 } from "../Db";
 import Map from "../components/Map";
 import { Checkbox } from "../components/Checkbox";
@@ -101,6 +99,14 @@ function AddTripButton({id}) {
     </div>
 }
 
+function getTravelType(trip) {
+    console.log(trip.route_type);
+    if (!trip.route_type) {
+        return 'other';
+    }
+    return trip.route_type.split("_")[0];
+}
+
 function TripsMap({trips}) {
     const [filter, setFilter] = useState({
         no_date: false,
@@ -115,14 +121,16 @@ function TripsMap({trips}) {
         setFilter({...filter, [name]: value});
     }
 
+    console.log(trips);
+
     let routes = trips
-        .filter(t => t.stops.length >= 2
+        .filter(t => console.log(t) || t.stops.length >= 2
             && (filter.no_date || t.start_date)
-            && filter[t.travelType ?? 'other']
+            && filter[getTravelType(t)]
         )
         .map(t => ({
             showRoute: true,
-            travelType: t.travelType || 'car_fast',
+            travelType: t.route_type || 'car_fast',
             coords: t.stops.map(s => [s.lng, s.lat]),
         }));
 
@@ -164,20 +172,13 @@ function TripsMap({trips}) {
     </div>
 }
 
-function getTravelType(trip) {
-    if (!trip.travelType) {
-        return 'other';
-    }
-    return trip.travelType.split("_")[0];
-}
-
 function getStats(trips, type) {
     let filtered = type ? trips.filter(t => getTravelType(t) === type) : trips;
     if (type && (filtered.length === 0 || filtered.length === trips.length)) {
         return null;
     }
 
-    filtered = filtered.map(t => t.distance ?? 0);
+    filtered = filtered.map(t => t.route_len ?? 0);
 
     let dist = filtered.reduce((sum, d) => sum + d, 0);
     return {

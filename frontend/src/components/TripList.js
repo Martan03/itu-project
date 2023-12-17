@@ -11,10 +11,10 @@ import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { saveTrip, deleteTrip } from "../Db";
 
 function getTravelTypeString(trip) {
-    if (!trip.travelType) {
+    if (!trip.route_type) {
         return "Other";
     }
-    switch (trip.travelType.split("_")[0]) {
+    switch (trip.route_type.split("_")[0]) {
     case "car":
         return "In car";
     case "foot":
@@ -74,7 +74,7 @@ function Trip(props) {
                     <div className="card-content">
                         <div className="card-expand">
                             <h2>{data.title ?? "Unnamed trip"}</h2>
-                            <p>{(data.distance ?? 0) / 1000} km</p>
+                            <p>{(data.route_len ?? 0) / 1000} km</p>
                         </div>
                         <div className="card-expand">
                             <p>{data.description ?? "No description"}</p>

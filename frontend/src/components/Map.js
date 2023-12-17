@@ -111,10 +111,6 @@ async function route(map, lang, API_KEY, route, id) {
         console.error('Route must contain at least two stops');
     }
     try {
-        let coordsStart = r.coords[0];
-        let coordsEnd = r.coords[r.coords.length - 1];
-        let waypointsArr = r.coords.slice(1, r.coords.length - 1);
-
         const url = new URL(`https://api.mapy.cz/v1/routing/route`);
 
         url.searchParams.set('apikey', API_KEY);
@@ -202,7 +198,6 @@ const addMarkerToMap = (lngLat, map) => {
 };
 
 export default function Map({
-    size, routes, lang, addMarkers, markersArr, onClick
     size, routes, lang, addMarkers, markersArr, onClick
 }) {
     const mapContainer = useRef(null);
