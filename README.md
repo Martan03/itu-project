@@ -23,7 +23,7 @@ After installing, you can start the server on linux using
 saved xampp).
 
 Next step is to create the database. You can go to
-[phpmyadmin](localhost/phpmyadmin) page, where you can create it. The database
+```localhost/phpmyadmin``` page, where you can create it. The database
 must be called `trip_planner`. If you want to change database connection
 details, you can edit it in `/backend/config/db.js`. This is all you need to do
 for setting up the database for now.
@@ -34,7 +34,8 @@ Before doing following step, you need to run the server (described in
 I created a temporary API endpoint to create database tables and fill them with
 basic data (`/api/fill-tables`), so you don't have to create them by your own
 and fill them with the data. This is for testing only and should be removed
-after the development.
+after the development. In order to use it, run following ```localhost:SERVER_PORT/api/fill-tables```.
+The ```SERVER_PORT``` value can be found in terminal output after running ```node index.js``` as described in [backend section](#backend).
 
 To find out more about API, check out `README.md` in `backend` folder
 
@@ -46,13 +47,15 @@ react
 react-switch
 react-slider
 react-scripts
-js-cookie
-maplibre-gl
+react-router-dom
 react-scripts
 react-big-calendar
+js-cookie
+maplibre-gl
+moment
 ```
 
-Again use `npm install` to install them into project's home directory (above `frontend` and `backend` directories).
+Again use `npm install PACKAGE_NAME` to install them into project's  `frontend` directory.
 
 To run the frontend, go to the `frontend` directory and run:
 ```

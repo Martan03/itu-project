@@ -10,6 +10,8 @@ import 'react-date-picker/dist/DatePicker.css'
 
 function DateInput(props) {
     const onChange = (e) => {
+        // one way of handling the input change, set new value to the data the
+        // caller has passed
         if (props.data) {
             props.data.setData({
                 ...props.data.data,
@@ -17,16 +19,20 @@ function DateInput(props) {
             });
         }
 
+        // second way of handling the input change: event
         if (props.onChange) {
             props.onChange({ target: { value: e, name: props.name } });
         }
     };
 
     const onBlur = (e) => {
+        // one way of handling the input save, set new value to the data the
+        // caller has passed
         if (props.save) {
             props.save(props.data.data);
         }
 
+        // second way of handling the input save: event
         if (props.onBlur) {
             if (!e.target.parentElement.parentElement.matches(":focus-within"))
             {
@@ -50,6 +56,7 @@ function DateInput(props) {
 /// Renders date range of given dates
 function DateRange(props) {
     if (!props.input) {
+        // when the DateRange is not input just show the dates
         const from = moment(props.start_date).format('DD.MM.');
         const to = moment(props.end_date).format('DD.MM. YYYY');
         return props.start_date === props.end_date
@@ -57,6 +64,7 @@ function DateRange(props) {
             : <p className="date">{from} - {to}</p>;
     }
 
+    // DateRange is input
     return <div className="date-range">
         <DateInput
             value={props.values ? props.values[0] : null}
@@ -77,6 +85,7 @@ function DateRange(props) {
 }
 
 function DateRangeInput(props) {
+    // just alias for input DateRange
     return DateRange({...props, input: true});
 }
 

@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Tomáš Daniel <xdanie14>
+ */
+
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
