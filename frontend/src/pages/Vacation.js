@@ -104,7 +104,6 @@ function AddTripButton({id}) {
 }
 
 function getTravelType(trip) {
-    console.log(trip.route_type);
     if (!trip.route_type) {
         return 'other';
     }
@@ -125,10 +124,8 @@ function TripsMap({trips}) {
         setFilter({...filter, [name]: value});
     }
 
-    console.log(trips);
-
     let routes = trips
-        .filter(t => console.log(t) || t.stops.length >= 2
+        .filter(t => t.stops.length >= 2
             && (filter.no_date || t.start_date)
             && filter[getTravelType(t)]
         )
