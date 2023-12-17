@@ -34,7 +34,7 @@ function RenderMap(props) {
             description: '',
             lng: lngLat.lng,
             lat: lngLat.lat,
-            trip_id: props.id,
+            trip_id: props.trip.id,
         }
         saveStop(newStop).then((id) => {
             newStop.id = id
@@ -45,16 +45,26 @@ function RenderMap(props) {
         });
     }
 
+    // Sets length of the trip
+    const setLen = (len) => {
+        if (props.trip.trip.route_len !== len) {
+            props.trip.setTrip({...props.trip.trip, route_len: len});
+            saveTrip({...props.trip.trip, route_len: len});
+        }
+    }
+
     return (
         <Map
-            key={coords.length}
+            key={`${coords.length}${props.trip.trip.route_type}`}
             size={{height: '100%', width: '100%'}}
             {...(coords.length >= 2 && {
                 routes: [{
                     showRoute: true,
-                    travelType: 'car_fast',
-                    coords: coords
-                }]
+                    travelType: props.trip.trip.route_type,
+                    coords: coords,
+                    setLen: setLen,
+                    setTime: props.setTime,
+                }],
             })}
             lang={'cs'}
             onClick={addStop}
@@ -64,6 +74,20 @@ function RenderMap(props) {
 
 /// Renders details of the trip
 function TripDetails(props) {
+    const len = props.trip.data.route_len ?? 0;
+
+    const formatTime = (seconds) => {
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600)
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        const dayStr = days ? `${days} days ` : '';
+        const hour = String(hours).padStart(2, '0');
+        const min = String(minutes).padStart(2, '0');
+
+        return `${dayStr}${hour}:${min}`;
+    }
+
     return (
         <div className="vacation-header">
             <div className="vacation-header-content trip">
@@ -76,8 +100,36 @@ function TripDetails(props) {
                     data={props.trip}
                     save={saveTrip}
                 />
+                <p>Trip distance: <b>{len / 1000} km</b></p>
+                <p>Trip time: <b>{formatTime(props.time)}</b></p>
+                <RouteTypeSelect trip={props.trip} />
             </div>
         </div>
+    )
+}
+
+/// Renders route type selector
+function RouteTypeSelect(props) {
+    // Changes route type of the trip
+    const typeChange = (e) => {
+        props.trip.setData({...props.trip.data, route_type: e.target.value});
+        saveTrip({...props.trip.data, route_type: e.target.value});
+    }
+
+    return (
+        <p>
+            Travel type:
+            <select className="route-type-select" name="type-select"
+                    onChange={typeChange}
+                    value={props.trip.data.route_type}>
+                <option value="car_fast">Fastest route</option>
+                <option value="car_fast_traffic">Avoid traffic</option>
+                <option value="car_short">Shortest route</option>
+                <option value="foot_fast">By foot</option>
+                <option value="bike_road">Road bike</option>
+                <option value="bike_mountain">Mountain bike</option>
+            </select>
+        </p>
     )
 }
 
@@ -147,6 +199,8 @@ function Trip(props) {
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(null);
 
+    const [time, setTime] = useState(0);
+
     // Gets trip id from the url
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -173,10 +227,17 @@ function Trip(props) {
             { trip && stops && (
                 <div className="trip-layout">
                     <div className="trip-map">
-                        <RenderMap stops={{stops, setStops}} id={id} />
+                        <RenderMap
+                            stops={{stops, setStops}}
+                            trip={{trip, setTrip}}
+                            setTime={setTime}
+                        />
                     </div>
                     <div className="trip-layout-details">
-                        <TripDetails trip={{data: trip, setData: setTrip}} />
+                        <TripDetails
+                            trip={{data: trip, setData: setTrip}}
+                            time={time}
+                        />
                         <StopsList stops={{stops, setStops}} />
                     </div>
                 </div>

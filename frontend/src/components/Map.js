@@ -106,9 +106,9 @@ function bbox(coords) {
 // This is an asynchronous function for querying a route between the two points
 // defined above
 // See https://api.mapy.cz/v1/docs/routing/#/routing/basic_route_v1_routing_route_get
-async function route(map, lang, API_KEY, r) {
-    if (r.coords.length < 2) {
-        console.error("Route must have at least 2 waypoints.");
+async function route(map, lang, API_KEY, route, id) {
+    if (route.coords.length < 2) {
+        console.error('Route must contain at least two stops');
     }
     try {
         let coordsStart = r.coords[0];
@@ -119,9 +119,13 @@ async function route(map, lang, API_KEY, r) {
 
         url.searchParams.set('apikey', API_KEY);
         url.searchParams.set('lang', lang);
-        url.searchParams.set('start', coordsStart.join(','));
-        url.searchParams.set('end', coordsEnd.join(','));
+        url.searchParams.set('start', route.coords[0].join(','));
+        url.searchParams.set(
+            'end',
+            route.coords[route.coords.length - 1].join(',')
+        );
 
+        const waypointsArr = route.coords.slice(1, route.coords.length - 1);
         if (waypointsArr && waypointsArr.length > 0) {
             const waypoints = waypointsArr.map(coord => coord.join(','));
             url.searchParams.set('waypoints', waypoints.join(';'));
@@ -135,7 +139,7 @@ async function route(map, lang, API_KEY, r) {
             bike_road,
             bike_mountain
         */
-        url.searchParams.set('routeType', r.travelType);
+        url.searchParams.set('routeType', route.travelType);
         // if you want to avoid paid routes (eg. highways) set this to true
         url.searchParams.set('avoidToll', 'false');
 
@@ -145,13 +149,40 @@ async function route(map, lang, API_KEY, r) {
         const json = await response.json();
 
         // we output the length and duration of the result route to the console
-        console.log(`length: ${json.length / 1000} km`, `duration: ${Math.floor(json.duration / 60)}m ${json.duration % 60}s`);
+        if (route.setLen)
+            route.setLen(json.length);
+        if (route.setTime) {
+            console.log(json.duration);
+            route.setTime(json.duration);
+        }
+        // console.log(`length: ${json.length / 1000} km`, `duration: ${Math.floor(json.duration / 60)}m ${json.duration % 60}s`);
 
+        const sourceId = `route-geometry-${id}`;
+        const layerId = `route-geometry-${id}`;
         // then we set the retrieved data as the geometry of our geojson layer
-        const source = map.getSource('route-geometry');
+        const source = map.getSource(sourceId);
 
         if (source && json.geometry) {
             source.setData(json.geometry);
+
+            const exist = map.getLayer(layerId)
+            if (exist)
+                map.removeLayer(layerId);
+
+            map.addLayer({
+                id: layerId,
+                type: 'line',
+                source: sourceId,
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#0033ff',
+                    'line-width': 8,
+                    'line-opacity': 0.6,
+                }
+            })
             // shows the whole geometry in the viewport
             map.jumpTo(map.cameraForBounds(
                 bbox(json.geometry.geometry.coordinates), {
@@ -171,6 +202,7 @@ const addMarkerToMap = (lngLat, map) => {
 };
 
 export default function Map({
+    size, routes, lang, addMarkers, markersArr, onClick
     size, routes, lang, addMarkers, markersArr, onClick
 }) {
     const mapContainer = useRef(null);
@@ -192,7 +224,7 @@ export default function Map({
         const url = 'https://api.mapy.cz/v1/maptiles'
 
         // array of map tile sets we want to support
-        const sources = {
+        var sources = {
             'basic-tiles': {
                 type: 'raster',
                 url: `${url}/basic/tiles.json?apikey=${API_KEY}`,
@@ -220,8 +252,26 @@ export default function Map({
                     type: "LineString",
                     coordinates: [],
                 },
+            },
+            'route-geometry1': {
+                type: 'geojson',
+                data: {
+                    type: "LineString",
+                    coordinates: [],
+                },
             }
         };
+        if (routes) {
+            routes.forEach((_, id) => {
+                sources[`route-geometry-${id}`] = {
+                    type: 'geojson',
+                    data: {
+                        type: "LineString",
+                        coordinates: [],
+                    },
+                };
+            });
+        }
 
         map.current = new maplibregl.Map({
             container: mapContainer.current,
@@ -237,19 +287,6 @@ export default function Map({
                     // here we set the source used when map is loaded to one of
                     // those declared above
                     source: 'basic-tiles',
-                }, {
-                    id: 'route-geometry',
-                    type: 'line',
-                    source: 'route-geometry',
-                    layout: {
-                        'line-join': 'round',
-                        'line-cap': 'round',
-                    },
-                    paint: {
-                        'line-color': '#0033ff',
-                        'line-width': 8,
-                        'line-opacity': 0.6,
-                    },
                 }],
             },
         });
@@ -272,14 +309,13 @@ export default function Map({
 
         map.current.on('load', () => {
             if (routes) {
-                routes.forEach(r => {
-                    if (r.showRoute) {
-                        route(map.current, lang, API_KEY, r);
-                    }
+                routes.forEach((r, id) => {
+                    if (r.showRoute)
+                        route(map.current, lang, API_KEY, r, id);
                 });
             }
         });
-    }, [lng, lat, API_KEY, lang, routes, onClick]);
+    }, [lng, lat, API_KEY, routes, lang, onClick]);
 
     useEffect(() => {
         if (addMarkers && markersArr && markersArr.length > 0) {

@@ -377,6 +377,56 @@ p {
     width: 500px;
 }
 
+.route-type-select {
+    background-color: var(--dark-250);
+    color: var(--fg-dark);
+    font-size: var(--font-size-18);
+    font-weight: bold;
+    margin-left: 5px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    outline: none;
+}
+
+.route-type-select:hover {
+    background-color: var(--dark-300);
+}
+
+.route-type-select:active {
+    outline: 1px solid var(--prim);
+}
+
+.route-type-select {
+    background-color: var(--dark-250);
+    color: var(--fg-dark);
+    font-size: var(--font-size-18);
+    font-weight: bold;
+    margin-left: 5px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    outline: none;
+}
+
+.route-type-select:hover {
+    background-color: var(--dark-300);
+}
+
+.route-type-select:active {
+    outline: 1px solid var(--prim);
+}
+
  /* Martin Slezák <xsleza26> */
 .remove-btn {
     max-width: 20px;
@@ -386,7 +436,27 @@ p {
     cursor: pointer;
 }
 
- /* Martin Slezák <xsleza26> */
+.add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 45px;
+    width: 45px;
+    font-size: 30px;
+    border-radius: 50%;
+    text-align: center;
+    transition: .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--prim);
+    border: none;
+    color: var(--dark-100);
+}
+
+.add-btn:hover {
+    background-color: var(--prim-light);
+}
+
 @media screen and (max-width: 1250px) {
     .trip-layout {
         flex-direction: column;
