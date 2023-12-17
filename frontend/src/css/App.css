@@ -377,6 +377,7 @@ p {
     width: 500px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select {
     background-color: var(--dark-250);
     color: var(--fg-dark);
@@ -394,14 +395,17 @@ p {
     outline: none;
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select:hover {
     background-color: var(--dark-300);
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select:active {
     outline: 1px solid var(--prim);
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select {
     background-color: var(--dark-250);
     color: var(--fg-dark);
@@ -419,10 +423,12 @@ p {
     outline: none;
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select:hover {
     background-color: var(--dark-300);
 }
 
+ /* Martin Slezák <xsleza26> */
 .route-type-select:active {
     outline: 1px solid var(--prim);
 }
@@ -436,6 +442,7 @@ p {
     cursor: pointer;
 }
 
+ /* Martin Slezák <xsleza26> */
 .add-btn {
     position: fixed;
     bottom: 20px;
@@ -453,10 +460,12 @@ p {
     color: var(--dark-100);
 }
 
+ /* Martin Slezák <xsleza26> */
 .add-btn:hover {
     background-color: var(--prim-light);
 }
 
+ /* Martin Slezák <xsleza26> */
 @media screen and (max-width: 1250px) {
     .trip-layout {
         flex-direction: column;
@@ -576,6 +585,7 @@ p {
     background-color: var(--dark-300);
 }
 
+ /* Martin Slezák <xsleza26> */
 .trip-list-header {
     display: flex;
     max-width: 1300px;
