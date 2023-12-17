@@ -1,56 +1,35 @@
 const db = require('./config/db');
 
 const vacations = [
-    {
-        title: 'Paris vacation',
-        description: 'This should be description of the vacation in Paris',
-        start_date: '2024-01-10',
-        end_date: '2024-01-12',
-        image: 'paris.jpg',
-    },
-    {
-        title: 'Berlin!',
-        description: 'Fantastic vacation in Berlin',
-        start_date: '2023-10-2',
-        end_date: '2023-10-4',
-        image: 'berlin.jpg',
-    },
-];
+    {"id":"4","title":"Tatry","description":"Pojedeme se podívat do tater!!!","start_date":"2024-08-11","end_date":"2024-08-18","image":null}
+]
 
 const trips = [
-    {
-        vacation_id: 1,
-        title: "First trip",
-        description: "We'll visit these places",
-        start_date: "2023-01-10",
-        end_date: "2023-01-11",
-    },
-    {
-        vacation_id: 1,
-        title: "Second trip",
-        description: "This trip we'll do something else",
-        start_date: "2023-01-11",
-        end_date: "2023-01-12",
-    }
-];
+    {"id":"3","vacation_id":"4","title":"Cesta tam","description":"Pojedeme autem","start_date":"2024-08-11","end_date":null,"route_type":"car_short","route_len":"388367"},
+    {"id":"4","vacation_id":"4","title":"Výlet Široké sedlo","description":"Cesta do kopce a zase dolů","start_date":"2024-08-13","end_date":null,"route_type":"foot_fast","route_len":"15230"},
+    {"id":"5","vacation_id":"4","title":"Výlet s výhledem do hor","description":"Není tak moc do kopce","start_date":"2024-08-14","end_date":null,"route_type":"foot_fast","route_len":"10253"},
+    {"id":"6","vacation_id":"4","title":"Procházka po okolí","description":"Ještě není plně naplánováno","start_date":null,"end_date":null,"route_type":"foot_fast","route_len":"7691"}
+]
 
 const stops = [
-    {
-        trip_id: 1,
-        title: "First stop of the trip",
-        description: "We'll go to this place and pay this amount to enter",
-        image: "paris.jpg",
-        lat: 48.8583,
-        lng: 2.2945,
-    },
-    {
-        trip_id: 1,
-        title: "Second stop",
-        description: "We'll have to be there in this time so it's not closed",
-        image: "berlin.jpg",
-        lat: 52.52437,
-        lng: 13.41053,
-    }
+    {"id":"3","trip_id":"3","title":"","description":"","image":null,"lat":"49.2612","lng":"16.5752"},
+    {"id":"4","trip_id":"3","title":"","description":"","image":null,"lat":"49.2741","lng":"20.2511"},
+    {"id":"5","trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2557"},
+    {"id":"6","trip_id":"4","title":"","description":"","image":null,"lat":"49.238","lng":"20.2132"},
+    {"id":"7","trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2558"},
+    {"id":"8","trip_id":"5","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2554"},
+    {"id":"9","trip_id":"5","title":"","description":"","image":null,"lat":"49.2799","lng":"20.2673"},
+    {"id":"10","trip_id":"5","title":"","description":"","image":null,"lat":"49.291","lng":"20.2623"},
+    {"id":"11","trip_id":"5","title":"","description":"","image":null,"lat":"49.2819","lng":"20.2214"},
+    {"id":"12","trip_id":"5","title":"","description":"","image":null,"lat":"49.276","lng":"20.2373"},
+    {"id":"13","trip_id":"5","title":"","description":"","image":null,"lat":"49.2728","lng":"20.2554"},
+    {"id":"14","trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2552"},
+    {"id":"16","trip_id":"6","title":"","description":"","image":null,"lat":"49.2758","lng":"20.2347"},
+    {"id":"17","trip_id":"6","title":"","description":"","image":null,"lat":"49.2738","lng":"20.229"},
+    {"id":"18","trip_id":"6","title":"","description":"","image":null,"lat":"49.2643","lng":"20.237"},
+    {"id":"20","trip_id":"6","title":"","description":"","image":null,"lat":"49.267","lng":"20.2487"},
+    {"id":"21","trip_id":"6","title":"","description":"","image":null,"lat":"49.2695","lng":"20.266"},
+    {"id":"22","trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2555"}
 ]
 
 /// Creates new vacation table in the database
