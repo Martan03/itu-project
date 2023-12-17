@@ -24,7 +24,7 @@ function toKm(m) {
     return Math.trunc(m / 100) / 10;
 }
 
-function ImagePicker({data, setData}) {
+function ImagePicker({data, setData, setSavedData}) {
     const chooseImage = () => {
         let input = document.createElement('input');
         input.type = 'file';
@@ -34,7 +34,13 @@ function ImagePicker({data, setData}) {
             form.append('image', e.target.files[0]);
             uploadImage(form).then(img => {
                 console.log(img);
-                setData({...data, image: img});
+                const new_data = {
+                    ...data,
+                    image: 'http://localhost:3002/uploads/' + img
+                };
+                setData(new_data);
+                setSavedData(new_data);
+                saveVacation(new_data);
             });
         }
 
@@ -283,14 +289,17 @@ function Vacation(props) {
             { data && (
                 <>
                     <div className="vacation-header">
-                        <ImagePicker data={data} setData={setData} />
+                        <ImagePicker
+                            data={data}
+                            setData={setData}
+                            setSavedData={setSavedData} />
                         <VacationHeader
                             data={data}
                             setData={setData}
                             anyChange={anyChange}
                             setAnyChange={setAnyChange}
                             savedData={savedData}
-                            setSavedData={setSavedData}/>
+                            setSavedData={setSavedData} />
                     </div>
 
                     <TripList id={id} trips={trips} setTrips={updateTrips} />
