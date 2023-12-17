@@ -121,6 +121,11 @@ p {
     max-width: 200px;
     border-radius: 10px;
     margin: auto;
+    cursor: pointer;
+}
+
+.card.stop label {
+    margin: auto;
 }
 
 .card-content {
@@ -341,6 +346,10 @@ p {
 
 .route-type-select:active {
     outline: 1px solid var(--prim);
+}
+
+.stop-file-input {
+    display: none;
 }
 
 .remove-btn {

@@ -169,18 +169,21 @@ function Stop(props) {
             var arr = [...props.stops.stops];
             arr[props.index].image = img;
             props.stops.setStops(arr);
+            saveStop(arr[props.index]);
         });
     }
 
     return (
         <div className="card stop">
-            <label>
+            <label for={`stop-file-${props.index}`}>
                 <Image
                     src={props.stop.image}
                     alt={props.stop.title + " picture"}
                 />
             </label>
             <input type="file" accept="image/*"
+                className="stop-file-input"
+                id={`stop-file-${props.index}`}
                 capture="camera"
                 onChange={fileChange} />
             <div className="card-content">
