@@ -20,12 +20,16 @@ import {
 import Map from "../components/Map";
 import { Checkbox } from "../components/Checkbox";
 
+/// converts meters to kilometers with only one decimal place
 function toKm(m) {
     return Math.trunc(m / 100) / 10;
 }
 
+/// clickable image, loads new image on click
 function ImagePicker({data, setData, setSavedData}) {
     const chooseImage = () => {
+        // The simplest way to open the file dialog is to simulate click on
+        // file input
         let input = document.createElement('input');
         input.type = 'file';
 
@@ -38,6 +42,7 @@ function ImagePicker({data, setData, setSavedData}) {
                     ...data,
                     image: img
                 };
+                // image is immidietly saved, so set both data and savedData
                 setData(new_data);
                 setSavedData(new_data);
                 saveVacation(new_data);
@@ -54,13 +59,18 @@ function ImagePicker({data, setData, setSavedData}) {
         alt={data.title + " picture"}/>;
 }
 
+/// Shows the vacation date, tithel and description
 function VacationHeader(props) {
+    // universal function for updating `data`
     const inputChange = (e) => {
         const { name, value } = e.target;
+        // convert to string so that this also works for dates. If not for the
+        // conversion, dates would by compared only with their references.
         props.setAnyChange(String(value) !== String(props.savedData[name]));
         props.setData({ ...props.data, [name]: value });
     };
 
+    // saves the data to the database
     const saveData = () => {
         if (props.anyChange) {
             saveVacation(props.data);
@@ -89,6 +99,7 @@ function AddTripButton({id}) {
     const nav = useNavigate();
 
     const newTrip = () => {
+        // create new trip for this vacation in database and open the trip page
         saveTrip({vacation_id: id}).then(id => nav(`/trip?id=${id}`));
     };
 
@@ -107,6 +118,7 @@ function AddTripButton({id}) {
     </div>
 }
 
+/// Gets the type of the route not including subvariants
 function getTravelType(trip) {
     if (!trip.route_type) {
         return 'other';
@@ -115,6 +127,7 @@ function getTravelType(trip) {
 }
 
 function TripsMap({trips}) {
+    // filter for the displayed routes in map
     const [filter, setFilter] = useState({
         no_date: false,
         car: true,
@@ -123,17 +136,21 @@ function TripsMap({trips}) {
         other: true,
     });
 
+    // generic method for updating the filter
     const inputChange = e => {
         const { name, value } = e.target;
         setFilter({...filter, [name]: value});
     }
 
     let routes = trips
-        .filter(t => t.stops.length >= 2
-            && (filter.no_date || t.start_date)
-            && filter[getTravelType(t)]
+        .filter(t => t.stops.length >= 2 // don't try to show routes with less
+                                         // than 2 points
+            && (filter.no_date || t.start_date) // filter out trips without
+                                                // date if it is set in filter
+            && filter[getTravelType(t)] // filter by the type of the route
         )
         .map(t => ({
+            // convert the trips to their routes that can be displayed by map
             showRoute: true,
             travelType: t.route_type || 'car_fast',
             coords: t.stops.map(s => [s.lng, s.lat]),
@@ -177,30 +194,41 @@ function TripsMap({trips}) {
     </div>
 }
 
+/// gets stats from the trips for the given route type
 function getStats(trips, type) {
+    // filter only the trips with the correct type, when type is null take all
+    // trips
     let filtered = type ? trips.filter(t => getTravelType(t) === type) : trips;
+    // skip the stats if they souldn't be displayed for that category.
+    // Stats are not displayed for the category if there are no trips with that
+    // category, or if all trips have this category.
     if (type && (filtered.length === 0 || filtered.length === trips.length)) {
         return null;
     }
 
+    // get the distances
     filtered = filtered.map(t => t.route_len ?? 0);
 
+    // sum all the distances
     let dist = filtered.reduce((sum, d) => sum + d, 0);
     return {
         count: filtered.length,
         dist: dist,
         avg_dist: dist / filtered.length,
+        // find the max distance
         max_dist: filtered.reduce((max, c) => c > max ? c : max, 0),
     };
 }
 
 function VacationStats({trips}) {
+    // get all stats for the all the categories
     let all = getStats(trips, null);
     let car = getStats(trips, 'car');
     let foot = getStats(trips, 'foot');
     let bike = getStats(trips, 'bike');
     let other = getStats(trips, 'other');
 
+    // display stats of category only if they should be displayed
     return <div className="vacation-stats">
         <p>Number of trips: {all.count}</p>
         <p>Total distance: {toKm(all.dist)} km</p>
@@ -244,6 +272,7 @@ function Vacation(props) {
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
 
+    // sort the trips every time they change
     const updateTrips = t => {
         let arr = [...t];
         arr.sort((a, b) => {
@@ -258,6 +287,7 @@ function Vacation(props) {
         setTrips(arr);
     }
 
+    // make sure that start_date and end_date have the correct data type
     const mapVacation = v => {
         v.start_date = new Date(v.start_date);
         v.end_date = new Date(v.end_date);
@@ -265,6 +295,7 @@ function Vacation(props) {
         setSavedData(v);
     };
 
+    // load the vacation, trips and stops for all trips from the database
     useEffect(() => getVacationWithTripsAndStops(
         mapVacation,
         t => {

@@ -10,10 +10,12 @@ import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { saveTrip, deleteTrip } from "../Db";
 
+/// converts meters to kilometers with only one decimal place
 function toKm(m) {
     return Math.trunc(m / 100) / 10;
 }
 
+/// Gets human readable name of the type of the route
 function getTravelTypeString(trip) {
     if (!trip.route_type) {
         return "Other";
@@ -35,12 +37,14 @@ function Trip(props) {
     const [savedData, setSavedData] = useState(props.item);
     const [anyChange, setAnyChange] = useState(false);
 
+    // universal function for changing the data
     const inputChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
         setAnyChange(String(value) !== String(savedData[name]));
     }
 
+    // save the data to database
     const inputConfirm = () => {
         if (anyChange) {
             props.setTrip(data);
@@ -50,6 +54,7 @@ function Trip(props) {
         }
     }
 
+    // remove trip
     const removeTrip = () => {
         if (props.removeTrip) {
             props.removeTrip(data);
@@ -97,11 +102,14 @@ function TripList(props) {
     let setData = props.setTrips;
 
     const removeTrip = (t) => {
+        // remove the trip by filtering it out
         setData(data.filter(i => i.id !== t.id));
         deleteTrip(t.id);
     };
 
     const setTrip = idx => t => {
+        // in order to set the trip at index, we need to copy the data because
+        // `data` can be set only with the `setData` function
         let trips = [...data];
         trips[idx] = t;
         setData(trips);
@@ -111,6 +119,7 @@ function TripList(props) {
         <>
             { data && (
                 data.length ? (
+                    // iterate trough the trips and create card for each
                     data.map((item, idx) => (
                         <Trip
                             removeTrip={removeTrip}
