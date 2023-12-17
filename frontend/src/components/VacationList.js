@@ -9,11 +9,20 @@ import { Link } from "react-router-dom";
 
 import { DateRange } from "../components/DateRange";
 import Error from "./Error";
-import { getVacations } from "../Db";
+import { deleteVacation, getVacations } from "../Db";
 import Image from "./Image";
+
+import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 
 /// Renders vacation
 function Vacation(props) {
+    const delVacation = () => {
+        deleteVacation(props.item.id)
+        const arr = [...props.data.data];
+        arr.splice(props.index, 1);
+        props.data.setData(arr);
+    }
+
     return (
         <div className="vacation">
             <div className="marker">
@@ -21,10 +30,17 @@ function Vacation(props) {
                 <div className="marker-line"></div>
             </div>
             <div className="data">
-                <DateRange
-                    start_date={props.item.start_date}
-                    end_date={props.item.end_date}
-                />
+                <div className="trip-list-header">
+                    <DateRange
+                        start_date={props.item.start_date}
+                        end_date={props.item.end_date}
+                    />
+                    <button
+                        onClick={delVacation}
+                        className="remove-trip-button">
+                        <TrashIcon/>
+                    </button>
+                </div>
                 <Link to={`/vacation?id=${props.item.id}`} className="card">
                     <Image src={props.item.image}
                          alt={props.item.title + " picture"} />
@@ -54,8 +70,13 @@ function VacationList(props) {
             { loading && <h2>Loading...</h2> }
             { err && <Error /> }
             { data && (
-                data.map(item => (
-                    <Vacation key={item.id} item={item} />
+                data.map((item, index) => (
+                    <Vacation
+                        key={item.id}
+                        index={index}
+                        item={item}
+                        data={{data, setData}}
+                    />
                 ))
             ) }
         </>

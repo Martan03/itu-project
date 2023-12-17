@@ -52,7 +52,7 @@ function DateRange(props) {
     if (!props.input) {
         const from = moment(props.start_date).format('DD.MM.');
         const to = moment(props.end_date).format('DD.MM. YYYY');
-        return props.start_date == props.end_date
+        return props.start_date === props.end_date
             ? <p className="date">{to}</p>
             : <p className="date">{from} - {to}</p>;
     }
@@ -77,7 +77,7 @@ function DateRange(props) {
 }
 
 function DateRangeInput(props) {
-    return DateRange({...props, ["input"]: true});
+    return DateRange({...props, input: true});
 }
 
 export {DateRange, DateRangeInput, DateInput};

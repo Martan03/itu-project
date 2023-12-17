@@ -25,8 +25,9 @@ function getTravelTypeString(trip) {
         return "On foot";
     case "bike":
         return "On bike";
+    default:
+        return "Other";
     }
-    return "Other";
 }
 
 /// Renders given trip and its stops

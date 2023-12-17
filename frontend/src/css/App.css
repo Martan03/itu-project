@@ -446,11 +446,20 @@ p {
 
  /* Martin Slezák <xsleza26> */
 .remove-btn {
-    max-width: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    color: var(--fg-dark);
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
+}
+
+.remove-btn svg:hover {
+    color: #E55;
 }
 
  /* Martin Slezák <xsleza26> */
