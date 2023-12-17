@@ -1,77 +1,32 @@
-import { React, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import moment from 'moment';
+/**
+ * ITU project
+ *
+ * Jakub Antonín Štigler <xstigl00>
+ */
+
+import { React, useState } from "react";
+import { Link } from "react-router-dom";
 import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
+import { saveTrip, deleteTrip } from "../Db";
 
-/// Fetches data from API from given url
-/// requires setData, setError, setLoading to set corresponding values
-async function FetchApi(url, setData, setLoading, nav) {
-    fetch(`http://localhost:3002/api${url}`)
-        .then((response) => {
-            if (!response.ok)
-                throw new Error(`Error occurred: ${response.status}`);
-            return response.json();
-        })
-        .then((data) => {
-            data.forEach((d) => {
-                d.start_date = new Date(d.start_date);
-                d.end_date = new Date(d.end_date);
-            });
-            setData(data);
-        })
-        .catch((_) => {
-            nav('/500');
-        })
-        .finally(() => setLoading(false));
+function toKm(m) {
+    return Math.trunc(m / 100) / 10;
 }
 
-function saveTrip(trip) {
-    trip.start_date = moment(trip.start_date).format("YYYY-MM-DD");
-    trip.end_date = moment(trip.end_date).format("YYYY-MM-DD");
-    const save = async () => {
-        try {
-            const res = await fetch('http://localhost:3002/api/trip', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(trip),
-            });
-
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        } catch (err) {
-            console.error(err);
-        }
+function getTravelTypeString(trip) {
+    if (!trip.route_type) {
+        return "Other";
     }
-    save();
-}
-
-function deleteTrip(trip) {
-    trip.start_date = moment(trip.start_date).format("YYYY-MM-DD");
-    trip.end_date = moment(trip.end_date).format("YYYY-MM-DD");
-    const remove = async () => {
-        try {
-            const res = await fetch(
-                `http://localhost:3002/api/trip?id=${trip.id}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
-            );
-
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        } catch (err) {
-            console.error(err);
-        }
+    switch (trip.route_type.split("_")[0]) {
+    case "car":
+        return "In car";
+    case "foot":
+        return "On foot";
+    case "bike":
+        return "On bike";
     }
-    remove();
+    return "Other";
 }
 
 /// Renders given trip and its stops
@@ -88,6 +43,7 @@ function Trip(props) {
 
     const inputConfirm = () => {
         if (anyChange) {
+            props.setTrip(data);
             saveTrip(data);
             setSavedData(data);
             setAnyChange(false);
@@ -121,9 +77,13 @@ function Trip(props) {
                 <Link to={`/trip?id=${props.item.id}`} className="card trip">
                     <div className="card-content">
                         <div className="card-expand">
-                            <h2>{data.title}</h2>
+                            <h2>{data.title ?? "Unnamed trip"}</h2>
+                            <p>{toKm(data.route_len ?? 0)} km</p>
                         </div>
-                        <p>{data.description}</p>
+                        <div className="card-expand">
+                            <p>{data.description ?? "No description"}</p>
+                            <p>{getTravelTypeString(data)}</p>
+                        </div>
                     </div>
                 </Link>
             </div>
@@ -133,36 +93,34 @@ function Trip(props) {
 
 /// Renders vacation trips list
 function TripList(props) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const nav = useNavigate();
-
-    useEffect(() => {
-        FetchApi(`/trip?vacation_id=${props.id}`, setData, setLoading, nav);
-    }, [`/trip?vacation_id=${props.id}`, nav]);
+    let data = props.trips;
+    let setData = props.setTrips;
 
     const removeTrip = (t) => {
-        console.log("removing ", t.id);
-        let idx = data.findIndex((i) => i.id === t.id);
-        setData(data.splice(idx, 1));
-        deleteTrip(t);
+        setData(data.filter(i => i.id !== t.id));
+        deleteTrip(t.id);
     };
+
+    const setTrip = idx => t => {
+        let trips = [...data];
+        trips[idx] = t;
+        setData(trips);
+    }
 
     return (
         <>
-            { loading && <h1>Loading...</h1> }
             { data && (
                 data.length ? (
-                    data.map(item => (
+                    data.map((item, idx) => (
                         <Trip
                             removeTrip={removeTrip}
+                            setTrip={setTrip(idx)}
                             item={item}
                             key={item.id}
                             vacation_id={props.id}/>
                     ))
                 ) : (
-                    <h1>No vacation trips found...</h1>
+                    <></>
                 )
             )}
         </>

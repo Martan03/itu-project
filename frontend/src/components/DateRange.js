@@ -1,7 +1,7 @@
 /**
  * ITU project
  *
- * Martin Slezák <xsleza26>
+ * Jakub Antonín Štigler <xstigl00>
  */
 
 import moment from 'moment';
