@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
 const db = require('./config/db');
 const cors = require('cors');
 const fixtures = require('./fixtures');
@@ -7,6 +10,16 @@ const app = express();
 const PORT = 3002;
 app.use(cors());
 app.use(express.json());
+
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: (_, file, cb) => {
+        const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, file.fieldname + '-' + unique + ext);
+    }
+});
+const upload = multer({ storage });
 
 /// This is TEMPORARY so we can easily create and fill database
 app.get("/api/fill-tables", (_, res) => {
@@ -31,8 +44,21 @@ function query(res, query, args = []) {
     db.query(query, args, (err, result) => {
         if (err)
             res.status(500).json(err.message);
-        else
+        else {
             res.send(result);
+        }
+    });
+}
+
+/// Helper insert function, inserts to the database
+function insert(res, table, args = []) {
+    const query = `INSERT INTO ${table} SET ?`;
+    db.query(query, args, (err, result) => {
+        if (err)
+            res.status(500).json(err.message);
+        else {
+            res.json({id: result.insertId});
+        }
     });
 }
 
@@ -91,14 +117,13 @@ app.post("/api/vacation", (req, res) => {
         'image': req.body.image,
     };
 
-    var sql = "INSERT INTO vacation SET ?";
-    var args = [vacation];
     if (req.body.id) {
         sql = "UPDATE vacation SET ? WHERE id = ?";
         args = [vacation, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'vacation', [vacation]);
     }
-
-    save(res, sql, args);
 });
 
 /// Deletes vacation by given ID
@@ -154,16 +179,18 @@ app.post("/api/trip", (req, res) => {
         'description': req.body.description,
         'start_date': req.body.start_date,
         'end_date': req.body.end_date,
+        'route_type': req.body.route_type,
+        'route_len': req.body.route_len,
     };
 
-    var sql = "INSERT INTO trip SET ?";
-    var args = [trip];
     if (req.body.id) {
         sql = "UPDATE trip SET ? WHERE id = ?";
         args = [trip, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'trip', [trip])
     }
 
-    save(res, sql, args);
 });
 
 /// Deletes trip by given ID
@@ -204,18 +231,18 @@ app.post("/api/stop", (req, res) => {
         'lng': req.body.lng,
     };
 
-    var sql = "INSERT INTO stop SET ?";
-    var args = [stop];
     if (req.body.id) {
         sql = "UPDATE stop SET ? WHERE id = ?";
         args = [stop, req.body.id];
+        save(res, sql, args);
+    } else {
+        insert(res, 'stop', [stop]);
     }
 
-    save(res, sql, args);
 });
 
 /// Deletes stop by given ID
-app.delete("/api/trip", (req, res) => {
+app.delete("/api/stop", (req, res) => {
     if (!req.query.id) {
         res.status(400).send("No ID given to delete vacation");
         return;
@@ -224,6 +251,16 @@ app.delete("/api/trip", (req, res) => {
     sql = "DELETE FROM stop WHERE id = ?";
     query(res, sql, [req.query.id]);
 });
+
+/// Gets image from the server
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+/// Saves given image to the server
+app.post('/api/upload', upload.single('image'), (req, res) => {
+    if (!req.file)
+        return res.status(400).send('No file uploaded');
+    res.json({filename: req.file.filename});
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);

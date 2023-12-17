@@ -11,7 +11,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../css/Calendar.css';
 
 function Calendar(props) {
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const nav = useNavigate();

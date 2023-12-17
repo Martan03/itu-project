@@ -26,6 +26,10 @@ function Layout(props) {
             <div className={`content ${props.menu.menuVis ? '' : 'expanded'}`}>
                 {props.children}
             </div>
+
+            { props.addClick ? (
+                <button className="add-btn" onClick={props.addClick}>+</button>
+            ) : ''}
         </div>
     )
 }

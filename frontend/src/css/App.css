@@ -1,29 +1,42 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ * Jakub Antonín Štigler <xstigl00>
+ */
+
+ /* Martin Slezák <xsleza26> */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+ /* Martin Slezák <xsleza26> */
 html {
     background-color: var(--dark-150);
     color: var(--fg);
     font-family: Arial, Helvetica, sans-serif;
 }
 
+ /* Martin Slezák <xsleza26> */
 p {
     color: var(--fg-dark);
     font-size: var(--font-size-18);
 }
 
+ /* Martin Slezák <xsleza26> */
 .App {
     width: 100%;
     height: 100vh;
 }
 
+ /* Martin Slezák <xsleza26> */
 .layout {
     overflow: hidden;
 }
 
+ /* Martin Slezák <xsleza26> */
 .content {
     margin-left: 250px;
     padding: 10px;
@@ -31,16 +44,19 @@ p {
     transition: 0.3s ease;
 }
 
+ /* Martin Slezák <xsleza26> */
 .content.expanded {
     margin-left: 0;
 }
 
+ /* Martin Slezák <xsleza26> */
 .vacation {
     display: flex;
     gap: 10px;
     margin-bottom: 5px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .marker {
     display: flex;
     flex-direction: column;
@@ -48,6 +64,7 @@ p {
     gap: 5px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .marker-circle {
     width: 30px;
     height: 30px;
@@ -56,6 +73,7 @@ p {
     border-radius: 50%;
 }
 
+ /* Martin Slezák <xsleza26> */
 .marker-line {
     width: 6px;
     background-color: var(--prim-light);
@@ -63,6 +81,7 @@ p {
     height: 100%;
 }
 
+ /* Martin Slezák <xsleza26> */
 .data {
     width: 100%;
     display: flex;
@@ -70,11 +89,13 @@ p {
     gap: 5px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .date {
     color: var(--fg-darker);
     line-height: 30px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card {
     width: 100%;
     max-width: 1300px;
@@ -87,46 +108,57 @@ p {
     text-decoration: none;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.trip {
     height: auto;
     cursor: pointer;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.stop {
     height: auto;
     background-color: transparent;
     margin-top: 3px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.stop:not(:first-child) {
     margin-top: 10px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card:hover {
     background-color: var(--dark-300);
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.stop:hover {
     background-color: transparent;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card img {
     height: 100%;
     width: 300px;
     object-fit: cover;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.stop img {
-    height: 150px;
-    width: 225px;
+    max-height: 110px;
+    max-width: 200px;
     border-radius: 10px;
+    margin: auto;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card-content {
     width: 100%;
     padding: 15px 20px;
+    position: relative;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card-expand {
     width: 100%;
     display: flex;
@@ -134,6 +166,7 @@ p {
     align-items: center;
 }
 
+/* Martin Slezák <xsleza26> */
 .card-expand-icon {
     width: 30px;
     height: 30px;
@@ -141,24 +174,38 @@ p {
     transition: .15s;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card-expand-icon.visible {
     transform: rotateZ(180deg);
 }
 
+ /* Martin Slezák <xsleza26> */
 .card-content h2 {
     color: var(--fg-light);
     font-weight: normal;
     font-size: var(--font-size-25);
 }
 
+ /* Martin Slezák <xsleza26> */
 .card.trip .card-content p {
     margin-top: 10px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .card-content p {
     margin-top: 20px;
 }
 
+ /* Martin Slezák <xsleza26> */
+.card.stop .card-content p {
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+ /* Martin Slezák <xsleza26> */
 .vacation-header {
     width: 100%;
     display: flex;
@@ -166,10 +213,12 @@ p {
     margin-bottom: 20px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .vacation-header.trip {
     margin-top: 10px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .vacation-header img {
     max-height: 300px;
     max-width: 50%;
@@ -177,12 +226,22 @@ p {
     border-radius: 10px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .vacation-header h1, .err-header {
     font-weight: normal;
     color: var(--fg-light);
+    padding: 6px;
+    padding: 6px;
     font-size: 40px;
 }
 
+ /* Martin Slezák <xsleza26> */
+.vacation-description {
+    flex-grow: 1;
+    padding: 6px;
+}
+
+ /* Martin Slezák <xsleza26> */
 .vacation-header-content {
     width: 50%;
     display: flex;
@@ -190,11 +249,18 @@ p {
     gap: 5px;
 }
 
+ /* Martin Slezák <xsleza26> */
+.vacation-header-content.trip {
+    width: 100%;
+}
+
+ /* Martin Slezák <xsleza26> */
 .vacation-header .date {
     color: var(--fg-darker);
     line-height: normal;
 }
 
+/* Jakub Antonín Štigler <xstigl00> */
 .bottom-right-float {
     position: fixed;
     right: 50px;
@@ -207,77 +273,215 @@ p {
     font-size: 1em;
 }
 
-.vacation-header input {
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-title-input {
     font-weight: normal;
     color: var(--fg-light);
-    background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
+    padding: 6px;
     font-size: 40px;
+    font-weight: normal;
+    color: var(--fg-light);
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    transition: background-color ease .15s;
 }
 
-.vacation-header input:focus {
+ /* Martin Slezák <xsleza26> */
+.vacation-title-input.small {
+    font-size: 25px;
+    width: 100%;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-title-input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
-}
-
-.vacation-header textarea {
-    color: var(--fg-light);
-    font-size: var(--font-size-18);
-    font-weight: normal;
     background-color: var(--dark-250);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
-    flex-grow: 1;
+    padding: 5px;
 }
 
-.vacation-header textarea:focus {
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-title-input:hover {
+    background-color: var(--dark-200);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-header textarea,
+.card-content textarea {
+    font-weight: normal;
+    color: var(--fg-light);
+    font-size: var(--font-size-18);
+    padding: 6px;
+    font-weight: normal;
+    color: var(--fg-dark);
+    background-color: transparent;
+    border: none;
+    flex-grow: 1;
+    font-family: sans-serif;
+    resize: none;
+    border-radius: 10px;
+    transition: background-color ease .15s;
+}
+
+ /* Martin Slezák <xsleza26> */
+.card-content textarea {
+    width: 100%;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-header textarea:focus,
+.card-content textarea:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
+    background-color: var(--dark-250);
+    padding: 5px;
 }
 
-.card-content input {
-    color: var(--fg-light);
-    font-weight: normal;
-    font-size: var(--font-size-25);
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
-    flex-grow: 1;
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-header textarea:hover,
+.card-content textarea:hover {
+    background-color: var(--dark-200);
 }
 
-.card-content textarea {
-    margin-top: 10px;
-    flex-grow: 1;color: var(--fg-light);
-    font-size: var(--font-size-18);
-    font-weight: normal;
-    background-color: var(--dark-300);
-    border: solid 1px var(--dark-500);
-    border-radius: 10px;
-    padding: 10px;
-}
-
+ /* Martin Slezák <xsleza26> */
 .card-desc-edit {
     display: flex;
 }
 
-.card-content textarea:focus {
-    border: solid 1px var(--prim-light);
-    outline: 0px;
-}
-
+ /* Martin Slezák <xsleza26> */
 .card-content input:focus {
     border: solid 1px var(--prim-light);
     outline: 0px;
 }
 
+ /* Martin Slezák <xsleza26> */
 .err-content {
     margin-top: 10px;
 }
 
+ /* Martin Slezák <xsleza26> */
+.trip-layout {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    gap: 10px;
+}
+
+ /* Martin Slezák <xsleza26> */
+.trip-map {
+    width: calc(100% - 500px);
+}
+
+ /* Martin Slezák <xsleza26> */
+.trip-layout-details {
+    width: 500px;
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select {
+    background-color: var(--dark-250);
+    color: var(--fg-dark);
+    font-size: var(--font-size-18);
+    font-weight: bold;
+    margin-left: 5px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    outline: none;
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select:hover {
+    background-color: var(--dark-300);
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select:active {
+    outline: 1px solid var(--prim);
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select {
+    background-color: var(--dark-250);
+    color: var(--fg-dark);
+    font-size: var(--font-size-18);
+    font-weight: bold;
+    margin-left: 5px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    outline: none;
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select:hover {
+    background-color: var(--dark-300);
+}
+
+ /* Martin Slezák <xsleza26> */
+.route-type-select:active {
+    outline: 1px solid var(--prim);
+}
+
+ /* Martin Slezák <xsleza26> */
+.remove-btn {
+    max-width: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+ /* Martin Slezák <xsleza26> */
+.add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 45px;
+    width: 45px;
+    font-size: 30px;
+    border-radius: 50%;
+    text-align: center;
+    transition: .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--prim);
+    border: none;
+    color: var(--dark-100);
+}
+
+ /* Martin Slezák <xsleza26> */
+.add-btn:hover {
+    background-color: var(--prim-light);
+}
+
+ /* Martin Slezák <xsleza26> */
+@media screen and (max-width: 1250px) {
+    .trip-layout {
+        flex-direction: column;
+    }
+
+    .trip-map {
+        height: 450px;
+        width: 100%;
+    }
+
+    .trip-layout-details {
+        width: 100%;
+    }
+}
+
+ /* Martin Slezák <xsleza26> */
 @media screen and (max-width: 1000px) {
     .content {
         transform: translateX(250px);
@@ -290,6 +494,7 @@ p {
     }
 }
 
+ /* Martin Slezák <xsleza26> */
 @media screen and (max-width: 650px) {
     .card {
         flex-direction: column;
@@ -319,4 +524,156 @@ p {
     .vacation-header-content {
         width: 100%;
     }
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.date-picker > div {
+    border: 0px;
+    padding: 1px;
+    color: var(--fg-darker);
+    border-radius: 5px;
+    transition: background-color ease .15s;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.date-picker:focus-within > div {
+    border: solid 1px var(--prim-light);
+    outline: 0px;
+    color: var(--fg-light);
+    font-weight: normal;
+    background-color: var(--dark-250);
+    padding: 0px;
+    color: var(--fg-light);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.date-picker:hover > div {
+    background-color: var(--dark-200);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.date-picker input:focus {
+    border: none;
+    outline: none;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.date-range {
+    color: var(--fg-darker);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.dark-button {
+    background-color: var(--dark-250);
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    color: var(--fg-dark);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.add-trip-button {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1300px;
+    height: 98px;
+    transition: background-color ease .15s;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.add-trip-button:hover {
+    background-color: var(--dark-300);
+}
+
+ /* Martin Slezák <xsleza26> */
+.trip-list-header {
+    display: flex;
+    max-width: 1300px;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.trip-list-header .date-range {
+    flex-grow: 1;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.remove-trip-button {
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    margin-right: 10px;
+    color: var(--fg-dark);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.remove-trip-button svg:hover {
+    color: #E55;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.img-hover {
+    transition: ease .15s;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.img-hover:hover {
+    opacity: 0.85;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-map {
+    margin-top: 20px;
+    width: 100%;
+    height: calc(100vh - 150px);
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-stats {
+    display: flex;
+    margin-left: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    max-width: 1300px;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-stats p {
+    width: 18em;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-map-filters {
+    display: flex;
+    margin-left: 40px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.vacation-map-filters > div {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.checkbox label {
+    margin-left: 0.5em;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.checkbox input {
+    background-color: red;
+}
+
+/* Jakub Antonín Štigler <xstigl00> */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

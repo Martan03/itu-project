@@ -101,9 +101,10 @@ function Settings(props) {
             </label>
           </div>
 
-          <div className='settings-button' style={{ marginTop: '20px', display: 'flex'}}>
+          <div className='settings-button slider'
+               style={{ marginTop: '20px', display: 'flex'}}>
               <span style={{ marginRight: '10px' }}>Select text size</span>
-              <div style={{display: 'flex', width: '300px', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+              <div style={{display: 'flex', width: '100%', maxWidth: '300px', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
                 <ReactSlider
                   className=      "horizontal-slider"
                   thumbClassName= "slider-thumb"
