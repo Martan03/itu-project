@@ -272,8 +272,18 @@ function deleteStop(id) {
     deleteAPI(id, "/api/stop");
 }
 
-function uploadImage(data) {
-
+function uploadImage(img) {
+    return fetch(`${API_URL}/api/upload`, {
+        method: 'POST',
+        body: img,
+    })
+        .then(res => {
+            if (!res.ok)
+                throw new Error(res.status);
+            return res.json();
+        })
+        .then(data => data.filename)
+        .catch(err => console.error(err.message));
 }
 
 export {
@@ -287,4 +297,5 @@ export {
     deleteVacation,
     deleteTrip,
     deleteStop,
+    uploadImage,
 }

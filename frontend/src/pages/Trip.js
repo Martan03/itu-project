@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from "../Layout";
 import { DateRangeInput } from "../components/DateRange.js";
 import Map from "../components/Map.js";
-import { getTripWithStops, saveTrip, saveStop, deleteStop } from "../Db.js";
+import { getTripWithStops, saveTrip, saveStop, deleteStop, uploadImage } from "../Db.js";
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
 
@@ -160,10 +160,21 @@ function Stop(props) {
         props.stops.setStops(stops);
     }
 
+    const fileChange = (e) => {
+        const data = new FormData();
+        data.append('image', e.target.files[0]);
+        uploadImage(data).then(img => console.log(img));
+    }
+
     return (
         <div className="card stop">
-            <img src={props.stop.image}
-                 alt={props.stop.title + " picture"} />
+            <label>
+                <img src={props.stop.image}
+                    alt={props.stop.title + " picture"} />
+            </label>
+            <input type="file" accept="image/*"
+                capture="camera"
+                onChange={fileChange} />
             <div className="card-content">
                 <BinIcon className="remove-btn" onClick={delStop} />
                 <TitleInput
