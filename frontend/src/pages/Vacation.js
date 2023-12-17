@@ -36,7 +36,7 @@ function ImagePicker({data, setData, setSavedData}) {
                 console.log(img);
                 const new_data = {
                     ...data,
-                    image: 'http://localhost:3002/uploads/' + img
+                    image: img
                 };
                 setData(new_data);
                 setSavedData(new_data);
@@ -50,7 +50,7 @@ function ImagePicker({data, setData, setSavedData}) {
     return <img
         className="img-hover"
         onClick={chooseImage}
-        src={data.image}
+        src={'http://localhost:3002/uploads/' + data.image}
         alt={data.title + " picture"}/>;
 }
 
