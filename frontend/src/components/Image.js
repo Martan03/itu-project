@@ -5,7 +5,7 @@ function Image(props) {
     return (
         <img
             className={props.className ?? ''}
-            src={url + props.src}
+            src={url + (props.src ?? 'placeholder.png')}
             alt={props.alt ?? ''}
         />
     )

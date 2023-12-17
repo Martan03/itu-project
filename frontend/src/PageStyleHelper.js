@@ -12,7 +12,8 @@ export const Helper = {
             ["--font-size-16", (16 + diffValue).toString() + "px"],
             ["--font-size-18", (18 + diffValue).toString() + "px"],
             ["--font-size-20", (20 + diffValue).toString() + "px"],
-            ["--font-size-25", (25 + diffValue).toString() + "px"]
+            ["--font-size-25", (25 + diffValue).toString() + "px"],
+            ["--font-size-40", (40 + diffValue).toString() + "px"]
           ];
           this.setPropertiesFromArray(keyValueArray);
     },

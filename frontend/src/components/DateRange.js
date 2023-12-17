@@ -59,7 +59,7 @@ function DateRange(props) {
         // when the DateRange is not input just show the dates
         const from = moment(props.start_date).format('DD.MM.');
         const to = moment(props.end_date).format('DD.MM. YYYY');
-        return props.start_date == props.end_date
+        return props.start_date === props.end_date
             ? <p className="date">{to}</p>
             : <p className="date">{from} - {to}</p>;
     }
@@ -86,7 +86,7 @@ function DateRange(props) {
 
 function DateRangeInput(props) {
     // just alias for input DateRange
-    return DateRange({...props, ["input"]: true});
+    return DateRange({...props, input: true});
 }
 
 export {DateRange, DateRangeInput, DateInput};

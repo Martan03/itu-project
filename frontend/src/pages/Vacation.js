@@ -55,7 +55,10 @@ function ImagePicker({data, setData, setSavedData}) {
     return <img
         className="img-hover"
         onClick={chooseImage}
-        src={'http://localhost:3002/uploads/' + data.image}
+        src={
+            'http://localhost:3002/uploads/'
+                + (data.image ?? 'placeholder.png')
+        }
         alt={data.title + " picture"}/>;
 }
 
@@ -289,8 +292,12 @@ function Vacation(props) {
 
     // make sure that start_date and end_date have the correct data type
     const mapVacation = v => {
-        v.start_date = new Date(v.start_date);
-        v.end_date = new Date(v.end_date);
+        if (v.start_date) {
+            v.start_date = new Date(v.start_date);
+        }
+        if (v.end_date) {
+            v.end_date = new Date(v.end_date);
+        }
         setData({...v});
         setSavedData(v);
     };

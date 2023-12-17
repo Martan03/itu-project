@@ -149,6 +149,12 @@ p {
     max-width: 200px;
     border-radius: 10px;
     margin: auto;
+    cursor: pointer;
+}
+
+ /* Martin Slezák <xsleza26> */
+.card.stop label {
+    margin: auto;
 }
 
  /* Martin Slezák <xsleza26> */
@@ -232,7 +238,7 @@ p {
     color: var(--fg-light);
     padding: 6px;
     padding: 6px;
-    font-size: 40px;
+    font-size: var(--font-size-40);
 }
 
  /* Martin Slezák <xsleza26> */
@@ -278,7 +284,7 @@ p {
     font-weight: normal;
     color: var(--fg-light);
     padding: 6px;
-    font-size: 40px;
+    font-size: var(--font-size-40);
     font-weight: normal;
     color: var(--fg-light);
     background-color: transparent;
@@ -289,7 +295,7 @@ p {
 
  /* Martin Slezák <xsleza26> */
 .vacation-title-input.small {
-    font-size: 25px;
+    font-size: var(--font-size-25);
     width: 100%;
 }
 
@@ -434,12 +440,26 @@ p {
 }
 
  /* Martin Slezák <xsleza26> */
+.stop-file-input {
+    display: none;
+}
+
+ /* Martin Slezák <xsleza26> */
 .remove-btn {
-    max-width: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    color: var(--fg-dark);
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
+}
+
+.remove-btn svg:hover {
+    color: #E55;
 }
 
  /* Martin Slezák <xsleza26> */
@@ -449,7 +469,7 @@ p {
     right: 20px;
     height: 45px;
     width: 45px;
-    font-size: 30px;
+    font-size: var(--font-size-25);
     border-radius: 50%;
     text-align: center;
     transition: .3s ease;

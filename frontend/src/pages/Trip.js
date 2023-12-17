@@ -14,7 +14,7 @@ import { getTripWithStops, saveTrip, saveStop, deleteStop, uploadImage } from ".
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
 
-import { ReactComponent as BinIcon } from '../icons/bin.svg';
+import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import Image from "../components/Image.js";
 
 /// Renders map with route given by stops
@@ -161,6 +161,7 @@ function Stop(props) {
         props.stops.setStops(stops);
     }
 
+    // Handles new picture upload
     const fileChange = (e) => {
         const data = new FormData();
         data.append('image', e.target.files[0]);
@@ -169,22 +170,29 @@ function Stop(props) {
             var arr = [...props.stops.stops];
             arr[props.index].image = img;
             props.stops.setStops(arr);
+            saveStop(arr[props.index]);
         });
     }
 
     return (
         <div className="card stop">
-            <label>
+            <label for={`stop-file-${props.index}`}>
                 <Image
                     src={props.stop.image}
                     alt={props.stop.title + " picture"}
                 />
             </label>
             <input type="file" accept="image/*"
+                className="stop-file-input"
+                id={`stop-file-${props.index}`}
                 capture="camera"
                 onChange={fileChange} />
             <div className="card-content">
-                <BinIcon className="remove-btn" onClick={delStop} />
+                <button
+                    onClick={delStop}
+                    className="remove-btn">
+                    <TrashIcon/>
+                </button>
                 <TitleInput
                     data={{data: props.stop, setData}}
                     save={save}
