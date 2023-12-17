@@ -94,7 +94,8 @@ function TripDetails(props) {
                 />
                 <p>Trip distance: <b>{len / 1000} km</b></p>
                 <p>Travel type:
-                    <select onChange={typeChange}
+                    <select className="route-type-select"
+                            onChange={typeChange}
                             value={props.trip.data.route_type}>
                         <option value="car_fast">Car fast</option>
                         <option value="car_fast_traffic">
