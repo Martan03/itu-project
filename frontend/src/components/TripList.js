@@ -10,6 +10,10 @@ import { DateRange } from './DateRange';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { saveTrip, deleteTrip } from "../Db";
 
+function toKm(m) {
+    return Math.trunc(m / 100) / 10;
+}
+
 function getTravelTypeString(trip) {
     if (!trip.route_type) {
         return "Other";
@@ -74,7 +78,7 @@ function Trip(props) {
                     <div className="card-content">
                         <div className="card-expand">
                             <h2>{data.title ?? "Unnamed trip"}</h2>
-                            <p>{(data.route_len ?? 0) / 1000} km</p>
+                            <p>{toKm(data.route_len ?? 0)} km</p>
                         </div>
                         <div className="card-expand">
                             <p>{data.description ?? "No description"}</p>

@@ -19,6 +19,10 @@ import {
 import Map from "../components/Map";
 import { Checkbox } from "../components/Checkbox";
 
+function toKm(m) {
+    return Math.trunc(m / 100) / 10;
+}
+
 function ImagePicker({data, setData}) {
     const chooseImage = () => {
         let input = document.createElement('input');
@@ -198,32 +202,32 @@ function VacationStats({trips}) {
 
     return <div className="vacation-stats">
         <p>Number of trips: {all.count}</p>
-        <p>Total distance: {all.dist / 1000} km</p>
-        <p>Avg distance: {all.avg_dist / 1000} km</p>
-        <p>Max distance: {all.max_dist / 1000} km</p>
+        <p>Total distance: {toKm(all.dist)} km</p>
+        <p>Avg distance: {toKm(all.avg_dist)} km</p>
+        <p>Max distance: {toKm(all.max_dist)} km</p>
         { car ? <>
             <p>Number of car trips: {car.count}</p>
-            <p>Car distance: {car.dist / 1000} km</p>
-            <p>Avg car distance: {car.avg_dist / 1000} km</p>
-            <p>Longest car ride: {car.max_dist / 1000} km</p>
+            <p>Car distance: {toKm(car.dist)} km</p>
+            <p>Avg car distance: {toKm(car.avg_dist)} km</p>
+            <p>Longest car ride: {toKm(car.max_dist)} km</p>
         </> : <></> }
         { foot ? <>
             <p>Number of trips by foot: {foot.count}</p>
-            <p>Distance walked: {foot.dist / 1000} km</p>
-            <p>Avg walk distance: {foot.avg_dist / 1000} km</p>
-            <p>Longest walk: {foot.max_dist / 1000} km</p>
+            <p>Distance walked: {toKm(foot.dist)} km</p>
+            <p>Avg walk distance: {toKm(foot.avg_dist)} km</p>
+            <p>Longest walk: {toKm(foot.max_dist)} km</p>
         </> : <></> }
         { bike ? <>
             <p>Number of trips on bike: {bike.count}</p>
-            <p>Distance biked: {bike.dist / 1000} km</p>
-            <p>Avg bike distance: {bike.avg_dist / 1000} km</p>
-            <p>Longest bike ride: {bike.max_dist / 1000} km</p>
+            <p>Distance biked: {toKm(bike.dist)} km</p>
+            <p>Avg bike distance: {toKm(bike.avg_dist)} km</p>
+            <p>Longest bike ride: {toKm(bike.max_dist)} km</p>
         </> : <></> }
         { other ? <>
             <p>Number other trips: {other.count}</p>
-            <p>Distance of other trips: {other.dist / 1000} km</p>
-            <p>Avg distance of other trips: {other.avg_dist / 1000} km</p>
-            <p>Longest other trip: {other.max_dist / 1000} km</p>
+            <p>Distance of other trips: {toKm(other.dist)} km</p>
+            <p>Avg distance of other trips: {toKm(other.avg_dist)} km</p>
+            <p>Longest other trip: {toKm(other.max_dist)} km</p>
         </> : <></> }
     </div>
 }
