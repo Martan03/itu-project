@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');

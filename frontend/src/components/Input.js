@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 /// Renders title input
 function TitleInput(props) {
     // Confirm submit

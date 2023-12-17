@@ -45,7 +45,7 @@ function Calendar(props) {
                 nav('/500');
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [nav]);
 
     moment.updateLocale('en', {
         week: {

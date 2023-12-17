@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 import React, { useEffect } from "react";
 
 import Sidebar from "./components/Menu";

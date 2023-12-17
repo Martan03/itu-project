@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Martin Slezák <xsleza26>
+ */
+
 const db = require('./config/db');
 
 const vacations = [
