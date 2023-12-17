@@ -18,7 +18,6 @@ import { ReactComponent as BinIcon } from '../icons/bin.svg';
 
 /// Renders map with route given by stops
 function RenderMap(props) {
-    const [key, setKey] = useState('');
     const [coords, setCoords] = useState([]);
     useEffect(() => {
         // Converts stops coordinates to coordinates array
@@ -46,6 +45,7 @@ function RenderMap(props) {
         });
     }
 
+    // Sets length of the trip
     const setLen = (len) => {
         if (props.trip.trip.route_len !== len) {
             props.trip.setTrip({...props.trip.trip, route_len: len});
@@ -63,6 +63,7 @@ function RenderMap(props) {
                     travelType: props.trip.trip.route_type,
                     coords: coords,
                     setLen: setLen,
+                    setTime: props.setTime,
                 }],
             })}
             lang={'cs'}
@@ -75,9 +76,16 @@ function RenderMap(props) {
 function TripDetails(props) {
     const len = props.trip.data.route_len ?? 0;
 
-    const typeChange = (e) => {
-        props.trip.setData({...props.trip.data, route_type: e.target.value});
-        saveTrip({...props.trip.data, route_type: e.target.value});
+    const formatTime = (seconds) => {
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600)
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        const dayStr = days ? `${days} days ` : '';
+        const hour = String(hours).padStart(2, '0');
+        const min = String(minutes).padStart(2, '0');
+
+        return `${dayStr}${hour}:${min}`;
     }
 
     return (
@@ -93,22 +101,35 @@ function TripDetails(props) {
                     save={saveTrip}
                 />
                 <p>Trip distance: <b>{len / 1000} km</b></p>
-                <p>Travel type:
-                    <select className="route-type-select"
-                            onChange={typeChange}
-                            value={props.trip.data.route_type}>
-                        <option value="car_fast">Car fast</option>
-                        <option value="car_fast_traffic">
-                            Car fast traffic
-                        </option>
-                        <option value="car_short">Car short</option>
-                        <option value="foot_fast">Foot</option>
-                        <option value="bike_road">Road bike</option>
-                        <option value="bike_mountain">Mountain bike</option>
-                    </select>
-                </p>
+                <p>Trip time: <b>{formatTime(props.time)}</b></p>
+                <RouteTypeSelect trip={props.trip} />
             </div>
         </div>
+    )
+}
+
+/// Renders route type selector
+function RouteTypeSelect(props) {
+    // Changes route type of the trip
+    const typeChange = (e) => {
+        props.trip.setData({...props.trip.data, route_type: e.target.value});
+        saveTrip({...props.trip.data, route_type: e.target.value});
+    }
+
+    return (
+        <p>
+            Travel type:
+            <select className="route-type-select" name="type-select"
+                    onChange={typeChange}
+                    value={props.trip.data.route_type}>
+                <option value="car_fast">Fastest route</option>
+                <option value="car_fast_traffic">Avoid traffic</option>
+                <option value="car_short">Shortest route</option>
+                <option value="foot_fast">By foot</option>
+                <option value="bike_road">Road bike</option>
+                <option value="bike_mountain">Mountain bike</option>
+            </select>
+        </p>
     )
 }
 
@@ -178,6 +199,8 @@ function Trip(props) {
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(null);
 
+    const [time, setTime] = useState(0);
+
     // Gets trip id from the url
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -207,10 +230,14 @@ function Trip(props) {
                         <RenderMap
                             stops={{stops, setStops}}
                             trip={{trip, setTrip}}
+                            setTime={setTime}
                         />
                     </div>
                     <div className="trip-layout-details">
-                        <TripDetails trip={{data: trip, setData: setTrip}} />
+                        <TripDetails
+                            trip={{data: trip, setData: setTrip}}
+                            time={time}
+                        />
                         <StopsList stops={{stops, setStops}} />
                     </div>
                 </div>
