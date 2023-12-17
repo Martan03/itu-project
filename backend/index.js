@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
 const db = require('./config/db');
 const cors = require('cors');
 const fixtures = require('./fixtures');
@@ -7,6 +10,16 @@ const app = express();
 const PORT = 3002;
 app.use(cors());
 app.use(express.json());
+
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: (req, file, cb) => {
+        const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, file.fieldname + '-' + unique + ext);
+    }
+});
+const upload = multer({ storage });
 
 /// This is TEMPORARY so we can easily create and fill database
 app.get("/api/fill-tables", (_, res) => {
@@ -238,6 +251,13 @@ app.delete("/api/stop", (req, res) => {
     sql = "DELETE FROM stop WHERE id = ?";
     query(res, sql, [req.query.id]);
 });
+
+/// Saves given image to the server
+app.post('/api/upload', upload.single('image'), (req, res) => {
+    if (!req.file)
+        return res.status(400).send('No file uploaded');
+    res.json({filename: req.file.filename});
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);

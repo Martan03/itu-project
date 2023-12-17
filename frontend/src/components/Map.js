@@ -135,7 +135,7 @@ async function route(map, lang, API_KEY, route, id) {
             bike_road,
             bike_mountain
         */
-        url.searchParams.set('routeType', route.travelType);
+        url.searchParams.set('routeType', route.travelType ?? 'car_fast');
         // if you want to avoid paid routes (eg. highways) set this to true
         url.searchParams.set('avoidToll', 'false');
 

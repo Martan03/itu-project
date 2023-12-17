@@ -34,7 +34,7 @@ function RenderMap(props) {
             description: '',
             lng: lngLat.lng,
             lat: lngLat.lat,
-            trip_id: props.trip.id,
+            trip_id: props.trip.trip.id,
         }
         saveStop(newStop).then((id) => {
             newStop.id = id
@@ -121,7 +121,7 @@ function RouteTypeSelect(props) {
             Travel type:
             <select className="route-type-select" name="type-select"
                     onChange={typeChange}
-                    value={props.trip.data.route_type}>
+                    value={props.trip.data.route_type ?? 'car_fast'}>
                 <option value="car_fast">Fastest route</option>
                 <option value="car_fast_traffic">Avoid traffic</option>
                 <option value="car_short">Shortest route</option>
