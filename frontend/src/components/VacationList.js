@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { DateRange } from "../components/DateRange";
 import Error from "./Error";
 import { getVacations } from "../Db";
+import Image from "./Image";
 
 /// Renders vacation
 function Vacation(props) {
@@ -25,7 +26,7 @@ function Vacation(props) {
                     end_date={props.item.end_date}
                 />
                 <Link to={`/vacation?id=${props.item.id}`} className="card">
-                    <img src={props.item.image}
+                    <Image src={props.item.image}
                          alt={props.item.title + " picture"} />
                     <div className="card-content">
                         <h2>{props.item.title}</h2>
