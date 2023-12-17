@@ -81,6 +81,7 @@ function DescInput(props) {
             placeholder={props.placeholder ?? 'Description'}
             onChange={onChange}
             onBlur={onBlur}
+            spellcheck="false"
         />
     )
 }
