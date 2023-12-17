@@ -35,6 +35,7 @@ const trips = [
         start_date: "2024-08-08",
         end_date: "2024-09-08",
         route_type: "car_short",
+        route_len: "457697",
     },
     {
         vacation_id: 1,
@@ -43,11 +44,12 @@ const trips = [
         start_date: "2024-09-08",
         end_date: "2024-10-08",
         route_type: "foot_fast",
+        route_len: "1597"
     },
-    {"vacation_id": 2,"title":"Cesta tam","description":"Pojedeme autem","start_date":"2024-08-11","end_date":null,"route_type":"car_short"},
-    {"vacation_id": 2,"title":"Výlet Široké sedlo","description":"Cesta do kopce a zase dolů","start_date":"2024-08-13","end_date":null,"route_type":"foot_fast"},
-    {"vacation_id": 2,"title":"Výlet s výhledem do hor","description":"Není tak moc do kopce","start_date":"2024-08-14","end_date":null,"route_type":"foot_fast"},
-    {"vacation_id": 2,"title":"Procházka po okolí","description":"Ještě není plně naplánováno","start_date":null,"end_date":null,"route_type":"foot_fast"},
+    {"vacation_id": 2,"title":"Cesta tam","description":"Pojedeme autem","start_date":"2024-08-11","end_date":null,"route_type":"car_short", route_len: "388367"},
+    {"vacation_id": 2,"title":"Výlet Široké sedlo","description":"Cesta do kopce a zase dolů","start_date":"2024-08-13","end_date":null,"route_type":"foot_fast", route_len: "15224"},
+    {"vacation_id": 2,"title":"Výlet s výhledem do hor","description":"Není tak moc do kopce","start_date":"2024-08-14","end_date":null,"route_type":"foot_fast", route_len: "10281"},
+    {"vacation_id": 2,"title":"Procházka po okolí","description":"Ještě není plně naplánováno","start_date":null,"end_date":null,"route_type":"foot_fast", route_len: "7695"},
     {
         vacation_id: 3,
         title: "Cesta tam",
@@ -55,6 +57,7 @@ const trips = [
         start_date: "2024-07-10",
         end_date: "2024-07-10",
         route_type: "car_fast_traffic",
+        route_len: "223398",
     },
     {
         vacation_id: 3,
@@ -63,6 +66,7 @@ const trips = [
         start_date: "2024-07-10",
         end_date: "2024-07-10",
         route_type: "foot_fast",
+        route_len: "6271",
     },
     {
         vacation_id: 3,
@@ -71,6 +75,7 @@ const trips = [
         start_date: "2024-07-11",
         end_date: "2024-07-11",
         route_type: "foot_fast",
+        route_len: "11562",
     },
     {
         vacation_id: 3,
@@ -79,6 +84,7 @@ const trips = [
         start_date: "2024-07-12",
         end_date: "2024-07-12",
         route_type: "foot_fast",
+        route_len: "15548",
     },
 ];
 
