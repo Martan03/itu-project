@@ -185,6 +185,11 @@ function deleteStop(id) {
     deleteAPI(id, "/api/stop");
 }
 
+/**
+ * Uploads file to the server
+ * @param {FormData} img - form data containing image to be uplaoded
+ * @returns image name on the server
+ */
 function uploadImage(img) {
     return fetch(`${API_URL}/api/upload`, {
         method: 'POST',

@@ -15,6 +15,7 @@ import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
 
 import { ReactComponent as BinIcon } from '../icons/bin.svg';
+import Image from "../components/Image.js";
 
 /// Renders map with route given by stops
 function RenderMap(props) {
@@ -163,14 +164,21 @@ function Stop(props) {
     const fileChange = (e) => {
         const data = new FormData();
         data.append('image', e.target.files[0]);
-        uploadImage(data).then(img => console.log(img));
+        uploadImage(data).then(img => {
+            console.log(img);
+            var arr = [...props.stops.stops];
+            arr[props.index].image = img;
+            props.stops.setStops(arr);
+        });
     }
 
     return (
         <div className="card stop">
             <label>
-                <img src={props.stop.image}
-                    alt={props.stop.title + " picture"} />
+                <Image
+                    src={props.stop.image}
+                    alt={props.stop.title + " picture"}
+                />
             </label>
             <input type="file" accept="image/*"
                 capture="camera"

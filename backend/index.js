@@ -13,7 +13,7 @@ app.use(express.json());
 
 const storage = multer.diskStorage({
     destination: './uploads/',
-    filename: (req, file, cb) => {
+    filename: (_, file, cb) => {
         const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const ext = path.extname(file.originalname);
         cb(null, file.fieldname + '-' + unique + ext);
@@ -251,6 +251,9 @@ app.delete("/api/stop", (req, res) => {
     sql = "DELETE FROM stop WHERE id = ?";
     query(res, sql, [req.query.id]);
 });
+
+/// Gets image from the server
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 /// Saves given image to the server
 app.post('/api/upload', upload.single('image'), (req, res) => {
