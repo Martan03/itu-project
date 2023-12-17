@@ -130,38 +130,6 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
     fetchData();
 }
 
-// Martin Slezák <xsleza26>
-/**
- * Gets vacation with its trips from the database
- * @param {function} setVacation - sets vacation
- * @param {function} settrips - sets trips
- * @param {function} setLoading - sets loading value
- * @param {function} setErr - set error value
- * @param {number} id - vacation id
- */
-function getVacationWithTrips(setVacation, setTrips, setLoading, setErr, id) {
-    const fetchData = async () => {
-        try {
-            const [vac_res, trip_res] = await Promise.all([
-                fetch(`${API_URL}/api/vacation?id=${id}`)
-                    .then(res => res.json()),
-                fetch(`${API_URL}/api/trip?vacation_id=${id}`)
-                    .then(res => res.json())
-            ]);
-
-            setVacation(vac_res[0]);
-            setTrips(trip_res);
-            setLoading(false);
-        } catch (err) {
-            setVacation(null);
-            setTrips([]);
-            setLoading(false);
-            setErr(err.message);
-        }
-    }
-    fetchData();
-}
-
 // Jakub Antonín Štigler <xstigl00>
 /**
  * Gets vacation with its trips from the database
@@ -289,7 +257,6 @@ function uploadImage(img) {
 export {
     getVacations,
     getTripWithStops,
-    getVacationWithTrips,
     getVacationWithTripsAndStops,
     saveVacation,
     saveTrip,

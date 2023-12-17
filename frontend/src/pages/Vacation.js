@@ -15,6 +15,7 @@ import {
     saveVacation,
     getVacationWithTripsAndStops,
     saveTrip,
+    uploadImage,
 } from "../Db";
 import Map from "../components/Map";
 import { Checkbox } from "../components/Checkbox";
@@ -29,15 +30,12 @@ function ImagePicker({data, setData}) {
         input.type = 'file';
 
         input.onchange = e => {
-            let file = e.target.files[0];
-
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = e => {
-                setData({...data, image: e.target.result});
-                // TODO: saveVacation(data2);
-            }
+            const form = new FormData();
+            form.append('image', e.target.files[0]);
+            uploadImage(form).then(img => {
+                console.log(img);
+                setData({...data, image: img});
+            });
         }
 
         input.click();
