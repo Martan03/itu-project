@@ -185,6 +185,10 @@ function deleteStop(id) {
     deleteAPI(id, "/api/stop");
 }
 
+function uploadImage(data) {
+
+}
+
 export {
     getVacations,
     getTripWithStops,
