@@ -6,14 +6,14 @@ const vacations = [
         description: 'This should be description of the vacation in Paris',
         start_date: '2024-01-10',
         end_date: '2024-01-12',
-        image: '/pics/paris.jpg',
+        image: 'paris.jpg',
     },
     {
         title: 'Berlin!',
         description: 'Fantastic vacation in Berlin',
         start_date: '2023-10-2',
         end_date: '2023-10-4',
-        image: '/pics/berlin.jpg',
+        image: 'berlin.jpg',
     },
 ];
 
@@ -39,7 +39,7 @@ const stops = [
         trip_id: 1,
         title: "First stop of the trip",
         description: "We'll go to this place and pay this amount to enter",
-        image: "/pics/paris.jpg",
+        image: "paris.jpg",
         lat: 48.8583,
         lng: 2.2945,
     },
@@ -47,7 +47,7 @@ const stops = [
         trip_id: 1,
         title: "Second stop",
         description: "We'll have to be there in this time so it's not closed",
-        image: "/pics/berlin.jpg",
+        image: "berlin.jpg",
         lat: 52.52437,
         lng: 13.41053,
     }
