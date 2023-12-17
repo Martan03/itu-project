@@ -10,8 +10,9 @@ The server runs on `localhost:3002`
 
 If error with missing package is encountered, install missing package in `backend` directory:
 ```
-npm install PACKAGE_NAME
+npm install
 ```
+This should install all required packages for the Backend section.
 
 ### Database
 
@@ -34,8 +35,7 @@ Before doing following step, you need to run the server (described in
 I created a temporary API endpoint to create database tables and fill them with
 basic data (`/api/fill-tables`), so you don't have to create them by your own
 and fill them with the data. This is for testing only and should be removed
-after the development. In order to use it, run following ```localhost:SERVER_PORT/api/fill-tables```.
-The ```SERVER_PORT``` value can be found in terminal output after running ```node index.js``` as described in [backend section](#backend).
+after the development. In order to use it, run following ```localhost:3002/api/fill-tables```.
 
 To find out more about API, check out `README.md` in `backend` folder
 
@@ -43,19 +43,17 @@ To find out more about API, check out `README.md` in `backend` folder
 
 Make sure following packages are installed:
 ```
-react
-react-switch
-react-slider
-react-scripts
-react-router-dom
-react-scripts
-react-big-calendar
-js-cookie
-maplibre-gl
-moment
+react-switch (https://github.com/markusenglund/react-switch)
+react-slider (https://github.com/zillow/react-slider)
+react-scripts (https://github.com/facebook/create-react-app)
+react-router-dom (https://github.com/remix-run/react-router)
+react-big-calendar (https://github.com/jquense/react-big-calendar)
+js-cookie (https://github.com/js-cookie/js-cookie)
+maplibre-gl (https://github.com/maplibre/maplibre-gl-js)
+moment (https://github.com/moment/moment)
 ```
 
-Again use `npm install PACKAGE_NAME` to install them into project's  `frontend` directory.
+If not, again use `npm install` to install them all-in-one into project's `frontend` directory.
 
 To run the frontend, go to the `frontend` directory and run:
 ```
