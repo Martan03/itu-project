@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Tomáš Daniel <xdanie14>
+ */
+
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 

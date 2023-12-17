@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Tomáš Daniel <xdanie14>
+ */
+
 import Cookies from "js-cookie";
 
 export const Helper = {

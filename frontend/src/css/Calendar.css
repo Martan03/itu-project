@@ -1,3 +1,9 @@
+/**
+ * ITU project
+ *
+ * Tomáš Daniel <xdanie14>
+ */
+
 .rbc-btn-group > button,
 .rbc-btn-group > button:focus {
     background-color: var(--dark-250);
