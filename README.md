@@ -55,7 +55,7 @@ maplibre-gl
 moment
 ```
 
-Again use `npm install` to install them into project's home directory (above `frontend` and `backend` directories).
+Again use `npm install PACKAGE_NAME` to install them into project's  `frontend` directory.
 
 To run the frontend, go to the `frontend` directory and run:
 ```
