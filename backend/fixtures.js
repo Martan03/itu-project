@@ -16,10 +16,11 @@ const vacations = [
         image: 'berlin.jpg',
     },
     {
+        id: 3,
         title: 'Japan is Awesome',
         description: 'Breathtaking vacation in worlds most beautiful country',
-        start_date: '2023-17-12',
-        end_date: '2023-20-12',
+        start_date: '2024-08-08',
+        end_date: '2024-10-08',
         image: 'placeholder.png',
     },
 ];
@@ -40,20 +41,24 @@ const trips = [
         end_date: "2023-01-12",
     },
     {
+        id: 3,
         vacation_id: 3,
         title: "City of Tokyo -> Kyoto",
         description: "We'll visit these places",
-        start_date: "2023-17-12",
-        end_date: "2023-18-12",
+        start_date: "2024-08-08",
+        end_date: "2024-09-08",
         route_type: "car_short",
+        route_len: "1254",
     },
     {
+        id: 4,
         vacation_id: 3,
         title: "Wandering in the city",
-        description: null,
-        start_date: "2023-19-12",
-        end_date: "2023-20-12",
+        description: "See beauty of the city",
+        start_date: "2024-09-08",
+        end_date: "2024-10-08",
         route_type: "foot_fast",
+        route_len: "15",
     }
 ];
 
@@ -85,7 +90,7 @@ const stops = [
     {
         trip_id: 3,
         title: "Second stop - Kyoto",
-        description: null,
+        description: "",
         image: null,
         lat: 35.019284,
         lng: 135.7621,
