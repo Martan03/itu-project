@@ -166,6 +166,8 @@ app.post("/api/trip", (req, res) => {
         'description': req.body.description,
         'start_date': req.body.start_date,
         'end_date': req.body.end_date,
+        'route_type': req.body.route_type,
+        'route_len': req.body.route_len,
     };
 
     if (req.body.id) {

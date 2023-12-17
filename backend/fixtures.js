@@ -4,8 +4,8 @@ const vacations = [
     {
         title: 'Paris vacation',
         description: 'This should be description of the vacation in Paris',
-        start_date: '2023-12-15',
-        end_date: '2023-12-17',
+        start_date: '2024-01-10',
+        end_date: '2024-01-12',
         image: '/pics/paris.jpg',
     },
     {
@@ -22,15 +22,15 @@ const trips = [
         vacation_id: 1,
         title: "First trip",
         description: "We'll visit these places",
-        start_date: "2023-12-15",
-        end_date: "2023-12-16",
+        start_date: "2023-01-10",
+        end_date: "2023-01-11",
     },
     {
         vacation_id: 1,
         title: "Second trip",
         description: "This trip we'll do something else",
-        start_date: "2023-12-16",
-        end_date: "2023-12-17",
+        start_date: "2023-01-11",
+        end_date: "2023-01-12",
     }
 ];
 
@@ -100,7 +100,7 @@ function create_trip_table() {
             start_date DATE NULL,
             end_date DATE NULL,
             route_type TEXT,
-            route_length FLOAT,
+            route_len INT UNSIGNED,
             FOREIGN KEY (vacation_id) REFERENCES vacation(id) ON DELETE CASCADE
         );
     `;

@@ -145,7 +145,8 @@ async function route(map, lang, API_KEY, route, id) {
         const json = await response.json();
 
         // we output the length and duration of the result route to the console
-        console.log(`length: ${json.length / 1000} km`, `duration: ${Math.floor(json.duration / 60)}m ${json.duration % 60}s`);
+        route.setLen(json.length);
+        // console.log(`length: ${json.length / 1000} km`, `duration: ${Math.floor(json.duration / 60)}m ${json.duration % 60}s`);
 
         const sourceId = `route-geometry-${id}`;
         const layerId = `route-geometry-${id}`;

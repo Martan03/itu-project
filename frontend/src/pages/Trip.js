@@ -18,6 +18,7 @@ import { ReactComponent as BinIcon } from '../icons/bin.svg';
 
 /// Renders map with route given by stops
 function RenderMap(props) {
+    const [key, setKey] = useState('');
     const [coords, setCoords] = useState([]);
     useEffect(() => {
         // Converts stops coordinates to coordinates array
@@ -34,7 +35,7 @@ function RenderMap(props) {
             description: '',
             lng: lngLat.lng,
             lat: lngLat.lat,
-            trip_id: props.id,
+            trip_id: props.trip.id,
         }
         saveStop(newStop).then((id) => {
             newStop.id = id
@@ -45,15 +46,23 @@ function RenderMap(props) {
         });
     }
 
+    const setLen = (len) => {
+        if (props.trip.trip.route_len !== len) {
+            props.trip.setTrip({...props.trip.trip, route_len: len});
+            saveTrip({...props.trip.trip, route_len: len});
+        }
+    }
+
     return (
         <Map
-            key={coords.length}
+            key={`${coords.length}${props.trip.trip.route_type}`}
             size={{height: '100%', width: '100%'}}
             {...(coords.length >= 2 && {
                 routes: [{
                     showRoute: true,
-                    travelType: 'car_fast',
+                    travelType: props.trip.trip.route_type,
                     coords: coords,
+                    setLen: setLen,
                 }],
             })}
             lang={'cs'}
@@ -64,6 +73,13 @@ function RenderMap(props) {
 
 /// Renders details of the trip
 function TripDetails(props) {
+    const len = props.trip.data.route_len ?? 0;
+
+    const typeChange = (e) => {
+        props.trip.setData({...props.trip.data, route_type: e.target.value});
+        saveTrip({...props.trip.data, route_type: e.target.value});
+    }
+
     return (
         <div className="vacation-header">
             <div className="vacation-header-content trip">
@@ -76,6 +92,20 @@ function TripDetails(props) {
                     data={props.trip}
                     save={saveTrip}
                 />
+                <p>Trip distance: <b>{len / 1000} km</b></p>
+                <p>Travel type:
+                    <select onChange={typeChange}
+                            value={props.trip.data.route_type}>
+                        <option value="car_fast">Car fast</option>
+                        <option value="car_fast_traffic">
+                            Car fast traffic
+                        </option>
+                        <option value="car_short">Car short</option>
+                        <option value="foot_fast">Foot</option>
+                        <option value="bike_road">Road bike</option>
+                        <option value="bike_mountain">Mountain bike</option>
+                    </select>
+                </p>
             </div>
         </div>
     )
@@ -176,7 +206,6 @@ function Trip(props) {
                         <RenderMap
                             stops={{stops, setStops}}
                             trip={{trip, setTrip}}
-                            id={id}
                         />
                     </div>
                     <div className="trip-layout-details">
