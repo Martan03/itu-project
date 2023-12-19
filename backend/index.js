@@ -86,7 +86,7 @@ function save(res, query, args) {
 /// If `query` is set in URL, it gets vacation containing `query` in title
 /// `id` and `query` won't work together (`id` has priority)
 app.get("/api/vacation", (req, res) => {
-    var where = "ORDER BY title";
+    var where = "ORDER BY start_date, title";
     var args = [];
     if (req.query.id) {
         where = "WHERE id = ?";
@@ -147,14 +147,14 @@ app.delete("/api/vacation", (req, res) => {
 /// Gets past vacations
 app.get("/api/vacation/past", (_, res) => {
     const date = new Date();
-    const sql = "SELECT * FROM vacation WHERE end_date < ?";
+    const sql = "SELECT * FROM vacation WHERE end_date < ? ORDER BY start_date";
     query(res, sql, [date]);
 });
 
 /// Gets upcoming vacations
 app.get("/api/vacation/upcoming", (_, res) => {
     const date = new Date();
-    const sql = "SELECT * FROM vacation WHERE end_date >= ?";
+    const sql = "SELECT * FROM vacation WHERE end_date >= ? ORDER BY start_date";
     query(res, sql, [date]);
 });
 

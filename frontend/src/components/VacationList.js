@@ -65,22 +65,23 @@ function VacationList(props) {
         getVacations(setData, setLoading, setErr, props.time, props.search);
     }, [props.time, props.search]);
 
-    return (
-        <>
-            { loading && <h2>Loading...</h2> }
-            { err && <Error /> }
-            { data && (
-                data.map((item, index) => (
-                    <Vacation
-                        key={item.id}
-                        index={index}
-                        item={item}
-                        data={{data, setData}}
-                    />
-                ))
-            ) }
-        </>
-    );
+    // Renders loading and error page
+    if (loading)
+        return <h2>Loading...</h2>
+    if (err)
+        return <Error />
+
+    if (!data || !data.length)
+        return <h2>No vacations found...</h2>
+
+    return data.map((item, index) => (
+        <Vacation
+            key={item.id}
+            index={index}
+            item={item}
+            data={{data, setData}}
+        />
+    ));
 }
 
 export default VacationList;
