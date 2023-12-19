@@ -66,6 +66,8 @@ function RenderMap(props) {
                     setLen: setLen,
                     setTime: props.setTime,
                 }],
+                addMarkers: true,
+                markersArr: coords,
             })}
             lang={'cs'}
             onClick={addStop}

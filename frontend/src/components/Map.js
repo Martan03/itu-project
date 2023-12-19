@@ -200,8 +200,12 @@ async function route(map, lang, API_KEY, route, id) {
 }
 
 const addMarkerToMap = (lngLat, map) => {
+    const lngLatObj = {
+        lng: lngLat[0],
+        lat: lngLat[1],
+    };
     new maplibregl.Marker()
-        .setLngLat(lngLat)
+        .setLngLat(lngLatObj)
         .addTo(map);
 };
 
@@ -323,7 +327,8 @@ export default function Map({
     useEffect(() => {
         if (addMarkers && markersArr && markersArr.length > 0) {
             markersArr.forEach((marker) => {
-                addMarkerToMap(marker.lngLat, map.current);
+                addMarkerToMap(marker, map.current);
+                //addMarkerToMap(marker.lngLat, map.current);
             });
         }
     }, [addMarkers, markersArr]);
