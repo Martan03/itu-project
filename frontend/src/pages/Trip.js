@@ -35,6 +35,7 @@ function RenderMap(props) {
             description: '',
             lng: lngLat.lng,
             lat: lngLat.lat,
+            stop_order: props.stops.stops.length,
             trip_id: props.trip.trip.id,
         }
         saveStop(newStop).then((id) => {

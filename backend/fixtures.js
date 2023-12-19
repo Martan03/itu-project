@@ -96,6 +96,7 @@ const stops = [
         image: null,
         lat: 35.6841,
         lng: 139.7565,
+        stop_order: 0,
     },
     {
         trip_id: 1,
@@ -104,6 +105,7 @@ const stops = [
         image: null,
         lat: 35.019284,
         lng: 135.7621,
+        stop_order: 1,
     },
     {
         trip_id: 2,
@@ -112,6 +114,7 @@ const stops = [
         image: null,
         lat: 35.018282,
         lng: 135.76264,
+        stop_order: 0,
     },
     {
         trip_id: 2,
@@ -120,31 +123,33 @@ const stops = [
         image: null,
         lat: 35.017615,
         lng: 135.77873887,
+        stop_order: 1,
     },
-    {"trip_id":"3","title":"","description":"","image":null,"lat":"49.2612","lng":"16.5752"},
-    {"trip_id":"3","title":"","description":"","image":null,"lat":"49.2741","lng":"20.2511"},
-    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2557"},
-    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.238","lng":"20.2132"},
-    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2558"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2554"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2799","lng":"20.2673"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.291","lng":"20.2623"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2819","lng":"20.2214"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.276","lng":"20.2373"},
-    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2728","lng":"20.2554"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2552"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2758","lng":"20.2347"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2738","lng":"20.229"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2643","lng":"20.237"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.267","lng":"20.2487"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2695","lng":"20.266"},
-    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2555"},
+    {"trip_id":"3","title":"","description":"","image":null,"lat":"49.2612","lng":"16.5752","stop_order":"0"},
+    {"trip_id":"3","title":"","description":"","image":null,"lat":"49.2741","lng":"20.2511","stop_order":"1"},
+    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2557","stop_order":"0"},
+    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.238","lng":"20.2132","stop_order":"1"},
+    {"trip_id":"4","title":"","description":"","image":null,"lat":"49.2726","lng":"20.2558","stop_order":"2"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2554","stop_order":"0"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2799","lng":"20.2673","stop_order":"1"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.291","lng":"20.2623","stop_order":"2"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2819","lng":"20.2214","stop_order":"3"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.276","lng":"20.2373","stop_order":"4"},
+    {"trip_id":"5","title":"","description":"","image":null,"lat":"49.2728","lng":"20.2554","stop_order":"5"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2552","stop_order":"0"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2758","lng":"20.2347","stop_order":"1"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2738","lng":"20.229","stop_order":"2"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2643","lng":"20.237","stop_order":"3"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.267","lng":"20.2487","stop_order":"4"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2695","lng":"20.266","stop_order":"5"},
+    {"trip_id":"6","title":"","description":"","image":null,"lat":"49.2727","lng":"20.2555","stop_order":"6"},
     {
         trip_id: 7,
         title: "Start",
         description: "",
         lat: "49.2264",
         lng: "16.5962",
+        stop_order: 0,
     },
     {
         trip_id: 7,
@@ -152,6 +157,7 @@ const stops = [
         description: "",
         lat: "49.178",
         lng: "18.867",
+        stop_order: 1,
     },
     {
         trip_id: 8,
@@ -159,6 +165,7 @@ const stops = [
         description: "Tady musíme opustit auto",
         lat: "49.1781",
         lng: "18.8671",
+        stop_order: 0,
     },
     {
         trip_id: 8,
@@ -166,6 +173,7 @@ const stops = [
         description: "Poměrně malá, ale hezký výhled. Vstupné dobrovolné.",
         lat: "49.1779",
         lng: "18.8906",
+        stop_order: 1,
     },
     {
         trip_id: 8,
@@ -173,6 +181,7 @@ const stops = [
         description: "Ubytování, placeno předem. Mají halušky! :)",
         lat: "49.1766",
         lng: "18.935",
+        stop_order: 2,
     },
     {
         trip_id: 9,
@@ -180,6 +189,7 @@ const stops = [
         description: "",
         lat: "49.1767",
         lng: "18.9351",
+        stop_order: 0,
     },
     {
         trip_id: 9,
@@ -187,6 +197,7 @@ const stops = [
         description: "",
         lat: "49.1876",
         lng: "19.0309",
+        stop_order: 1,
     },
     {
         trip_id: 9,
@@ -194,6 +205,7 @@ const stops = [
         description: "Ubytování, placeno předem.",
         lat: "49.181",
         lng: "19.0498",
+        stop_order: 2,
     },
     {
         trip_id: 10,
@@ -201,6 +213,7 @@ const stops = [
         description: "",
         lat: "49.181",
         lng: "19.0498",
+        stop_order: 0,
     },
     {
         trip_id: 10,
@@ -208,6 +221,7 @@ const stops = [
         description: "Řetězama na vrchol, to bude zábava! Pokud bude pršet, obejít!",
         lat: "49.2315",
         lng: "19.0986",
+        stop_order: 1,
     },
     {
         trip_id: 10,
@@ -215,6 +229,7 @@ const stops = [
         description: "Žebříky sem, žebříky tam a všude samý vodopád",
         lat: "49.2416",
         lng: "19.0928",
+        stop_order: 2,
     },
     {
         trip_id: 10,
@@ -222,6 +237,7 @@ const stops = [
         description: "Odtud ještě naplánovat odjezd.",
         lat: "49.2574",
         lng: "19.0668",
+        stop_order: 3,
     },
 ]
 

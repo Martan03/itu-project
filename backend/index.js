@@ -116,11 +116,11 @@ app.get("/api/vacation", (req, res) => {
 /// If given vacation contains id, it edits it, else adds
 app.post("/api/vacation", (req, res) => {
     var vacation = {
-        'title': req.body.title,
-        'description': req.body.description,
-        'start_date': req.body.start_date,
-        'end_date': req.body.end_date,
-        'image': req.body.image,
+        title: req.body.title,
+        description: req.body.description,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
+        image: req.body.image,
     };
 
     if (req.body.id) {
@@ -180,13 +180,13 @@ app.get("/api/trip", (req, res) => {
 /// If given trip contains id, it edits it, else adds
 app.post("/api/trip", (req, res) => {
     var trip = {
-        'vacation_id': req.body.vacation_id,
-        'title': req.body.title,
-        'description': req.body.description,
-        'start_date': req.body.start_date,
-        'end_date': req.body.end_date,
-        'route_type': req.body.route_type,
-        'route_len': req.body.route_len,
+        vacation_id: req.body.vacation_id,
+        title: req.body.title,
+        description: req.body.description,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
+        route_type: req.body.route_type,
+        route_len: req.body.route_len,
     };
 
     if (req.body.id) {
@@ -229,12 +229,13 @@ app.get("/api/stop", (req, res) => {
 /// If given stop contains id, it edits it, else adds
 app.post("/api/stop", (req, res) => {
     var stop = {
-        'trip_id': req.body.trip_id,
-        'title': req.body.title,
-        'description': req.body.description,
-        'image': req.body.image,
-        'lat': req.body.lat,
-        'lng': req.body.lng,
+        trip_id: req.body.trip_id,
+        title: req.body.title,
+        description: req.body.description,
+        image: req.body.image,
+        lat: req.body.lat,
+        lng: req.body.lng,
+        stop_order: req.body.stop_order,
     };
 
     if (req.body.id) {
