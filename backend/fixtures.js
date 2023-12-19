@@ -311,6 +311,7 @@ function create_stop_table() {
             image TEXT,
             lat FLOAT,
             lng FLOAT,
+            stop_order INT,
             FOREIGN KEY (trip_id) REFERENCES trip(id) ON DELETE CASCADE
         );
     `;

@@ -172,7 +172,7 @@ app.get("/api/trip", (req, res) => {
         args = [req.query.vacation_id];
     }
 
-    const sql = `SELECT * FROM trip ${where}`;
+    const sql = `SELECT * FROM trip ${where} ORDER BY start_date`;
     query(res, sql, args);
 });
 
@@ -221,7 +221,7 @@ app.get("/api/stop", (req, res) => {
         args = [req.query.trip_id];
     }
 
-    const sql = `SELECT * FROM stop ${where}`;
+    const sql = `SELECT * FROM stop ${where} ORDER BY stop_order, id`;
     query(res, sql, args);
 });
 

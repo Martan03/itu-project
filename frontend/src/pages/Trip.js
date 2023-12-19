@@ -178,7 +178,7 @@ function Stop(props) {
 
     return (
         <div className="card stop">
-            <label for={`stop-file-${props.index}`}>
+            <label htmlFor={`stop-file-${props.index}`}>
                 <Image
                     src={props.stop.image}
                     alt={props.stop.title + " picture"}
