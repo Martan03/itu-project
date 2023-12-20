@@ -59,7 +59,7 @@ function RenderMap(props) {
 
     return (
         <Map
-            key={`${coords.length}${props.trip.trip.route_type}`}
+            key={`${JSON.stringify(coords)}${props.trip.trip.route_type}`}
             size={{height: '100%', width: '100%'}}
             {...(coords.length >= 2 && {
                 routes: [{
