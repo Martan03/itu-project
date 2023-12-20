@@ -13,6 +13,8 @@ import Map from "../components/Map.js";
 import { getTripWithStops, saveTrip, saveStop, deleteStop, uploadImage } from "../Db.js";
 import Error from "../components/Error.js";
 import { DescInput, TitleInput } from "../components/Input";
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import Image from "../components/Image.js";
@@ -139,6 +141,21 @@ function RouteTypeSelect(props) {
 
 /// Component to display trip stop
 function Stop(props) {
+    // Defines drag and drop
+    const [, drag] = useDrag({
+        type: 'STOP',
+        item: { index: props.index },
+    });
+    const [, drop] = useDrop({
+        accept: 'STOP',
+        hover: (item) => {
+            if (item.index !== props.index) {
+                moveStop(item.index, props.index);
+                item.index = props.index;
+            }
+        },
+    });
+
     // Sets stops with update stop value
     const setData = (val) => {
         var arr = [...props.stops.stops];
@@ -177,8 +194,26 @@ function Stop(props) {
         });
     }
 
+    const moveStop = (from, to) => {
+        var stops = [...props.stops.stops];
+        const [movedStop] = stops.splice(from, 1);
+        stops.splice(to, 0, movedStop);
+        stops = stops.map((stop, index) => {
+            const updatedStop = {
+                ...stop,
+                stop_order: index,
+            };
+            if (from < to && index >= from && index <= to)
+                saveStop(updatedStop);
+            else if (to < from && index >= to && index <= from)
+                saveStop(updatedStop);
+            return updatedStop;
+        });
+        props.stops.setStops(stops);
+    }
+
     return (
-        <div className="card stop">
+        <div className="card stop" ref={(node) => drag(drop(node))}>
             <label htmlFor={`stop-file-${props.index}`}>
                 <Image
                     src={props.stop.image}
@@ -212,14 +247,18 @@ function Stop(props) {
 
 /// Renders given stops
 function StopsList(props) {
-    return props.stops.stops.map((stop, index) => (
-        <Stop
-            key={index}
-            stop={stop}
-            stops={props.stops}
-            index={index}
-        />
-    ));
+    return (
+        <DndProvider backend={HTML5Backend}>
+            {props.stops.stops.map((stop, index) => (
+                <Stop
+                    key={index}
+                    stop={stop}
+                    stops={props.stops}
+                    index={index}
+                />
+            ))}
+        </DndProvider>
+    );
 }
 
 /// Renders trip page with its stops
