@@ -1,0 +1,62 @@
+  /* Modal Content */
+  .modal-content {
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    bottom: 0;
+    width: 70%;
+    background-color: var(--dark-250);
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slideIn;
+    animation-duration: 0.4s
+  }
+
+  /* The Close Button */
+  .close {
+    color: var(--fg-dark);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: var(--prim-light);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: var(--dark-250);
+    color: var(--fg-light);
+  }
+
+  .modal-body {padding: 2px 16px;}
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: var(--dark-250);
+    color: var(--fg-light);
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+  }
+
+  @keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+  }
+
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
