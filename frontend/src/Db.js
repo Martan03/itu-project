@@ -15,7 +15,7 @@ const API_URL = "http://localhost:3002";
  * @param {function} setData - sets variable value to contain fetched value
  * @param {function} setLoading - sets loading value
  * @param {function} setErr - sets error value
- * @param {function} url - url to fetch data from
+ * @param {string} url - url to fetch data from
  */
 function fetchAPI(setData, setLoading, setErr, url) {
     fetch(`${API_URL}${url}`)
@@ -24,7 +24,9 @@ function fetchAPI(setData, setLoading, setErr, url) {
                 throw new Error(res.status);
             return res.json();
         })
-        .then(data => setData(data))
+        .then(data => {
+            setData(data);
+        })
         .catch((err) => {
             setData(null);
             setErr(err.message);
@@ -128,6 +130,23 @@ function getTripWithStops(setTrip, setStops, setLoading, setErr, id) {
         }
     }
     fetchData();
+}
+
+function getVacation(id, setData, setLoading, setErr) {
+    fetch(`${API_URL}/api/vacation?id=${id}`)
+        .then((res) => {
+            if (!res.ok)
+                throw new Error(res.status);
+            return res.json();
+        })
+        .then(data => {
+            setData(data[0]);
+        })
+        .catch((err) => {
+            setData(null);
+            setErr(err.message);
+        })
+        .finally(setLoading(false));
 }
 
 // Jakub Antonín Štigler <xstigl00>
@@ -263,6 +282,7 @@ export {
     getVacations,
     getTripWithStops,
     getVacationWithTripsAndStops,
+    getVacation,
     saveVacation,
     saveTrip,
     saveStop,

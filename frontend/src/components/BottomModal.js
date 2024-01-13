@@ -3,16 +3,18 @@ import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { TitleInput, DescInput } from "../components/Input";
 import { DateRange } from "../components/DateRange";
 import '../css/BottomModal.css';
+import { getVacation, getVacationWithTripsAndStops, saveVacation } from '../Db';
 
-const BottomModal = ({start_date, end_date}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const BottomModal = ({id, setId, setEvents}) => {
+  const [data, setData] = useState(null);
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
+  useState(() => {
+    // TODO: handle errors and loading
+    getVacation(id, setData, () => {}, () => {});
+  }, [id])
 
   const closeModal = () => {
-    setModalVisible(false);
+    setId(null);
   };
 
   const closeOnOutsideClick = (event) => {
@@ -22,49 +24,65 @@ const BottomModal = ({start_date, end_date}) => {
   };
 
   const inputChange = (e) => {
-    // TODO
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
   };
 
   const saveData = () => {
-    // TODO
+    setEvents(prev => {
+      return prev.map(item => {
+        if (item.id === id) {
+          return {
+            id: data.id,
+            title: data.title ?? 'No title',
+            start: data.start_date,
+            end: data.end_date,
+          }
+        }
+        return item;
+      });
+    })
+    saveVacation(data);
   };
 
   return (
-    <div>
-      {modalVisible && (
-      <div onClick={closeOnOutsideClick} style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* Modal content */}
-          <div className="modal-content">
-            <div className="modal-header">
-              <span className="close" onClick={closeModal}>&times;</span>
-              <DateRange input
-                values={[start_date, end_date]}
-              />
-              <TitleInput
-                onChange={inputChange}
-                onBlur={saveData}
-                value={"Vacation"}
-              />
-            </div>
-            <div className="modal-body">
-              <div className='vacation-header'>
-              <DescInput
-                onChange={inputChange}
-                onBlur={saveData}
-                value={"Pokus"}
-              />
+    <div className='modal'>
+      {data ? (
+        <div onClick={closeOnOutsideClick} style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        {/* Modal content */}
+            <div className="modal-content">
+              <div className="modal-header">
+                <span className="close" onClick={closeModal}>&times;</span>
+                <DateRange input
+                  values={[data.start_date, data.end_date]}
+                  onChange={inputChange}
+                  onBlur={saveData}
+                />
+                <TitleInput
+                  onChange={inputChange}
+                  onBlur={saveData}
+                  value={data.title}
+                />
+              </div>
+              <div className="modal-body">
+                <div className='vacation-header'>
+                <DescInput
+                  onChange={inputChange}
+                  onBlur={saveData}
+                  value={data.description}
+                />
+                </div>
+              </div>
+              <div className="modal-footer">
+                  <button
+                      //onClick={removeTrip}
+                      className="remove-trip-button">
+                      <TrashIcon/>
+                  </button>
               </div>
             </div>
-            <div className="modal-footer">
-                <button
-                    //onClick={removeTrip}
-                    className="remove-trip-button">
-                    <TrashIcon/>
-                </button>
-            </div>
           </div>
-        </div>
-      )}
+      ) : ''}
     </div>
   );
 };

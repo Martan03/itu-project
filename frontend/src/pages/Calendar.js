@@ -26,6 +26,8 @@ function Calendar(props) {
     const [loading, setLoading] = useState(true);
     const [selectedDates, setSelectedDates] = useState(null);
 
+    const [modalId, setModalId] = useState(null);
+
     const nav = useNavigate();
 
     useEffect(() => {
@@ -42,7 +44,7 @@ function Calendar(props) {
                         id: vacation.id,
                         start: new Date(vacation.start_date),
                         end: new Date(vacation.end_date),
-                        title: vacation.title,
+                        title: vacation.title ?? "No title",
                     });
                 }
                 setEvents(events);
@@ -64,7 +66,20 @@ function Calendar(props) {
         ({ start, end }) => {
           const st = moment(start).format('DD.MM. YYYY'); // start
           const en = moment(end).format('DD.MM. YYYY'); //end
-          //saveVacation({});
+          saveVacation({start_date: start, end_date: end}).then(id => {
+            setModalId(id);
+            setEvents(prev => {
+                return [
+                    ...prev,
+                    {
+                        id: id,
+                        start: start,
+                        end: end,
+                        title: 'No title'
+                    },
+                ]
+            });
+          });
           setSelectedDates({ st, en });
         },
         []
@@ -95,8 +110,11 @@ function Calendar(props) {
                             onDoubleClickEvent={doubleClickEvent}
                             selectable
                         />
-                        {selectedDates && (
+                        {modalId && (
                             <BottomModal
+                                id={modalId}
+                                setId={setModalId}
+                                setEvents={setEvents}
                                 start_date={selectedDates.st}
                                 end_date={selectedDates.en}
                             />
