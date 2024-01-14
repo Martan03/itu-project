@@ -1,9 +1,15 @@
+/**
+ * ITU project
+ *
+ * Tomáš Daniel <xdanie14>
+ */
+
 import React, { useState } from 'react';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
 import { TitleInput, DescInput } from "../components/Input";
 import { DateRange } from "../components/DateRange";
 import '../css/BottomModal.css';
-import { getVacation, getVacationWithTripsAndStops, saveVacation } from '../Db';
+import { getVacation, saveVacation, deleteVacation } from '../Db';
 
 const BottomModal = ({id, setId, setEvents}) => {
   const [data, setData] = useState(null);
@@ -35,14 +41,22 @@ const BottomModal = ({id, setId, setEvents}) => {
           return {
             id: data.id,
             title: data.title ?? 'No title',
-            start: data.start_date,
-            end: data.end_date,
+            start: new Date(Date.parse(data.start_date)),
+            end: new Date(Date.parse(data.end_date)),
           }
         }
         return item;
       });
     })
     saveVacation(data);
+  };
+
+  const removeTrip = () => {
+    setEvents((prev) => {
+      return prev.filter((item) => item.id !== id);
+    });
+    deleteVacation(id);
+    closeModal();
   };
 
   return (
@@ -52,7 +66,7 @@ const BottomModal = ({id, setId, setEvents}) => {
         {/* Modal content */}
             <div className="modal-content">
               <div className="modal-header">
-                <span className="close" onClick={closeModal}>&times;</span>
+                <span className="close" onClick={closeModal}>✔</span>
                 <DateRange input
                   values={[data.start_date, data.end_date]}
                   onChange={inputChange}
@@ -75,7 +89,7 @@ const BottomModal = ({id, setId, setEvents}) => {
               </div>
               <div className="modal-footer">
                   <button
-                      //onClick={removeTrip}
+                      onClick={removeTrip}
                       className="remove-trip-button">
                       <TrashIcon/>
                   </button>

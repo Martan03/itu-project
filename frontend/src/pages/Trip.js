@@ -2,6 +2,7 @@
  * ITU project
  *
  * Martin Slezák <xsleza26>
+ * Tomáš Daniel <xdanie14>
  */
 
 import React, { useEffect, useState } from "react";
@@ -141,6 +142,7 @@ function RouteTypeSelect(props) {
 
 /// Component to display trip stop
 function Stop(props) {
+    /* Tomáš Daniel <xdanie14> */
     // Defines drag and drop
     const [, drag] = useDrag({
         type: 'STOP',
@@ -155,6 +157,7 @@ function Stop(props) {
             }
         },
     });
+    /* ********************** */
 
     // Sets stops with update stop value
     const setData = (val) => {
@@ -194,6 +197,7 @@ function Stop(props) {
         });
     }
 
+    /* Tomáš Daniel <xdanie14> */
     const moveStop = (from, to) => {
         var stops = [...props.stops.stops];
         const [movedStop] = stops.splice(from, 1);
@@ -211,6 +215,7 @@ function Stop(props) {
         });
         props.stops.setStops(stops);
     }
+    /* ********************** */
 
     return (
         <div className="card stop" ref={(node) => drag(drop(node))}>

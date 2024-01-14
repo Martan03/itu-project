@@ -66,6 +66,7 @@ function Calendar(props) {
         ({ start, end }) => {
           const st = moment(start).format('DD.MM. YYYY'); // start
           const en = moment(end).format('DD.MM. YYYY'); //end
+
           saveVacation({start_date: start, end_date: end}).then(id => {
             setModalId(id);
             setEvents(prev => {
@@ -86,7 +87,13 @@ function Calendar(props) {
       )
 
       const handleSelectEvent = useCallback(
-        (event) => window.alert(event.title),
+        ({id, start, end}) => {
+            const st = moment(start).format('DD.MM. YYYY'); // start
+            const en = moment(end).format('DD.MM. YYYY'); //end
+
+            setModalId(id);
+            setSelectedDates({st, en});
+        },
         []
       )
 
