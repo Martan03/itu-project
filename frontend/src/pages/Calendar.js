@@ -24,7 +24,6 @@ import { saveVacation } from "../Db";
 function Calendar(props) {
     const [events, setEvents] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedDates, setSelectedDates] = useState(null);
 
     const [modalId, setModalId] = useState(null);
 
@@ -40,10 +39,15 @@ function Calendar(props) {
             .then((data) => {
                 var events = [];
                 for (let vacation of data) {
+                    const start = new Date(vacation.start_date);
+                    start.setHours(0, 0, 0, 0);
+                    const end = new Date(vacation.end_date);
+                    end.setHours(23, 59, 59, 999);
+
                     events.push({
                         id: vacation.id,
-                        start: new Date(vacation.start_date),
-                        end: new Date(vacation.end_date),
+                        start,
+                        end,
                         title: vacation.title ?? "No title",
                     });
                 }
@@ -64,29 +68,34 @@ function Calendar(props) {
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
-          const st = moment(start).format('DD.MM. YYYY'); // start
-          const en = moment(end).format('DD.MM. YYYY'); //end
-          saveVacation({start_date: start, end_date: end}).then(id => {
+          const start_date = new Date(start);
+          start_date.setHours(0, 0, 0, 0);
+          const end_date = new Date(end);
+          end_date.setSeconds(end_date.getSeconds() - 1);
+          end_date.setHours(23, 59, 59, 999);
+
+          saveVacation({start_date: start_date, end_date: end_date}).then(id => {
             setModalId(id);
             setEvents(prev => {
                 return [
                     ...prev,
                     {
                         id: id,
-                        start: start,
-                        end: end,
+                        start: start_date,
+                        end: end_date,
                         title: 'No title'
                     },
                 ]
             });
           });
-          setSelectedDates({ st, en });
         },
         []
       )
 
       const handleSelectEvent = useCallback(
-        (event) => window.alert(event.title),
+        ({id}) => {
+            setModalId(id);
+        },
         []
       )
 
@@ -115,8 +124,6 @@ function Calendar(props) {
                                 id={modalId}
                                 setId={setModalId}
                                 setEvents={setEvents}
-                                start_date={selectedDates.st}
-                                end_date={selectedDates.en}
                             />
                         )}
                 </div>

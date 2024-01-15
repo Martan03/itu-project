@@ -32,11 +32,16 @@ const BottomModal = ({id, setId, setEvents}) => {
     setEvents(prev => {
       return prev.map(item => {
         if (item.id === id) {
+          const start = new Date(data.start_date);
+          start.setHours(0, 0, 0, 0);
+          const end = new Date(data.end_date);
+          end.setHours(23, 59, 59, 999);
+
           return {
             id: data.id,
             title: data.title ?? 'No title',
-            start: data.start_date,
-            end: data.end_date,
+            start,
+            end,
           }
         }
         return item;
