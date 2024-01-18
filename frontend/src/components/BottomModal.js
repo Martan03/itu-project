@@ -38,14 +38,11 @@ const BottomModal = ({id, setId, setEvents}) => {
     setEvents(prev => {
       return prev.map(item => {
         if (item.id === id) {
-          console.log("BEFORE: START - " + data.start_date + " END - " + data.end_date);
           const start = new Date(data.start_date);
           start.setHours(0, 0, 0, 0);
 
           const end = new Date(data.end_date);
           end.setHours(23, 59, 59);
-
-          console.log("AFTER: START - " + start + " END - " + end);
 
           return {
             id: data.id,
